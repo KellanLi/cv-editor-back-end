@@ -9,5 +9,5 @@ export class CreateUserDto {
   password: string;
 
   @IsString({ message: '用户名必须是字符串' })
-  username: string;
+  name: string;
 }
