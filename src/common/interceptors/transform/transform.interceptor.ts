@@ -7,7 +7,7 @@ import {
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { ErrorCode } from '@/common/enums/error-code.enum';
-import { Response } from '@/types/response.type';
+import { Response } from '@/types/response.types';
 
 @Injectable()
 export class TransformInterceptor<T> implements NestInterceptor<
