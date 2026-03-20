@@ -14,7 +14,7 @@ async function bootstrap() {
     .setTitle('API 文档')
     .setDescription('接口说明')
     .setVersion('1.0')
-    .addServer('/api/v1') // 👈 很关键
+    .addServer('/api/v1')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
