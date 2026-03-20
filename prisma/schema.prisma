@@ -13,30 +13,92 @@ model User {
   email     String    @unique
   password  String
   name      String?
+  gender    String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  // resumes   Resume[]  // 一个用户多个简历
+  resumes   Resume[]  // 一个用户多个简历
 }
 
-// model Resume {
-//   id        Int       @id @default(autoincrement())
-//   title     String
-//   userId    Int
-//   createdAt DateTime  @default(now())
-//   updatedAt DateTime  @updatedAt
+model Resume {
+  id        Int       @id @default(autoincrement())
+  title     String
 
-//   user      User      @relation(fields: [userId], references: [id])
-//   sections  Section[]
-// }
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
 
-// model Section {
-//   id        Int       @id @default(autoincrement())
-//   name      String    // 模块名称（如：教育经历）
-//   type      String    // 模块类型（可扩展）
-//   resumeId  Int
-//   order     Int       // 排序（很重要🔥）
+  sections  Section[]
 
-//   resume    Resume    @relation(fields: [resumeId], references: [id])
-//   contents  Content[]
-// }
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Section {
+  id                Int              @id @default(autoincrement())
+  name              String
+
+  resumeId          Int
+  resume            Resume           @relation(fields: [resumeId], references: [id])
+
+  // 1:1 ContentTemplate
+  contentTemplate   ContentTemplate?
+
+  // 1:N Content
+  contents          Content[]
+}
+
+model ContentTemplateInfoTemplate {
+  id Int @id @default(autoincrement())
+
+  contentTemplateId Int
+  infoTemplateId    Int
+
+  contentTemplate ContentTemplate @relation(fields: [contentTemplateId], references: [id])
+  infoTemplate    InfoTemplate    @relation(fields: [infoTemplateId], references: [id])
+
+  order    Int
+
+  @@unique([contentTemplateId, infoTemplateId])
+}
+
+model ContentTemplate {
+  id           Int            @id @default(autoincrement())
+
+  sectionId    Int            @unique
+  section      Section        @relation(fields: [sectionId], references: [id])
+
+  relations ContentTemplateInfoTemplate[]
+
+  createdAt    DateTime       @default(now())
+}
+
+model InfoTemplate {
+  id                Int              @id @default(autoincrement())
+  type              String
+
+  // string[]
+  names             Json
+
+  relations ContentTemplateInfoTemplate[]
+}
+
+model Content {
+  id         Int       @id @default(autoincrement())
+
+  sectionId  Int
+  section    Section   @relation(fields: [sectionId], references: [id])
+
+  infos      Info[]
+}
+
+model Info {
+  id        Int      @id @default(autoincrement())
+  type      String
+
+  // string[]
+  values    Json
+
+  contentId Int
+  content   Content  @relation(fields: [contentId], references: [id])
+
+}

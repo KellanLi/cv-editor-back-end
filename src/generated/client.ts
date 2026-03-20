@@ -44,3 +44,38 @@ export { Prisma }
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model Resume
+ * 
+ */
+export type Resume = Prisma.ResumeModel
+/**
+ * Model Section
+ * 
+ */
+export type Section = Prisma.SectionModel
+/**
+ * Model ContentTemplateInfoTemplate
+ * 
+ */
+export type ContentTemplateInfoTemplate = Prisma.ContentTemplateInfoTemplateModel
+/**
+ * Model ContentTemplate
+ * 
+ */
+export type ContentTemplate = Prisma.ContentTemplateModel
+/**
+ * Model InfoTemplate
+ * 
+ */
+export type InfoTemplate = Prisma.InfoTemplateModel
+/**
+ * Model Content
+ * 
+ */
+export type Content = Prisma.ContentModel
+/**
+ * Model Info
+ * 
+ */
+export type Info = Prisma.InfoModel
