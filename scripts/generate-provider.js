@@ -15,8 +15,8 @@ const basePath = `provider/${name}`;
 try {
   console.log(`🚀 正在生成 ${name} 模块...\n`);
 
-  execSync(`npx nest g module ${basePath}`, { stdio: 'inherit' });
-  execSync(`npx nest g service ${basePath}`, { stdio: 'inherit' });
+  execSync(`pnpm dlx @nestjs/cli g module ${basePath}`, { stdio: 'inherit' });
+  execSync(`pnpm dlx @nestjs/cli g service ${basePath}`, { stdio: 'inherit' });
 
   console.log(`\n✅ ${name} 模块创建完成: ${basePath}`);
 } catch (error) {
