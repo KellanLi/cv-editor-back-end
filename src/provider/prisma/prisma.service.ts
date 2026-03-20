@@ -9,11 +9,11 @@ import { ConfigService } from '@nestjs/config';
 export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor(private configService: ConfigService) {
     const adapter = new PrismaMariaDb({
-      host: configService.getOrThrow('DATABASE_HOST'),
-      user: configService.getOrThrow('DATABASE_USER'),
-      password: configService.getOrThrow('DATABASE_PASSWORD'),
-      database: configService.getOrThrow('DATABASE_NAME'),
-      port: configService.getOrThrow('DATABASE_PORT'),
+      host: configService.getOrThrow<string>('DATABASE_HOST'),
+      user: configService.getOrThrow<string>('DATABASE_USER'),
+      password: configService.getOrThrow<string>('DATABASE_PASSWORD'),
+      database: configService.getOrThrow<string>('DATABASE_NAME'),
+      port: configService.getOrThrow<number>('DATABASE_PORT'),
     });
     super({ adapter });
   }
