@@ -47,39 +47,26 @@ model Section {
   contents          Content[]
 }
 
-model ContentTemplateInfoTemplate {
-  id Int @id @default(autoincrement())
-
-  contentTemplateId Int
-  infoTemplateId    Int
-
-  contentTemplate ContentTemplate @relation(fields: [contentTemplateId], references: [id])
-  infoTemplate    InfoTemplate    @relation(fields: [infoTemplateId], references: [id])
-
-  order    Int
-
-  @@unique([contentTemplateId, infoTemplateId])
-}
-
 model ContentTemplate {
   id           Int            @id @default(autoincrement())
 
   sectionId    Int            @unique
   section      Section        @relation(fields: [sectionId], references: [id])
 
-  relations ContentTemplateInfoTemplate[]
+  infoTemplates InfoTemplate[]
 
   createdAt    DateTime       @default(now())
 }
 
 model InfoTemplate {
   id                Int              @id @default(autoincrement())
-  type              String
 
+  contentTemplateId Int
+  contentTemplate   ContentTemplate  @relation(fields: [contentTemplateId], references: [id])
+
+  type              String
   // string[]
   names             Json
-
-  relations ContentTemplateInfoTemplate[]
 }
 
 model Content {

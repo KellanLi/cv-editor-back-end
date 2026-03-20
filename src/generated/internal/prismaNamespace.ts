@@ -387,7 +387,6 @@ export const ModelName = {
   User: 'User',
   Resume: 'Resume',
   Section: 'Section',
-  ContentTemplateInfoTemplate: 'ContentTemplateInfoTemplate',
   ContentTemplate: 'ContentTemplate',
   InfoTemplate: 'InfoTemplate',
   Content: 'Content',
@@ -407,7 +406,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "resume" | "section" | "contentTemplateInfoTemplate" | "contentTemplate" | "infoTemplate" | "content" | "info"
+    modelProps: "user" | "resume" | "section" | "contentTemplate" | "infoTemplate" | "content" | "info"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -606,72 +605,6 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.SectionCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.SectionCountAggregateOutputType> | number
-        }
-      }
-    }
-    ContentTemplateInfoTemplate: {
-      payload: Prisma.$ContentTemplateInfoTemplatePayload<ExtArgs>
-      fields: Prisma.ContentTemplateInfoTemplateFieldRefs
-      operations: {
-        findUnique: {
-          args: Prisma.ContentTemplateInfoTemplateFindUniqueArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTemplateInfoTemplatePayload> | null
-        }
-        findUniqueOrThrow: {
-          args: Prisma.ContentTemplateInfoTemplateFindUniqueOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTemplateInfoTemplatePayload>
-        }
-        findFirst: {
-          args: Prisma.ContentTemplateInfoTemplateFindFirstArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTemplateInfoTemplatePayload> | null
-        }
-        findFirstOrThrow: {
-          args: Prisma.ContentTemplateInfoTemplateFindFirstOrThrowArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTemplateInfoTemplatePayload>
-        }
-        findMany: {
-          args: Prisma.ContentTemplateInfoTemplateFindManyArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTemplateInfoTemplatePayload>[]
-        }
-        create: {
-          args: Prisma.ContentTemplateInfoTemplateCreateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTemplateInfoTemplatePayload>
-        }
-        createMany: {
-          args: Prisma.ContentTemplateInfoTemplateCreateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        delete: {
-          args: Prisma.ContentTemplateInfoTemplateDeleteArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTemplateInfoTemplatePayload>
-        }
-        update: {
-          args: Prisma.ContentTemplateInfoTemplateUpdateArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTemplateInfoTemplatePayload>
-        }
-        deleteMany: {
-          args: Prisma.ContentTemplateInfoTemplateDeleteManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        updateMany: {
-          args: Prisma.ContentTemplateInfoTemplateUpdateManyArgs<ExtArgs>
-          result: BatchPayload
-        }
-        upsert: {
-          args: Prisma.ContentTemplateInfoTemplateUpsertArgs<ExtArgs>
-          result: runtime.Types.Utils.PayloadToResult<Prisma.$ContentTemplateInfoTemplatePayload>
-        }
-        aggregate: {
-          args: Prisma.ContentTemplateInfoTemplateAggregateArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.AggregateContentTemplateInfoTemplate>
-        }
-        groupBy: {
-          args: Prisma.ContentTemplateInfoTemplateGroupByArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ContentTemplateInfoTemplateGroupByOutputType>[]
-        }
-        count: {
-          args: Prisma.ContentTemplateInfoTemplateCountArgs<ExtArgs>
-          result: runtime.Types.Utils.Optional<Prisma.ContentTemplateInfoTemplateCountAggregateOutputType> | number
         }
       }
     }
@@ -1011,16 +944,6 @@ export const SectionScalarFieldEnum = {
 export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
 
 
-export const ContentTemplateInfoTemplateScalarFieldEnum = {
-  id: 'id',
-  contentTemplateId: 'contentTemplateId',
-  infoTemplateId: 'infoTemplateId',
-  order: 'order'
-} as const
-
-export type ContentTemplateInfoTemplateScalarFieldEnum = (typeof ContentTemplateInfoTemplateScalarFieldEnum)[keyof typeof ContentTemplateInfoTemplateScalarFieldEnum]
-
-
 export const ContentTemplateScalarFieldEnum = {
   id: 'id',
   sectionId: 'sectionId',
@@ -1032,6 +955,7 @@ export type ContentTemplateScalarFieldEnum = (typeof ContentTemplateScalarFieldE
 
 export const InfoTemplateScalarFieldEnum = {
   id: 'id',
+  contentTemplateId: 'contentTemplateId',
   type: 'type',
   names: 'names'
 } as const
@@ -1280,7 +1204,6 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   resume?: Prisma.ResumeOmit
   section?: Prisma.SectionOmit
-  contentTemplateInfoTemplate?: Prisma.ContentTemplateInfoTemplateOmit
   contentTemplate?: Prisma.ContentTemplateOmit
   infoTemplate?: Prisma.InfoTemplateOmit
   content?: Prisma.ContentOmit

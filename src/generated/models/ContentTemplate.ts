@@ -205,7 +205,7 @@ export type ContentTemplateWhereInput = {
   sectionId?: Prisma.IntFilter<"ContentTemplate"> | number
   createdAt?: Prisma.DateTimeFilter<"ContentTemplate"> | Date | string
   section?: Prisma.XOR<Prisma.SectionScalarRelationFilter, Prisma.SectionWhereInput>
-  relations?: Prisma.ContentTemplateInfoTemplateListRelationFilter
+  infoTemplates?: Prisma.InfoTemplateListRelationFilter
 }
 
 export type ContentTemplateOrderByWithRelationInput = {
@@ -213,7 +213,7 @@ export type ContentTemplateOrderByWithRelationInput = {
   sectionId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   section?: Prisma.SectionOrderByWithRelationInput
-  relations?: Prisma.ContentTemplateInfoTemplateOrderByRelationAggregateInput
+  infoTemplates?: Prisma.InfoTemplateOrderByRelationAggregateInput
 }
 
 export type ContentTemplateWhereUniqueInput = Prisma.AtLeast<{
@@ -224,7 +224,7 @@ export type ContentTemplateWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ContentTemplateWhereInput | Prisma.ContentTemplateWhereInput[]
   createdAt?: Prisma.DateTimeFilter<"ContentTemplate"> | Date | string
   section?: Prisma.XOR<Prisma.SectionScalarRelationFilter, Prisma.SectionWhereInput>
-  relations?: Prisma.ContentTemplateInfoTemplateListRelationFilter
+  infoTemplates?: Prisma.InfoTemplateListRelationFilter
 }, "id" | "sectionId">
 
 export type ContentTemplateOrderByWithAggregationInput = {
@@ -250,27 +250,27 @@ export type ContentTemplateScalarWhereWithAggregatesInput = {
 export type ContentTemplateCreateInput = {
   createdAt?: Date | string
   section: Prisma.SectionCreateNestedOneWithoutContentTemplateInput
-  relations?: Prisma.ContentTemplateInfoTemplateCreateNestedManyWithoutContentTemplateInput
+  infoTemplates?: Prisma.InfoTemplateCreateNestedManyWithoutContentTemplateInput
 }
 
 export type ContentTemplateUncheckedCreateInput = {
   id?: number
   sectionId: number
   createdAt?: Date | string
-  relations?: Prisma.ContentTemplateInfoTemplateUncheckedCreateNestedManyWithoutContentTemplateInput
+  infoTemplates?: Prisma.InfoTemplateUncheckedCreateNestedManyWithoutContentTemplateInput
 }
 
 export type ContentTemplateUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   section?: Prisma.SectionUpdateOneRequiredWithoutContentTemplateNestedInput
-  relations?: Prisma.ContentTemplateInfoTemplateUpdateManyWithoutContentTemplateNestedInput
+  infoTemplates?: Prisma.InfoTemplateUpdateManyWithoutContentTemplateNestedInput
 }
 
 export type ContentTemplateUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   sectionId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  relations?: Prisma.ContentTemplateInfoTemplateUncheckedUpdateManyWithoutContentTemplateNestedInput
+  infoTemplates?: Prisma.InfoTemplateUncheckedUpdateManyWithoutContentTemplateNestedInput
 }
 
 export type ContentTemplateCreateManyInput = {
@@ -292,11 +292,6 @@ export type ContentTemplateUncheckedUpdateManyInput = {
 export type ContentTemplateNullableScalarRelationFilter = {
   is?: Prisma.ContentTemplateWhereInput | null
   isNot?: Prisma.ContentTemplateWhereInput | null
-}
-
-export type ContentTemplateScalarRelationFilter = {
-  is?: Prisma.ContentTemplateWhereInput
-  isNot?: Prisma.ContentTemplateWhereInput
 }
 
 export type ContentTemplateCountOrderByAggregateInput = {
@@ -325,6 +320,11 @@ export type ContentTemplateMinOrderByAggregateInput = {
 export type ContentTemplateSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
+}
+
+export type ContentTemplateScalarRelationFilter = {
+  is?: Prisma.ContentTemplateWhereInput
+  isNot?: Prisma.ContentTemplateWhereInput
 }
 
 export type ContentTemplateCreateNestedOneWithoutSectionInput = {
@@ -359,29 +359,29 @@ export type ContentTemplateUncheckedUpdateOneWithoutSectionNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ContentTemplateUpdateToOneWithWhereWithoutSectionInput, Prisma.ContentTemplateUpdateWithoutSectionInput>, Prisma.ContentTemplateUncheckedUpdateWithoutSectionInput>
 }
 
-export type ContentTemplateCreateNestedOneWithoutRelationsInput = {
-  create?: Prisma.XOR<Prisma.ContentTemplateCreateWithoutRelationsInput, Prisma.ContentTemplateUncheckedCreateWithoutRelationsInput>
-  connectOrCreate?: Prisma.ContentTemplateCreateOrConnectWithoutRelationsInput
+export type ContentTemplateCreateNestedOneWithoutInfoTemplatesInput = {
+  create?: Prisma.XOR<Prisma.ContentTemplateCreateWithoutInfoTemplatesInput, Prisma.ContentTemplateUncheckedCreateWithoutInfoTemplatesInput>
+  connectOrCreate?: Prisma.ContentTemplateCreateOrConnectWithoutInfoTemplatesInput
   connect?: Prisma.ContentTemplateWhereUniqueInput
 }
 
-export type ContentTemplateUpdateOneRequiredWithoutRelationsNestedInput = {
-  create?: Prisma.XOR<Prisma.ContentTemplateCreateWithoutRelationsInput, Prisma.ContentTemplateUncheckedCreateWithoutRelationsInput>
-  connectOrCreate?: Prisma.ContentTemplateCreateOrConnectWithoutRelationsInput
-  upsert?: Prisma.ContentTemplateUpsertWithoutRelationsInput
+export type ContentTemplateUpdateOneRequiredWithoutInfoTemplatesNestedInput = {
+  create?: Prisma.XOR<Prisma.ContentTemplateCreateWithoutInfoTemplatesInput, Prisma.ContentTemplateUncheckedCreateWithoutInfoTemplatesInput>
+  connectOrCreate?: Prisma.ContentTemplateCreateOrConnectWithoutInfoTemplatesInput
+  upsert?: Prisma.ContentTemplateUpsertWithoutInfoTemplatesInput
   connect?: Prisma.ContentTemplateWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ContentTemplateUpdateToOneWithWhereWithoutRelationsInput, Prisma.ContentTemplateUpdateWithoutRelationsInput>, Prisma.ContentTemplateUncheckedUpdateWithoutRelationsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ContentTemplateUpdateToOneWithWhereWithoutInfoTemplatesInput, Prisma.ContentTemplateUpdateWithoutInfoTemplatesInput>, Prisma.ContentTemplateUncheckedUpdateWithoutInfoTemplatesInput>
 }
 
 export type ContentTemplateCreateWithoutSectionInput = {
   createdAt?: Date | string
-  relations?: Prisma.ContentTemplateInfoTemplateCreateNestedManyWithoutContentTemplateInput
+  infoTemplates?: Prisma.InfoTemplateCreateNestedManyWithoutContentTemplateInput
 }
 
 export type ContentTemplateUncheckedCreateWithoutSectionInput = {
   id?: number
   createdAt?: Date | string
-  relations?: Prisma.ContentTemplateInfoTemplateUncheckedCreateNestedManyWithoutContentTemplateInput
+  infoTemplates?: Prisma.InfoTemplateUncheckedCreateNestedManyWithoutContentTemplateInput
 }
 
 export type ContentTemplateCreateOrConnectWithoutSectionInput = {
@@ -402,48 +402,48 @@ export type ContentTemplateUpdateToOneWithWhereWithoutSectionInput = {
 
 export type ContentTemplateUpdateWithoutSectionInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  relations?: Prisma.ContentTemplateInfoTemplateUpdateManyWithoutContentTemplateNestedInput
+  infoTemplates?: Prisma.InfoTemplateUpdateManyWithoutContentTemplateNestedInput
 }
 
 export type ContentTemplateUncheckedUpdateWithoutSectionInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  relations?: Prisma.ContentTemplateInfoTemplateUncheckedUpdateManyWithoutContentTemplateNestedInput
+  infoTemplates?: Prisma.InfoTemplateUncheckedUpdateManyWithoutContentTemplateNestedInput
 }
 
-export type ContentTemplateCreateWithoutRelationsInput = {
+export type ContentTemplateCreateWithoutInfoTemplatesInput = {
   createdAt?: Date | string
   section: Prisma.SectionCreateNestedOneWithoutContentTemplateInput
 }
 
-export type ContentTemplateUncheckedCreateWithoutRelationsInput = {
+export type ContentTemplateUncheckedCreateWithoutInfoTemplatesInput = {
   id?: number
   sectionId: number
   createdAt?: Date | string
 }
 
-export type ContentTemplateCreateOrConnectWithoutRelationsInput = {
+export type ContentTemplateCreateOrConnectWithoutInfoTemplatesInput = {
   where: Prisma.ContentTemplateWhereUniqueInput
-  create: Prisma.XOR<Prisma.ContentTemplateCreateWithoutRelationsInput, Prisma.ContentTemplateUncheckedCreateWithoutRelationsInput>
+  create: Prisma.XOR<Prisma.ContentTemplateCreateWithoutInfoTemplatesInput, Prisma.ContentTemplateUncheckedCreateWithoutInfoTemplatesInput>
 }
 
-export type ContentTemplateUpsertWithoutRelationsInput = {
-  update: Prisma.XOR<Prisma.ContentTemplateUpdateWithoutRelationsInput, Prisma.ContentTemplateUncheckedUpdateWithoutRelationsInput>
-  create: Prisma.XOR<Prisma.ContentTemplateCreateWithoutRelationsInput, Prisma.ContentTemplateUncheckedCreateWithoutRelationsInput>
+export type ContentTemplateUpsertWithoutInfoTemplatesInput = {
+  update: Prisma.XOR<Prisma.ContentTemplateUpdateWithoutInfoTemplatesInput, Prisma.ContentTemplateUncheckedUpdateWithoutInfoTemplatesInput>
+  create: Prisma.XOR<Prisma.ContentTemplateCreateWithoutInfoTemplatesInput, Prisma.ContentTemplateUncheckedCreateWithoutInfoTemplatesInput>
   where?: Prisma.ContentTemplateWhereInput
 }
 
-export type ContentTemplateUpdateToOneWithWhereWithoutRelationsInput = {
+export type ContentTemplateUpdateToOneWithWhereWithoutInfoTemplatesInput = {
   where?: Prisma.ContentTemplateWhereInput
-  data: Prisma.XOR<Prisma.ContentTemplateUpdateWithoutRelationsInput, Prisma.ContentTemplateUncheckedUpdateWithoutRelationsInput>
+  data: Prisma.XOR<Prisma.ContentTemplateUpdateWithoutInfoTemplatesInput, Prisma.ContentTemplateUncheckedUpdateWithoutInfoTemplatesInput>
 }
 
-export type ContentTemplateUpdateWithoutRelationsInput = {
+export type ContentTemplateUpdateWithoutInfoTemplatesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   section?: Prisma.SectionUpdateOneRequiredWithoutContentTemplateNestedInput
 }
 
-export type ContentTemplateUncheckedUpdateWithoutRelationsInput = {
+export type ContentTemplateUncheckedUpdateWithoutInfoTemplatesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   sectionId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -455,11 +455,11 @@ export type ContentTemplateUncheckedUpdateWithoutRelationsInput = {
  */
 
 export type ContentTemplateCountOutputType = {
-  relations: number
+  infoTemplates: number
 }
 
 export type ContentTemplateCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  relations?: boolean | ContentTemplateCountOutputTypeCountRelationsArgs
+  infoTemplates?: boolean | ContentTemplateCountOutputTypeCountInfoTemplatesArgs
 }
 
 /**
@@ -475,8 +475,8 @@ export type ContentTemplateCountOutputTypeDefaultArgs<ExtArgs extends runtime.Ty
 /**
  * ContentTemplateCountOutputType without action
  */
-export type ContentTemplateCountOutputTypeCountRelationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ContentTemplateInfoTemplateWhereInput
+export type ContentTemplateCountOutputTypeCountInfoTemplatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.InfoTemplateWhereInput
 }
 
 
@@ -485,7 +485,7 @@ export type ContentTemplateSelect<ExtArgs extends runtime.Types.Extensions.Inter
   sectionId?: boolean
   createdAt?: boolean
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
-  relations?: boolean | Prisma.ContentTemplate$relationsArgs<ExtArgs>
+  infoTemplates?: boolean | Prisma.ContentTemplate$infoTemplatesArgs<ExtArgs>
   _count?: boolean | Prisma.ContentTemplateCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["contentTemplate"]>
 
@@ -500,7 +500,7 @@ export type ContentTemplateSelectScalar = {
 export type ContentTemplateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sectionId" | "createdAt", ExtArgs["result"]["contentTemplate"]>
 export type ContentTemplateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
-  relations?: boolean | Prisma.ContentTemplate$relationsArgs<ExtArgs>
+  infoTemplates?: boolean | Prisma.ContentTemplate$infoTemplatesArgs<ExtArgs>
   _count?: boolean | Prisma.ContentTemplateCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -508,7 +508,7 @@ export type $ContentTemplatePayload<ExtArgs extends runtime.Types.Extensions.Int
   name: "ContentTemplate"
   objects: {
     section: Prisma.$SectionPayload<ExtArgs>
-    relations: Prisma.$ContentTemplateInfoTemplatePayload<ExtArgs>[]
+    infoTemplates: Prisma.$InfoTemplatePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -855,7 +855,7 @@ readonly fields: ContentTemplateFieldRefs;
 export interface Prisma__ContentTemplateClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   section<T extends Prisma.SectionDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.SectionDefaultArgs<ExtArgs>>): Prisma.Prisma__SectionClient<runtime.Types.Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  relations<T extends Prisma.ContentTemplate$relationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContentTemplate$relationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContentTemplateInfoTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  infoTemplates<T extends Prisma.ContentTemplate$infoTemplatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ContentTemplate$infoTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InfoTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1236,27 +1236,27 @@ export type ContentTemplateDeleteManyArgs<ExtArgs extends runtime.Types.Extensio
 }
 
 /**
- * ContentTemplate.relations
+ * ContentTemplate.infoTemplates
  */
-export type ContentTemplate$relationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type ContentTemplate$infoTemplatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ContentTemplateInfoTemplate
+   * Select specific fields to fetch from the InfoTemplate
    */
-  select?: Prisma.ContentTemplateInfoTemplateSelect<ExtArgs> | null
+  select?: Prisma.InfoTemplateSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ContentTemplateInfoTemplate
+   * Omit specific fields from the InfoTemplate
    */
-  omit?: Prisma.ContentTemplateInfoTemplateOmit<ExtArgs> | null
+  omit?: Prisma.InfoTemplateOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ContentTemplateInfoTemplateInclude<ExtArgs> | null
-  where?: Prisma.ContentTemplateInfoTemplateWhereInput
-  orderBy?: Prisma.ContentTemplateInfoTemplateOrderByWithRelationInput | Prisma.ContentTemplateInfoTemplateOrderByWithRelationInput[]
-  cursor?: Prisma.ContentTemplateInfoTemplateWhereUniqueInput
+  include?: Prisma.InfoTemplateInclude<ExtArgs> | null
+  where?: Prisma.InfoTemplateWhereInput
+  orderBy?: Prisma.InfoTemplateOrderByWithRelationInput | Prisma.InfoTemplateOrderByWithRelationInput[]
+  cursor?: Prisma.InfoTemplateWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ContentTemplateInfoTemplateScalarFieldEnum | Prisma.ContentTemplateInfoTemplateScalarFieldEnum[]
+  distinct?: Prisma.InfoTemplateScalarFieldEnum | Prisma.InfoTemplateScalarFieldEnum[]
 }
 
 /**

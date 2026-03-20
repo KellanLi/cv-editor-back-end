@@ -54,7 +54,6 @@ export const ModelName = {
   User: 'User',
   Resume: 'Resume',
   Section: 'Section',
-  ContentTemplateInfoTemplate: 'ContentTemplateInfoTemplate',
   ContentTemplate: 'ContentTemplate',
   InfoTemplate: 'InfoTemplate',
   Content: 'Content',
@@ -110,16 +109,6 @@ export const SectionScalarFieldEnum = {
 export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
 
 
-export const ContentTemplateInfoTemplateScalarFieldEnum = {
-  id: 'id',
-  contentTemplateId: 'contentTemplateId',
-  infoTemplateId: 'infoTemplateId',
-  order: 'order'
-} as const
-
-export type ContentTemplateInfoTemplateScalarFieldEnum = (typeof ContentTemplateInfoTemplateScalarFieldEnum)[keyof typeof ContentTemplateInfoTemplateScalarFieldEnum]
-
-
 export const ContentTemplateScalarFieldEnum = {
   id: 'id',
   sectionId: 'sectionId',
@@ -131,6 +120,7 @@ export type ContentTemplateScalarFieldEnum = (typeof ContentTemplateScalarFieldE
 
 export const InfoTemplateScalarFieldEnum = {
   id: 'id',
+  contentTemplateId: 'contentTemplateId',
   type: 'type',
   names: 'names'
 } as const

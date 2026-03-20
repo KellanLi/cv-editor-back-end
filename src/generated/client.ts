@@ -55,11 +55,6 @@ export type Resume = Prisma.ResumeModel
  */
 export type Section = Prisma.SectionModel
 /**
- * Model ContentTemplateInfoTemplate
- * 
- */
-export type ContentTemplateInfoTemplate = Prisma.ContentTemplateInfoTemplateModel
-/**
  * Model ContentTemplate
  * 
  */
