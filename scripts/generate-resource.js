@@ -15,7 +15,10 @@ const basePath = `modules/${name}`;
 try {
   console.log(`🚀 正在生成 ${name} 模块...\n`);
 
-  execSync(`pnpm dlx @nestjs/cli g resource ${basePath}`, { stdio: 'inherit' });
+  execSync(
+    `pnpm dlx @nestjs/cli g resource ${basePath} --type rest --no-spec --no-crud`,
+    { stdio: 'inherit' },
+  );
 
   console.log(`\n✅ ${name} 模块创建完成: ${basePath}`);
 } catch (error) {
