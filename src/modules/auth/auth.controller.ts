@@ -5,6 +5,7 @@ import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { ApiResponseWrapper } from '@/common/utils/swagger-response';
 import { LoginDataDto } from './dto/login.dto';
+import { UserDto } from './dto/user.dto';
 
 @ApiTags('认证模块')
 @Controller('auth')
@@ -14,6 +15,7 @@ export class AuthController {
   @Post('register')
   @ApiOperation({ summary: '用户注册' })
   @ApiBody({ type: RegisterDto })
+  @ApiResponseWrapper(UserDto)
   register(@Body() body: RegisterDto) {
     return this.authService.register(body);
   }

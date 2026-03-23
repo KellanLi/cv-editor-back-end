@@ -6,6 +6,8 @@ import { UserModule } from './modules/user/user.module';
 import { PrismaModule } from './provider/prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { GlobalJwtModule } from './provider/jwt/jwt.module';
+import { ResumeModule } from './modules/resume/resume.module';
+import { SectionModule } from './modules/section/section.module';
 
 @Module({
   imports: [
@@ -17,6 +19,8 @@ import { GlobalJwtModule } from './provider/jwt/jwt.module';
     PrismaModule,
     AuthModule,
     GlobalJwtModule,
+    ResumeModule,
+    SectionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

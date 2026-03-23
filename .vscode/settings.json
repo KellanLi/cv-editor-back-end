@@ -3,5 +3,9 @@
     "formatOnSave": true,
     "defaultFormatter": "esbenp.prettier-vscode"
   },
-  "prettier.enable": true
+  "prettier.enable": true,
+  "cSpell.words": ["autoincrement"],
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }

@@ -1,7 +1,7 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated"
-  moduleFormat    = "cjs"
+  provider     = "prisma-client"
+  output       = "../src/generated"
+  moduleFormat = "cjs"
 }
 
 datasource db {
@@ -9,83 +9,72 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
   password  String
   name      String?
   gender    String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-
-  resumes   Resume[]  // 一个用户多个简历
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  resumes   Resume[]
 }
 
 model Resume {
-  id        Int       @id @default(autoincrement())
-  title     String
+  id             Int             @id @default(autoincrement())
+  userId         Int
+  title          String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  user           User            @relation(fields: [userId], references: [id])
+  resumeSections ResumeSection[]
+}
 
-  userId    Int
-  user      User      @relation(fields: [userId], references: [id])
+model ResumeSection {
+  resumeId  Int
+  sectionId Int
+  order     Int
+  resume    Resume  @relation(fields: [resumeId], references: [id])
+  section   Section @relation(fields: [sectionId], references: [id])
 
-  sections  Section[]
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  @@id([resumeId, sectionId])
 }
 
 model Section {
-  id                Int              @id @default(autoincrement())
-  name              String
-
-  resumeId          Int
-  resume            Resume           @relation(fields: [resumeId], references: [id])
-
-  // 1:1 ContentTemplate
-  contentTemplate   ContentTemplate?
-
-  // 1:N Content
-  contents          Content[]
+  id              Int              @id @default(autoincrement())
+  name            String
+  resumeSections  ResumeSection[]
+  contentTemplate ContentTemplate?
+  contents        Content[]
 }
 
 model ContentTemplate {
-  id           Int            @id @default(autoincrement())
-
-  sectionId    Int            @unique
-  section      Section        @relation(fields: [sectionId], references: [id])
-
+  id            Int            @id @default(autoincrement())
+  sectionId     Int            @unique
+  createdAt     DateTime       @default(now())
+  section       Section        @relation(fields: [sectionId], references: [id])
   infoTemplates InfoTemplate[]
-
-  createdAt    DateTime       @default(now())
 }
 
 model InfoTemplate {
-  id                Int              @id @default(autoincrement())
-
+  id                Int             @id @default(autoincrement())
   contentTemplateId Int
-  contentTemplate   ContentTemplate  @relation(fields: [contentTemplateId], references: [id])
-
   type              String
-  // string[]
   names             Json
+  order             Int
+  contentTemplate   ContentTemplate @relation(fields: [contentTemplateId], references: [id])
 }
 
 model Content {
-  id         Int       @id @default(autoincrement())
-
-  sectionId  Int
-  section    Section   @relation(fields: [sectionId], references: [id])
-
-  infos      Info[]
+  id        Int     @id @default(autoincrement())
+  sectionId Int
+  section   Section @relation(fields: [sectionId], references: [id])
+  infos     Info[]
 }
 
 model Info {
-  id        Int      @id @default(autoincrement())
-  type      String
-
-  // string[]
-  values    Json
-
+  id        Int     @id @default(autoincrement())
   contentId Int
-  content   Content  @relation(fields: [contentId], references: [id])
-
+  type      String
+  values    Json
+  content   Content @relation(fields: [contentId], references: [id])
 }

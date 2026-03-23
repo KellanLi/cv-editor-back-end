@@ -50,6 +50,11 @@ export type User = Prisma.UserModel
  */
 export type Resume = Prisma.ResumeModel
 /**
+ * Model ResumeSection
+ * 
+ */
+export type ResumeSection = Prisma.ResumeSectionModel
+/**
  * Model Section
  * 
  */

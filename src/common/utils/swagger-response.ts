@@ -11,7 +11,7 @@ export const ApiResponseWrapper = <TModel extends Type<any>>(model: TModel) => {
           { $ref: getSchemaPath(BaseResponseDto) },
           {
             properties: {
-              data: { $ref: getSchemaPath(model) },
+              data: { $ref: getSchemaPath(model), nullable: true },
             },
           },
         ],

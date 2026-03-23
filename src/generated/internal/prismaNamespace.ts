@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Resume: 'Resume',
+  ResumeSection: 'ResumeSection',
   Section: 'Section',
   ContentTemplate: 'ContentTemplate',
   InfoTemplate: 'InfoTemplate',
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "resume" | "section" | "contentTemplate" | "infoTemplate" | "content" | "info"
+    modelProps: "user" | "resume" | "resumeSection" | "section" | "contentTemplate" | "infoTemplate" | "content" | "info"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -539,6 +540,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ResumeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ResumeCountAggregateOutputType> | number
+        }
+      }
+    }
+    ResumeSection: {
+      payload: Prisma.$ResumeSectionPayload<ExtArgs>
+      fields: Prisma.ResumeSectionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ResumeSectionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeSectionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ResumeSectionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeSectionPayload>
+        }
+        findFirst: {
+          args: Prisma.ResumeSectionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeSectionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ResumeSectionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeSectionPayload>
+        }
+        findMany: {
+          args: Prisma.ResumeSectionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeSectionPayload>[]
+        }
+        create: {
+          args: Prisma.ResumeSectionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeSectionPayload>
+        }
+        createMany: {
+          args: Prisma.ResumeSectionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.ResumeSectionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeSectionPayload>
+        }
+        update: {
+          args: Prisma.ResumeSectionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeSectionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ResumeSectionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ResumeSectionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.ResumeSectionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeSectionPayload>
+        }
+        aggregate: {
+          args: Prisma.ResumeSectionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateResumeSection>
+        }
+        groupBy: {
+          args: Prisma.ResumeSectionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResumeSectionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ResumeSectionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResumeSectionCountAggregateOutputType> | number
         }
       }
     }
@@ -926,8 +993,8 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const ResumeScalarFieldEnum = {
   id: 'id',
-  title: 'title',
   userId: 'userId',
+  title: 'title',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -935,10 +1002,18 @@ export const ResumeScalarFieldEnum = {
 export type ResumeScalarFieldEnum = (typeof ResumeScalarFieldEnum)[keyof typeof ResumeScalarFieldEnum]
 
 
+export const ResumeSectionScalarFieldEnum = {
+  resumeId: 'resumeId',
+  sectionId: 'sectionId',
+  order: 'order'
+} as const
+
+export type ResumeSectionScalarFieldEnum = (typeof ResumeSectionScalarFieldEnum)[keyof typeof ResumeSectionScalarFieldEnum]
+
+
 export const SectionScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  resumeId: 'resumeId'
+  name: 'name'
 } as const
 
 export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
@@ -957,7 +1032,8 @@ export const InfoTemplateScalarFieldEnum = {
   id: 'id',
   contentTemplateId: 'contentTemplateId',
   type: 'type',
-  names: 'names'
+  names: 'names',
+  order: 'order'
 } as const
 
 export type InfoTemplateScalarFieldEnum = (typeof InfoTemplateScalarFieldEnum)[keyof typeof InfoTemplateScalarFieldEnum]
@@ -973,9 +1049,9 @@ export type ContentScalarFieldEnum = (typeof ContentScalarFieldEnum)[keyof typeo
 
 export const InfoScalarFieldEnum = {
   id: 'id',
+  contentId: 'contentId',
   type: 'type',
-  values: 'values',
-  contentId: 'contentId'
+  values: 'values'
 } as const
 
 export type InfoScalarFieldEnum = (typeof InfoScalarFieldEnum)[keyof typeof InfoScalarFieldEnum]
@@ -1203,6 +1279,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   resume?: Prisma.ResumeOmit
+  resumeSection?: Prisma.ResumeSectionOmit
   section?: Prisma.SectionOmit
   contentTemplate?: Prisma.ContentTemplateOmit
   infoTemplate?: Prisma.InfoTemplateOmit

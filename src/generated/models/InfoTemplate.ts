@@ -29,23 +29,27 @@ export type AggregateInfoTemplate = {
 export type InfoTemplateAvgAggregateOutputType = {
   id: number | null
   contentTemplateId: number | null
+  order: number | null
 }
 
 export type InfoTemplateSumAggregateOutputType = {
   id: number | null
   contentTemplateId: number | null
+  order: number | null
 }
 
 export type InfoTemplateMinAggregateOutputType = {
   id: number | null
   contentTemplateId: number | null
   type: string | null
+  order: number | null
 }
 
 export type InfoTemplateMaxAggregateOutputType = {
   id: number | null
   contentTemplateId: number | null
   type: string | null
+  order: number | null
 }
 
 export type InfoTemplateCountAggregateOutputType = {
@@ -53,6 +57,7 @@ export type InfoTemplateCountAggregateOutputType = {
   contentTemplateId: number
   type: number
   names: number
+  order: number
   _all: number
 }
 
@@ -60,23 +65,27 @@ export type InfoTemplateCountAggregateOutputType = {
 export type InfoTemplateAvgAggregateInputType = {
   id?: true
   contentTemplateId?: true
+  order?: true
 }
 
 export type InfoTemplateSumAggregateInputType = {
   id?: true
   contentTemplateId?: true
+  order?: true
 }
 
 export type InfoTemplateMinAggregateInputType = {
   id?: true
   contentTemplateId?: true
   type?: true
+  order?: true
 }
 
 export type InfoTemplateMaxAggregateInputType = {
   id?: true
   contentTemplateId?: true
   type?: true
+  order?: true
 }
 
 export type InfoTemplateCountAggregateInputType = {
@@ -84,6 +93,7 @@ export type InfoTemplateCountAggregateInputType = {
   contentTemplateId?: true
   type?: true
   names?: true
+  order?: true
   _all?: true
 }
 
@@ -178,6 +188,7 @@ export type InfoTemplateGroupByOutputType = {
   contentTemplateId: number
   type: string
   names: runtime.JsonValue
+  order: number
   _count: InfoTemplateCountAggregateOutputType | null
   _avg: InfoTemplateAvgAggregateOutputType | null
   _sum: InfoTemplateSumAggregateOutputType | null
@@ -208,6 +219,7 @@ export type InfoTemplateWhereInput = {
   contentTemplateId?: Prisma.IntFilter<"InfoTemplate"> | number
   type?: Prisma.StringFilter<"InfoTemplate"> | string
   names?: Prisma.JsonFilter<"InfoTemplate">
+  order?: Prisma.IntFilter<"InfoTemplate"> | number
   contentTemplate?: Prisma.XOR<Prisma.ContentTemplateScalarRelationFilter, Prisma.ContentTemplateWhereInput>
 }
 
@@ -216,6 +228,7 @@ export type InfoTemplateOrderByWithRelationInput = {
   contentTemplateId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   names?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   contentTemplate?: Prisma.ContentTemplateOrderByWithRelationInput
   _relevance?: Prisma.InfoTemplateOrderByRelevanceInput
 }
@@ -228,6 +241,7 @@ export type InfoTemplateWhereUniqueInput = Prisma.AtLeast<{
   contentTemplateId?: Prisma.IntFilter<"InfoTemplate"> | number
   type?: Prisma.StringFilter<"InfoTemplate"> | string
   names?: Prisma.JsonFilter<"InfoTemplate">
+  order?: Prisma.IntFilter<"InfoTemplate"> | number
   contentTemplate?: Prisma.XOR<Prisma.ContentTemplateScalarRelationFilter, Prisma.ContentTemplateWhereInput>
 }, "id">
 
@@ -236,6 +250,7 @@ export type InfoTemplateOrderByWithAggregationInput = {
   contentTemplateId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   names?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   _count?: Prisma.InfoTemplateCountOrderByAggregateInput
   _avg?: Prisma.InfoTemplateAvgOrderByAggregateInput
   _max?: Prisma.InfoTemplateMaxOrderByAggregateInput
@@ -251,11 +266,13 @@ export type InfoTemplateScalarWhereWithAggregatesInput = {
   contentTemplateId?: Prisma.IntWithAggregatesFilter<"InfoTemplate"> | number
   type?: Prisma.StringWithAggregatesFilter<"InfoTemplate"> | string
   names?: Prisma.JsonWithAggregatesFilter<"InfoTemplate">
+  order?: Prisma.IntWithAggregatesFilter<"InfoTemplate"> | number
 }
 
 export type InfoTemplateCreateInput = {
   type: string
   names: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order: number
   contentTemplate: Prisma.ContentTemplateCreateNestedOneWithoutInfoTemplatesInput
 }
 
@@ -264,11 +281,13 @@ export type InfoTemplateUncheckedCreateInput = {
   contentTemplateId: number
   type: string
   names: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order: number
 }
 
 export type InfoTemplateUpdateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   names?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   contentTemplate?: Prisma.ContentTemplateUpdateOneRequiredWithoutInfoTemplatesNestedInput
 }
 
@@ -277,6 +296,7 @@ export type InfoTemplateUncheckedUpdateInput = {
   contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   names?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type InfoTemplateCreateManyInput = {
@@ -284,11 +304,13 @@ export type InfoTemplateCreateManyInput = {
   contentTemplateId: number
   type: string
   names: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order: number
 }
 
 export type InfoTemplateUpdateManyMutationInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   names?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type InfoTemplateUncheckedUpdateManyInput = {
@@ -296,6 +318,7 @@ export type InfoTemplateUncheckedUpdateManyInput = {
   contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   names?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type InfoTemplateListRelationFilter = {
@@ -319,28 +342,33 @@ export type InfoTemplateCountOrderByAggregateInput = {
   contentTemplateId?: Prisma.SortOrder
   type?: Prisma.SortOrder
   names?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type InfoTemplateAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contentTemplateId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type InfoTemplateMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contentTemplateId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type InfoTemplateMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contentTemplateId?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type InfoTemplateSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contentTemplateId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type InfoTemplateCreateNestedManyWithoutContentTemplateInput = {
@@ -388,12 +416,14 @@ export type InfoTemplateUncheckedUpdateManyWithoutContentTemplateNestedInput = {
 export type InfoTemplateCreateWithoutContentTemplateInput = {
   type: string
   names: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order: number
 }
 
 export type InfoTemplateUncheckedCreateWithoutContentTemplateInput = {
   id?: number
   type: string
   names: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order: number
 }
 
 export type InfoTemplateCreateOrConnectWithoutContentTemplateInput = {
@@ -430,29 +460,34 @@ export type InfoTemplateScalarWhereInput = {
   contentTemplateId?: Prisma.IntFilter<"InfoTemplate"> | number
   type?: Prisma.StringFilter<"InfoTemplate"> | string
   names?: Prisma.JsonFilter<"InfoTemplate">
+  order?: Prisma.IntFilter<"InfoTemplate"> | number
 }
 
 export type InfoTemplateCreateManyContentTemplateInput = {
   id?: number
   type: string
   names: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order: number
 }
 
 export type InfoTemplateUpdateWithoutContentTemplateInput = {
   type?: Prisma.StringFieldUpdateOperationsInput | string
   names?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type InfoTemplateUncheckedUpdateWithoutContentTemplateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   names?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type InfoTemplateUncheckedUpdateManyWithoutContentTemplateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   names?: Prisma.JsonNullValueInput | runtime.InputJsonValue
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -462,6 +497,7 @@ export type InfoTemplateSelect<ExtArgs extends runtime.Types.Extensions.Internal
   contentTemplateId?: boolean
   type?: boolean
   names?: boolean
+  order?: boolean
   contentTemplate?: boolean | Prisma.ContentTemplateDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["infoTemplate"]>
 
@@ -472,9 +508,10 @@ export type InfoTemplateSelectScalar = {
   contentTemplateId?: boolean
   type?: boolean
   names?: boolean
+  order?: boolean
 }
 
-export type InfoTemplateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "contentTemplateId" | "type" | "names", ExtArgs["result"]["infoTemplate"]>
+export type InfoTemplateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "contentTemplateId" | "type" | "names" | "order", ExtArgs["result"]["infoTemplate"]>
 export type InfoTemplateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contentTemplate?: boolean | Prisma.ContentTemplateDefaultArgs<ExtArgs>
 }
@@ -489,6 +526,7 @@ export type $InfoTemplatePayload<ExtArgs extends runtime.Types.Extensions.Intern
     contentTemplateId: number
     type: string
     names: runtime.JsonValue
+    order: number
   }, ExtArgs["result"]["infoTemplate"]>
   composites: {}
 }
@@ -863,6 +901,7 @@ export interface InfoTemplateFieldRefs {
   readonly contentTemplateId: Prisma.FieldRef<"InfoTemplate", 'Int'>
   readonly type: Prisma.FieldRef<"InfoTemplate", 'String'>
   readonly names: Prisma.FieldRef<"InfoTemplate", 'Json'>
+  readonly order: Prisma.FieldRef<"InfoTemplate", 'Int'>
 }
     
 

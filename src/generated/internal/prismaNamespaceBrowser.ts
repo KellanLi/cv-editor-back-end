@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Resume: 'Resume',
+  ResumeSection: 'ResumeSection',
   Section: 'Section',
   ContentTemplate: 'ContentTemplate',
   InfoTemplate: 'InfoTemplate',
@@ -91,8 +92,8 @@ export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof User
 
 export const ResumeScalarFieldEnum = {
   id: 'id',
-  title: 'title',
   userId: 'userId',
+  title: 'title',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -100,10 +101,18 @@ export const ResumeScalarFieldEnum = {
 export type ResumeScalarFieldEnum = (typeof ResumeScalarFieldEnum)[keyof typeof ResumeScalarFieldEnum]
 
 
+export const ResumeSectionScalarFieldEnum = {
+  resumeId: 'resumeId',
+  sectionId: 'sectionId',
+  order: 'order'
+} as const
+
+export type ResumeSectionScalarFieldEnum = (typeof ResumeSectionScalarFieldEnum)[keyof typeof ResumeSectionScalarFieldEnum]
+
+
 export const SectionScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  resumeId: 'resumeId'
+  name: 'name'
 } as const
 
 export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
@@ -122,7 +131,8 @@ export const InfoTemplateScalarFieldEnum = {
   id: 'id',
   contentTemplateId: 'contentTemplateId',
   type: 'type',
-  names: 'names'
+  names: 'names',
+  order: 'order'
 } as const
 
 export type InfoTemplateScalarFieldEnum = (typeof InfoTemplateScalarFieldEnum)[keyof typeof InfoTemplateScalarFieldEnum]
@@ -138,9 +148,9 @@ export type ContentScalarFieldEnum = (typeof ContentScalarFieldEnum)[keyof typeo
 
 export const InfoScalarFieldEnum = {
   id: 'id',
+  contentId: 'contentId',
   type: 'type',
-  values: 'values',
-  contentId: 'contentId'
+  values: 'values'
 } as const
 
 export type InfoScalarFieldEnum = (typeof InfoScalarFieldEnum)[keyof typeof InfoScalarFieldEnum]
