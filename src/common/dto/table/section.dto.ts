@@ -5,19 +5,9 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { ResumeSectionDto } from './resume-section.dto';
 import { Type } from 'class-transformer';
-import { ContentTemplateDto } from './content-template.dto';
 import { ContentDto } from './content.dto';
-
-// model Section {
-//   id              Int              @id @default(autoincrement())
-//   resumeId        Int
-//   name            String
-//   resumeSections  ResumeSection[]
-//   contentTemplate ContentTemplate?
-//   contents        Content[]
-// }
+import { ResumeDto } from './resume.dto';
 
 export class SectionDto {
   @ApiProperty({
@@ -35,29 +25,11 @@ export class SectionDto {
   resumeId: number;
 
   @ApiProperty({
-    example: '模块名称',
-    description: '模块名称',
+    example: 'basic',
+    description: '内容模板类型',
   })
   @IsString()
-  name: string;
-
-  @ApiProperty({
-    type: () => [ResumeSectionDto],
-    description: '简历模块',
-  })
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => ResumeSectionDto)
-  resumeSections?: ResumeSectionDto[];
-
-  @ApiProperty({
-    type: () => ContentTemplateDto,
-    description: '内容模板',
-  })
-  @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => ContentTemplateDto)
-  contentTemplate?: ContentTemplateDto;
+  contentTemplateType: string;
 
   @ApiProperty({
     type: () => [ContentDto],
@@ -67,4 +39,13 @@ export class SectionDto {
   @ValidateNested({ each: true })
   @Type(() => ContentDto)
   contents?: ContentDto[];
+
+  @ApiProperty({
+    type: () => ResumeDto,
+    description: '简历信息',
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => ResumeDto)
+  resume: ResumeDto;
 }

@@ -20,48 +20,21 @@ model User {
 }
 
 model Resume {
-  id             Int             @id @default(autoincrement())
-  userId         Int
-  title          String
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  user           User            @relation(fields: [userId], references: [id])
-  resumeSections ResumeSection[]
-}
-
-model ResumeSection {
-  resumeId  Int
-  sectionId Int
-  order     Int
-  resume    Resume  @relation(fields: [resumeId], references: [id])
-  section   Section @relation(fields: [sectionId], references: [id])
-
-  @@id([resumeId, sectionId])
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  title     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  user      User      @relation(fields: [userId], references: [id])
+  sections  Section[]
 }
 
 model Section {
-  id              Int              @id @default(autoincrement())
-  name            String
-  resumeSections  ResumeSection[]
-  contentTemplate ContentTemplate?
-  contents        Content[]
-}
-
-model ContentTemplate {
-  id            Int            @id @default(autoincrement())
-  sectionId     Int            @unique
-  createdAt     DateTime       @default(now())
-  section       Section        @relation(fields: [sectionId], references: [id])
-  infoTemplates InfoTemplate[]
-}
-
-model InfoTemplate {
-  id                Int             @id @default(autoincrement())
-  contentTemplateId Int
-  type              String
-  names             Json
-  order             Int
-  contentTemplate   ContentTemplate @relation(fields: [contentTemplateId], references: [id])
+  id                  Int       @id @default(autoincrement())
+  resumeId            Int
+  contentTemplateType String
+  contents            Content[]
+  resume              Resume    @relation(fields: [resumeId], references: [id])
 }
 
 model Content {
@@ -77,4 +50,21 @@ model Info {
   type      String
   values    Json
   content   Content @relation(fields: [contentId], references: [id])
+}
+
+model ContentTemplate {
+  id            Int            @id @default(autoincrement())
+  name          String
+  type          String
+  createdAt     DateTime       @default(now())
+  infoTemplates InfoTemplate[]
+}
+
+model InfoTemplate {
+  id                Int             @id @default(autoincrement())
+  contentTemplateId Int
+  type              String
+  names             Json
+  order             Int
+  contentTemplate   ContentTemplate @relation(fields: [contentTemplateId], references: [id])
 }

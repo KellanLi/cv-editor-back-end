@@ -10,17 +10,6 @@ import {
 import { ResumeDto } from './resume.dto';
 import { Type } from 'class-transformer';
 
-// model User {
-//   id        Int      @id @default(autoincrement())
-//   email     String   @unique
-//   password  String
-//   name      String?
-//   gender    String?
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   resumes   Resume[]
-// }
-
 export class UserDto {
   id: number;
   @ApiProperty({

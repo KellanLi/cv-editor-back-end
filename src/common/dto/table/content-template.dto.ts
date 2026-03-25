@@ -1,16 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsDate, ValidateNested, IsOptional } from 'class-validator';
-import { SectionDto } from './section.dto';
+import {
+  IsNumber,
+  IsDate,
+  ValidateNested,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 import { InfoTemplateDto } from './info-template.dto';
-
-// model ContentTemplate {
-//   id            Int            @id @default(autoincrement())
-//   sectionId     Int            @unique
-//   createdAt     DateTime       @default(now())
-//   section       Section        @relation(fields: [sectionId], references: [id])
-//   infoTemplates InfoTemplate[]
-// }
 
 export class ContentTemplateDto {
   @ApiProperty({
@@ -21,11 +18,18 @@ export class ContentTemplateDto {
   id: number;
 
   @ApiProperty({
-    example: 1,
-    description: '模块ID',
+    example: '基本信息',
+    description: '内容模板名称',
   })
-  @IsNumber()
-  sectionId: number;
+  @IsString()
+  name: string;
+
+  @ApiProperty({
+    example: 'basic',
+    description: '内容模板类型',
+  })
+  @IsString()
+  type: string;
 
   @ApiProperty({
     example: '2023-01-01T00:00:00.000Z',
@@ -33,15 +37,6 @@ export class ContentTemplateDto {
   })
   @IsDate({ message: '创建时间格式不正确' })
   createdAt: Date;
-
-  @ApiProperty({
-    type: () => SectionDto,
-    description: '模块信息',
-  })
-  @IsOptional()
-  @ValidateNested()
-  @Type(() => SectionDto)
-  section?: SectionDto;
 
   @ApiProperty({
     type: () => [InfoTemplateDto],

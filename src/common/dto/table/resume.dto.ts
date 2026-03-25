@@ -7,19 +7,9 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { ResumeSectionDto } from './resume-section.dto';
 import { Type } from 'class-transformer';
 import { UserDto } from './user.dto';
-
-// model Resume {
-//   id             Int             @id @default(autoincrement())
-//   userId         Int
-//   title          String
-//   createdAt      DateTime        @default(now())
-//   updatedAt      DateTime        @updatedAt
-//   user           User            @relation(fields: [userId], references: [id])
-//   resumeSections ResumeSection[]
-// }
+import { SectionDto } from './section.dto';
 
 export class ResumeDto {
   @ApiProperty({
@@ -67,12 +57,12 @@ export class ResumeDto {
   user?: UserDto;
 
   @ApiProperty({
-    type: () => [ResumeSectionDto],
+    type: () => [SectionDto],
     description: '简历模块',
   })
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ResumeSectionDto)
-  resumeSections?: ResumeSectionDto[];
+  @Type(() => SectionDto)
+  sections?: SectionDto[];
 }
