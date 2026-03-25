@@ -7,5 +7,5 @@ export class DeleteDto {
     example: 1,
   })
   @IsNumber()
-  sectionId: number;
+  id: number;
 }

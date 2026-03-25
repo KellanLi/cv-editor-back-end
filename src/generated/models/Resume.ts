@@ -221,7 +221,7 @@ export type ResumeWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  resumeSections?: Prisma.ResumeSectionListRelationFilter
+  sections?: Prisma.SectionListRelationFilter
 }
 
 export type ResumeOrderByWithRelationInput = {
@@ -231,7 +231,7 @@ export type ResumeOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
-  resumeSections?: Prisma.ResumeSectionOrderByRelationAggregateInput
+  sections?: Prisma.SectionOrderByRelationAggregateInput
   _relevance?: Prisma.ResumeOrderByRelevanceInput
 }
 
@@ -245,7 +245,7 @@ export type ResumeWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  resumeSections?: Prisma.ResumeSectionListRelationFilter
+  sections?: Prisma.SectionListRelationFilter
 }, "id">
 
 export type ResumeOrderByWithAggregationInput = {
@@ -277,7 +277,7 @@ export type ResumeCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutResumesInput
-  resumeSections?: Prisma.ResumeSectionCreateNestedManyWithoutResumeInput
+  sections?: Prisma.SectionCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeUncheckedCreateInput = {
@@ -286,7 +286,7 @@ export type ResumeUncheckedCreateInput = {
   title: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  resumeSections?: Prisma.ResumeSectionUncheckedCreateNestedManyWithoutResumeInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeUpdateInput = {
@@ -294,7 +294,7 @@ export type ResumeUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutResumesNestedInput
-  resumeSections?: Prisma.ResumeSectionUpdateManyWithoutResumeNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeUncheckedUpdateInput = {
@@ -303,7 +303,7 @@ export type ResumeUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resumeSections?: Prisma.ResumeSectionUncheckedUpdateManyWithoutResumeNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeCreateManyInput = {
@@ -425,25 +425,25 @@ export type ResumeUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.ResumeScalarWhereInput | Prisma.ResumeScalarWhereInput[]
 }
 
-export type ResumeCreateNestedOneWithoutResumeSectionsInput = {
-  create?: Prisma.XOR<Prisma.ResumeCreateWithoutResumeSectionsInput, Prisma.ResumeUncheckedCreateWithoutResumeSectionsInput>
-  connectOrCreate?: Prisma.ResumeCreateOrConnectWithoutResumeSectionsInput
+export type ResumeCreateNestedOneWithoutSectionsInput = {
+  create?: Prisma.XOR<Prisma.ResumeCreateWithoutSectionsInput, Prisma.ResumeUncheckedCreateWithoutSectionsInput>
+  connectOrCreate?: Prisma.ResumeCreateOrConnectWithoutSectionsInput
   connect?: Prisma.ResumeWhereUniqueInput
 }
 
-export type ResumeUpdateOneRequiredWithoutResumeSectionsNestedInput = {
-  create?: Prisma.XOR<Prisma.ResumeCreateWithoutResumeSectionsInput, Prisma.ResumeUncheckedCreateWithoutResumeSectionsInput>
-  connectOrCreate?: Prisma.ResumeCreateOrConnectWithoutResumeSectionsInput
-  upsert?: Prisma.ResumeUpsertWithoutResumeSectionsInput
+export type ResumeUpdateOneRequiredWithoutSectionsNestedInput = {
+  create?: Prisma.XOR<Prisma.ResumeCreateWithoutSectionsInput, Prisma.ResumeUncheckedCreateWithoutSectionsInput>
+  connectOrCreate?: Prisma.ResumeCreateOrConnectWithoutSectionsInput
+  upsert?: Prisma.ResumeUpsertWithoutSectionsInput
   connect?: Prisma.ResumeWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ResumeUpdateToOneWithWhereWithoutResumeSectionsInput, Prisma.ResumeUpdateWithoutResumeSectionsInput>, Prisma.ResumeUncheckedUpdateWithoutResumeSectionsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ResumeUpdateToOneWithWhereWithoutSectionsInput, Prisma.ResumeUpdateWithoutSectionsInput>, Prisma.ResumeUncheckedUpdateWithoutSectionsInput>
 }
 
 export type ResumeCreateWithoutUserInput = {
   title: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  resumeSections?: Prisma.ResumeSectionCreateNestedManyWithoutResumeInput
+  sections?: Prisma.SectionCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeUncheckedCreateWithoutUserInput = {
@@ -451,7 +451,7 @@ export type ResumeUncheckedCreateWithoutUserInput = {
   title: string
   createdAt?: Date | string
   updatedAt?: Date | string
-  resumeSections?: Prisma.ResumeSectionUncheckedCreateNestedManyWithoutResumeInput
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeCreateOrConnectWithoutUserInput = {
@@ -491,14 +491,14 @@ export type ResumeScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
 }
 
-export type ResumeCreateWithoutResumeSectionsInput = {
+export type ResumeCreateWithoutSectionsInput = {
   title: string
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutResumesInput
 }
 
-export type ResumeUncheckedCreateWithoutResumeSectionsInput = {
+export type ResumeUncheckedCreateWithoutSectionsInput = {
   id?: number
   userId: number
   title: string
@@ -506,30 +506,30 @@ export type ResumeUncheckedCreateWithoutResumeSectionsInput = {
   updatedAt?: Date | string
 }
 
-export type ResumeCreateOrConnectWithoutResumeSectionsInput = {
+export type ResumeCreateOrConnectWithoutSectionsInput = {
   where: Prisma.ResumeWhereUniqueInput
-  create: Prisma.XOR<Prisma.ResumeCreateWithoutResumeSectionsInput, Prisma.ResumeUncheckedCreateWithoutResumeSectionsInput>
+  create: Prisma.XOR<Prisma.ResumeCreateWithoutSectionsInput, Prisma.ResumeUncheckedCreateWithoutSectionsInput>
 }
 
-export type ResumeUpsertWithoutResumeSectionsInput = {
-  update: Prisma.XOR<Prisma.ResumeUpdateWithoutResumeSectionsInput, Prisma.ResumeUncheckedUpdateWithoutResumeSectionsInput>
-  create: Prisma.XOR<Prisma.ResumeCreateWithoutResumeSectionsInput, Prisma.ResumeUncheckedCreateWithoutResumeSectionsInput>
+export type ResumeUpsertWithoutSectionsInput = {
+  update: Prisma.XOR<Prisma.ResumeUpdateWithoutSectionsInput, Prisma.ResumeUncheckedUpdateWithoutSectionsInput>
+  create: Prisma.XOR<Prisma.ResumeCreateWithoutSectionsInput, Prisma.ResumeUncheckedCreateWithoutSectionsInput>
   where?: Prisma.ResumeWhereInput
 }
 
-export type ResumeUpdateToOneWithWhereWithoutResumeSectionsInput = {
+export type ResumeUpdateToOneWithWhereWithoutSectionsInput = {
   where?: Prisma.ResumeWhereInput
-  data: Prisma.XOR<Prisma.ResumeUpdateWithoutResumeSectionsInput, Prisma.ResumeUncheckedUpdateWithoutResumeSectionsInput>
+  data: Prisma.XOR<Prisma.ResumeUpdateWithoutSectionsInput, Prisma.ResumeUncheckedUpdateWithoutSectionsInput>
 }
 
-export type ResumeUpdateWithoutResumeSectionsInput = {
+export type ResumeUpdateWithoutSectionsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutResumesNestedInput
 }
 
-export type ResumeUncheckedUpdateWithoutResumeSectionsInput = {
+export type ResumeUncheckedUpdateWithoutSectionsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
@@ -548,7 +548,7 @@ export type ResumeUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resumeSections?: Prisma.ResumeSectionUpdateManyWithoutResumeNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeUncheckedUpdateWithoutUserInput = {
@@ -556,7 +556,7 @@ export type ResumeUncheckedUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  resumeSections?: Prisma.ResumeSectionUncheckedUpdateManyWithoutResumeNestedInput
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeUncheckedUpdateManyWithoutUserInput = {
@@ -572,11 +572,11 @@ export type ResumeUncheckedUpdateManyWithoutUserInput = {
  */
 
 export type ResumeCountOutputType = {
-  resumeSections: number
+  sections: number
 }
 
 export type ResumeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  resumeSections?: boolean | ResumeCountOutputTypeCountResumeSectionsArgs
+  sections?: boolean | ResumeCountOutputTypeCountSectionsArgs
 }
 
 /**
@@ -592,8 +592,8 @@ export type ResumeCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
 /**
  * ResumeCountOutputType without action
  */
-export type ResumeCountOutputTypeCountResumeSectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ResumeSectionWhereInput
+export type ResumeCountOutputTypeCountSectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.SectionWhereInput
 }
 
 
@@ -604,7 +604,7 @@ export type ResumeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  resumeSections?: boolean | Prisma.Resume$resumeSectionsArgs<ExtArgs>
+  sections?: boolean | Prisma.Resume$sectionsArgs<ExtArgs>
   _count?: boolean | Prisma.ResumeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resume"]>
 
@@ -621,7 +621,7 @@ export type ResumeSelectScalar = {
 export type ResumeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "createdAt" | "updatedAt", ExtArgs["result"]["resume"]>
 export type ResumeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  resumeSections?: boolean | Prisma.Resume$resumeSectionsArgs<ExtArgs>
+  sections?: boolean | Prisma.Resume$sectionsArgs<ExtArgs>
   _count?: boolean | Prisma.ResumeCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -629,7 +629,7 @@ export type $ResumePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
   name: "Resume"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    resumeSections: Prisma.$ResumeSectionPayload<ExtArgs>[]
+    sections: Prisma.$SectionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -978,7 +978,7 @@ readonly fields: ResumeFieldRefs;
 export interface Prisma__ResumeClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  resumeSections<T extends Prisma.Resume$resumeSectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resume$resumeSectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResumeSectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  sections<T extends Prisma.Resume$sectionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resume$sectionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SectionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1361,27 +1361,27 @@ export type ResumeDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
 }
 
 /**
- * Resume.resumeSections
+ * Resume.sections
  */
-export type Resume$resumeSectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Resume$sectionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ResumeSection
+   * Select specific fields to fetch from the Section
    */
-  select?: Prisma.ResumeSectionSelect<ExtArgs> | null
+  select?: Prisma.SectionSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ResumeSection
+   * Omit specific fields from the Section
    */
-  omit?: Prisma.ResumeSectionOmit<ExtArgs> | null
+  omit?: Prisma.SectionOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ResumeSectionInclude<ExtArgs> | null
-  where?: Prisma.ResumeSectionWhereInput
-  orderBy?: Prisma.ResumeSectionOrderByWithRelationInput | Prisma.ResumeSectionOrderByWithRelationInput[]
-  cursor?: Prisma.ResumeSectionWhereUniqueInput
+  include?: Prisma.SectionInclude<ExtArgs> | null
+  where?: Prisma.SectionWhereInput
+  orderBy?: Prisma.SectionOrderByWithRelationInput | Prisma.SectionOrderByWithRelationInput[]
+  cursor?: Prisma.SectionWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ResumeSectionScalarFieldEnum | Prisma.ResumeSectionScalarFieldEnum[]
+  distinct?: Prisma.SectionScalarFieldEnum | Prisma.SectionScalarFieldEnum[]
 }
 
 /**

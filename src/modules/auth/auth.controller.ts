@@ -3,7 +3,7 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { ApiResponseWrapper } from '@/common/utils/swagger-response';
+import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.decorator';
 import { LoginDataDto } from './dto/login.dto';
 import { UserDto } from './dto/user.dto';
 

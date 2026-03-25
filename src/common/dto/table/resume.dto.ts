@@ -8,10 +8,10 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { UserDto } from './user.dto';
-import { SectionDto } from './section.dto';
+import { UserTableDto } from './user.dto';
+import { SectionTableDto } from './section.dto';
 
-export class ResumeDto {
+export class ResumeTableDto {
   @ApiProperty({
     example: 1,
     description: '简历ID',
@@ -48,21 +48,21 @@ export class ResumeDto {
   updatedAt: Date;
 
   @ApiProperty({
-    type: () => UserDto,
+    type: () => UserTableDto,
     description: '用户信息',
   })
   @IsOptional()
   @ValidateNested()
-  @Type(() => UserDto)
-  user?: UserDto;
+  @Type(() => UserTableDto)
+  user?: UserTableDto;
 
   @ApiProperty({
-    type: () => [SectionDto],
+    type: () => [SectionTableDto],
     description: '简历模块',
   })
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => SectionDto)
-  sections?: SectionDto[];
+  @Type(() => SectionTableDto)
+  sections?: SectionTableDto[];
 }

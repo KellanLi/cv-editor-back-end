@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsOptional, ValidateNested } from 'class-validator';
-import { InfoDto } from './info.dto';
+import { InfoTableDto } from './info.dto';
 import { Type } from 'class-transformer';
 
 // model Content {
@@ -10,7 +10,7 @@ import { Type } from 'class-transformer';
 //   infos     Info[]
 // }
 
-export class ContentDto {
+export class ContentTableDto {
   @ApiProperty({
     example: 1,
     description: '内容ID',
@@ -26,11 +26,11 @@ export class ContentDto {
   sectionId: number;
 
   @ApiProperty({
-    type: () => [InfoDto],
+    type: () => [InfoTableDto],
     description: '信息层',
   })
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => InfoDto)
-  infos?: InfoDto[];
+  @Type(() => InfoTableDto)
+  infos?: InfoTableDto[];
 }

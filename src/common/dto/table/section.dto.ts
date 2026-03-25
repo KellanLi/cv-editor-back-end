@@ -6,10 +6,10 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { ContentDto } from './content.dto';
-import { ResumeDto } from './resume.dto';
+import { ContentTableDto } from './content.dto';
+import { ResumeTableDto } from './resume.dto';
 
-export class SectionDto {
+export class SectionTableDto {
   @ApiProperty({
     example: 1,
     description: '模块ID',
@@ -32,20 +32,20 @@ export class SectionDto {
   contentTemplateType: string;
 
   @ApiProperty({
-    type: () => [ContentDto],
+    type: () => [ContentTableDto],
     description: '内容',
   })
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => ContentDto)
-  contents?: ContentDto[];
+  @Type(() => ContentTableDto)
+  contents?: ContentTableDto[];
 
   @ApiProperty({
-    type: () => ResumeDto,
+    type: () => ResumeTableDto,
     description: '简历信息',
   })
   @IsOptional()
   @ValidateNested()
-  @Type(() => ResumeDto)
-  resume: ResumeDto;
+  @Type(() => ResumeTableDto)
+  resume: ResumeTableDto;
 }

@@ -9,14 +9,15 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  name      String?
-  gender    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  resumes   Resume[]
+  id               Int               @id @default(autoincrement())
+  email            String            @unique
+  password         String
+  name             String?
+  gender           String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  resumes          Resume[]
+  contentTemplates ContentTemplate[]
 }
 
 model Resume {
@@ -54,10 +55,12 @@ model Info {
 
 model ContentTemplate {
   id            Int            @id @default(autoincrement())
+  userId        Int
   name          String
   type          String
   createdAt     DateTime       @default(now())
   infoTemplates InfoTemplate[]
+  user          User           @relation(fields: [userId], references: [id])
 }
 
 model InfoTemplate {

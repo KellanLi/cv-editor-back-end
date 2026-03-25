@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterDto } from './dto/register.dto';
+import { IJwtPayload } from '@/types/auth.types';
 
 @Injectable()
 export class AuthService {
@@ -52,7 +53,12 @@ export class AuthService {
       throw new Error('密码错误');
     }
 
-    const token = this.jwtService.sign({ id: user.id, email });
+    const payload: IJwtPayload = {
+      id: user.id,
+      email: user.email,
+    };
+
+    const token = this.jwtService.sign(payload);
 
     const { password: _, ...rest } = user;
 

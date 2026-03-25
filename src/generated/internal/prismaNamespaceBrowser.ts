@@ -53,12 +53,11 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Resume: 'Resume',
-  ResumeSection: 'ResumeSection',
   Section: 'Section',
-  ContentTemplate: 'ContentTemplate',
-  InfoTemplate: 'InfoTemplate',
   Content: 'Content',
-  Info: 'Info'
+  Info: 'Info',
+  ContentTemplate: 'ContentTemplate',
+  InfoTemplate: 'InfoTemplate'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -101,41 +100,13 @@ export const ResumeScalarFieldEnum = {
 export type ResumeScalarFieldEnum = (typeof ResumeScalarFieldEnum)[keyof typeof ResumeScalarFieldEnum]
 
 
-export const ResumeSectionScalarFieldEnum = {
-  resumeId: 'resumeId',
-  sectionId: 'sectionId',
-  order: 'order'
-} as const
-
-export type ResumeSectionScalarFieldEnum = (typeof ResumeSectionScalarFieldEnum)[keyof typeof ResumeSectionScalarFieldEnum]
-
-
 export const SectionScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  resumeId: 'resumeId',
+  contentTemplateType: 'contentTemplateType'
 } as const
 
 export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
-
-
-export const ContentTemplateScalarFieldEnum = {
-  id: 'id',
-  sectionId: 'sectionId',
-  createdAt: 'createdAt'
-} as const
-
-export type ContentTemplateScalarFieldEnum = (typeof ContentTemplateScalarFieldEnum)[keyof typeof ContentTemplateScalarFieldEnum]
-
-
-export const InfoTemplateScalarFieldEnum = {
-  id: 'id',
-  contentTemplateId: 'contentTemplateId',
-  type: 'type',
-  names: 'names',
-  order: 'order'
-} as const
-
-export type InfoTemplateScalarFieldEnum = (typeof InfoTemplateScalarFieldEnum)[keyof typeof InfoTemplateScalarFieldEnum]
 
 
 export const ContentScalarFieldEnum = {
@@ -154,6 +125,28 @@ export const InfoScalarFieldEnum = {
 } as const
 
 export type InfoScalarFieldEnum = (typeof InfoScalarFieldEnum)[keyof typeof InfoScalarFieldEnum]
+
+
+export const ContentTemplateScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  type: 'type',
+  createdAt: 'createdAt'
+} as const
+
+export type ContentTemplateScalarFieldEnum = (typeof ContentTemplateScalarFieldEnum)[keyof typeof ContentTemplateScalarFieldEnum]
+
+
+export const InfoTemplateScalarFieldEnum = {
+  id: 'id',
+  contentTemplateId: 'contentTemplateId',
+  type: 'type',
+  names: 'names',
+  order: 'order'
+} as const
+
+export type InfoTemplateScalarFieldEnum = (typeof InfoTemplateScalarFieldEnum)[keyof typeof InfoTemplateScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -197,7 +190,7 @@ export type ResumeOrderByRelevanceFieldEnum = (typeof ResumeOrderByRelevanceFiel
 
 
 export const SectionOrderByRelevanceFieldEnum = {
-  name: 'name'
+  contentTemplateType: 'contentTemplateType'
 } as const
 
 export type SectionOrderByRelevanceFieldEnum = (typeof SectionOrderByRelevanceFieldEnum)[keyof typeof SectionOrderByRelevanceFieldEnum]
@@ -220,16 +213,24 @@ export const QueryMode = {
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 
 
-export const InfoTemplateOrderByRelevanceFieldEnum = {
-  type: 'type'
-} as const
-
-export type InfoTemplateOrderByRelevanceFieldEnum = (typeof InfoTemplateOrderByRelevanceFieldEnum)[keyof typeof InfoTemplateOrderByRelevanceFieldEnum]
-
-
 export const InfoOrderByRelevanceFieldEnum = {
   type: 'type'
 } as const
 
 export type InfoOrderByRelevanceFieldEnum = (typeof InfoOrderByRelevanceFieldEnum)[keyof typeof InfoOrderByRelevanceFieldEnum]
+
+
+export const ContentTemplateOrderByRelevanceFieldEnum = {
+  name: 'name',
+  type: 'type'
+} as const
+
+export type ContentTemplateOrderByRelevanceFieldEnum = (typeof ContentTemplateOrderByRelevanceFieldEnum)[keyof typeof ContentTemplateOrderByRelevanceFieldEnum]
+
+
+export const InfoTemplateOrderByRelevanceFieldEnum = {
+  type: 'type'
+} as const
+
+export type InfoTemplateOrderByRelevanceFieldEnum = (typeof InfoTemplateOrderByRelevanceFieldEnum)[keyof typeof InfoTemplateOrderByRelevanceFieldEnum]
 

@@ -233,6 +233,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   resumes?: Prisma.ResumeListRelationFilter
+  contentTemplates?: Prisma.ContentTemplateListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -244,6 +245,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   resumes?: Prisma.ResumeOrderByRelationAggregateInput
+  contentTemplates?: Prisma.ContentTemplateOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
 
@@ -259,6 +261,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   resumes?: Prisma.ResumeListRelationFilter
+  contentTemplates?: Prisma.ContentTemplateListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -297,6 +300,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  contentTemplates?: Prisma.ContentTemplateCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -308,6 +312,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  contentTemplates?: Prisma.ContentTemplateUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -318,6 +323,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  contentTemplates?: Prisma.ContentTemplateUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -329,6 +335,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  contentTemplates?: Prisma.ContentTemplateUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -443,6 +450,20 @@ export type UserUpdateOneRequiredWithoutResumesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutResumesInput, Prisma.UserUpdateWithoutResumesInput>, Prisma.UserUncheckedUpdateWithoutResumesInput>
 }
 
+export type UserCreateNestedOneWithoutContentTemplatesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutContentTemplatesInput, Prisma.UserUncheckedCreateWithoutContentTemplatesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutContentTemplatesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutContentTemplatesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutContentTemplatesInput, Prisma.UserUncheckedCreateWithoutContentTemplatesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutContentTemplatesInput
+  upsert?: Prisma.UserUpsertWithoutContentTemplatesInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutContentTemplatesInput, Prisma.UserUpdateWithoutContentTemplatesInput>, Prisma.UserUncheckedUpdateWithoutContentTemplatesInput>
+}
+
 export type UserCreateWithoutResumesInput = {
   email: string
   password: string
@@ -450,6 +471,7 @@ export type UserCreateWithoutResumesInput = {
   gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  contentTemplates?: Prisma.ContentTemplateCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutResumesInput = {
@@ -460,6 +482,7 @@ export type UserUncheckedCreateWithoutResumesInput = {
   gender?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  contentTemplates?: Prisma.ContentTemplateUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutResumesInput = {
@@ -485,6 +508,7 @@ export type UserUpdateWithoutResumesInput = {
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contentTemplates?: Prisma.ContentTemplateUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutResumesInput = {
@@ -495,6 +519,65 @@ export type UserUncheckedUpdateWithoutResumesInput = {
   gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contentTemplates?: Prisma.ContentTemplateUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutContentTemplatesInput = {
+  email: string
+  password: string
+  name?: string | null
+  gender?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutContentTemplatesInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  gender?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutContentTemplatesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutContentTemplatesInput, Prisma.UserUncheckedCreateWithoutContentTemplatesInput>
+}
+
+export type UserUpsertWithoutContentTemplatesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutContentTemplatesInput, Prisma.UserUncheckedUpdateWithoutContentTemplatesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutContentTemplatesInput, Prisma.UserUncheckedCreateWithoutContentTemplatesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutContentTemplatesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutContentTemplatesInput, Prisma.UserUncheckedUpdateWithoutContentTemplatesInput>
+}
+
+export type UserUpdateWithoutContentTemplatesInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutContentTemplatesInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -504,10 +587,12 @@ export type UserUncheckedUpdateWithoutResumesInput = {
 
 export type UserCountOutputType = {
   resumes: number
+  contentTemplates: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   resumes?: boolean | UserCountOutputTypeCountResumesArgs
+  contentTemplates?: boolean | UserCountOutputTypeCountContentTemplatesArgs
 }
 
 /**
@@ -527,6 +612,13 @@ export type UserCountOutputTypeCountResumesArgs<ExtArgs extends runtime.Types.Ex
   where?: Prisma.ResumeWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountContentTemplatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ContentTemplateWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -537,6 +629,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   resumes?: boolean | Prisma.User$resumesArgs<ExtArgs>
+  contentTemplates?: boolean | Prisma.User$contentTemplatesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -555,6 +648,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "email" | "password" | "name" | "gender" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   resumes?: boolean | Prisma.User$resumesArgs<ExtArgs>
+  contentTemplates?: boolean | Prisma.User$contentTemplatesArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -562,6 +656,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     resumes: Prisma.$ResumePayload<ExtArgs>[]
+    contentTemplates: Prisma.$ContentTemplatePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -912,6 +1007,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   resumes<T extends Prisma.User$resumesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$resumesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResumePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  contentTemplates<T extends Prisma.User$contentTemplatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$contentTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContentTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1317,6 +1413,30 @@ export type User$resumesArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.ResumeScalarFieldEnum | Prisma.ResumeScalarFieldEnum[]
+}
+
+/**
+ * User.contentTemplates
+ */
+export type User$contentTemplatesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ContentTemplate
+   */
+  select?: Prisma.ContentTemplateSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ContentTemplate
+   */
+  omit?: Prisma.ContentTemplateOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ContentTemplateInclude<ExtArgs> | null
+  where?: Prisma.ContentTemplateWhereInput
+  orderBy?: Prisma.ContentTemplateOrderByWithRelationInput | Prisma.ContentTemplateOrderByWithRelationInput[]
+  cursor?: Prisma.ContentTemplateWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ContentTemplateScalarFieldEnum | Prisma.ContentTemplateScalarFieldEnum[]
 }
 
 /**

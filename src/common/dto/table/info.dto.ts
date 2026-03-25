@@ -6,7 +6,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { ContentDto } from './content.dto';
+import { ContentTableDto } from './content.dto';
 import { Type } from 'class-transformer';
 
 // model Info {
@@ -17,7 +17,7 @@ import { Type } from 'class-transformer';
 //   content   Content @relation(fields: [contentId], references: [id])
 // }
 
-export class InfoDto {
+export class InfoTableDto {
   @ApiProperty({
     example: 1,
     description: '信息ID',
@@ -48,11 +48,11 @@ export class InfoDto {
   values: string[];
 
   @ApiProperty({
-    type: () => ContentDto,
+    type: () => ContentTableDto,
     description: '内容',
   })
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => ContentDto)
-  content?: ContentDto;
+  @Type(() => ContentTableDto)
+  content?: ContentTableDto;
 }

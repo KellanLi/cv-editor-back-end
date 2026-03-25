@@ -7,10 +7,11 @@ import {
   IsArray,
   ValidateNested,
 } from 'class-validator';
-import { ResumeDto } from './resume.dto';
+import { ResumeTableDto } from './resume.dto';
 import { Type } from 'class-transformer';
+import { ContentTemplateDtoTable } from './content-template.dto';
 
-export class UserDto {
+export class UserTableDto {
   id: number;
   @ApiProperty({
     example: 'test@example.com',
@@ -59,11 +60,21 @@ export class UserDto {
 
   @ApiProperty({
     description: '简历列表',
-    type: [ResumeDto],
+    type: [ResumeTableDto],
   })
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ResumeDto)
-  resumes?: ResumeDto[];
+  @Type(() => ResumeTableDto)
+  resumes?: ResumeTableDto[];
+
+  @ApiProperty({
+    description: '内容模板列表',
+    type: () => [ContentTemplateDtoTable],
+  })
+  @IsOptional()
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ContentTemplateDtoTable)
+  contentTemplates?: ContentTemplateDtoTable[];
 }

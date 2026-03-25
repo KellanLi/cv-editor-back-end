@@ -7,15 +7,23 @@ import {
   IsString,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { InfoTemplateDto } from './info-template.dto';
+import { InfoTemplateTableDto } from './info-template.dto';
+import { UserTableDto } from './user.dto';
 
-export class ContentTemplateDto {
+export class ContentTemplateDtoTable {
   @ApiProperty({
     example: 1,
     description: '内容模板ID',
   })
   @IsNumber()
   id: number;
+
+  @ApiProperty({
+    example: 1,
+    description: '用户ID',
+  })
+  @IsNumber()
+  userId: number;
 
   @ApiProperty({
     example: '基本信息',
@@ -39,11 +47,21 @@ export class ContentTemplateDto {
   createdAt: Date;
 
   @ApiProperty({
-    type: () => [InfoTemplateDto],
+    type: () => [InfoTemplateTableDto],
     description: '信息层',
   })
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => InfoTemplateDto)
-  infoTemplates?: InfoTemplateDto[];
+  @Type(() => InfoTemplateTableDto)
+  infoTemplates?: InfoTemplateTableDto[];
+
+  @ApiProperty({
+    example: 1,
+    description: '用户信息',
+    type: () => UserTableDto,
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => UserTableDto)
+  user?: UserTableDto;
 }

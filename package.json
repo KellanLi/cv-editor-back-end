@@ -19,7 +19,9 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "g:res": "node scripts/generate-resource.js",
-    "g:pro": "node scripts/generate-provider.js"
+    "g:pro": "node scripts/generate-provider.js",
+    "db:migrate": "pnpm dlx prisma migrate dev --name",
+    "db:generate": "pnpm dlx prisma generate"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",

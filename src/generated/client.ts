@@ -50,25 +50,10 @@ export type User = Prisma.UserModel
  */
 export type Resume = Prisma.ResumeModel
 /**
- * Model ResumeSection
- * 
- */
-export type ResumeSection = Prisma.ResumeSectionModel
-/**
  * Model Section
  * 
  */
 export type Section = Prisma.SectionModel
-/**
- * Model ContentTemplate
- * 
- */
-export type ContentTemplate = Prisma.ContentTemplateModel
-/**
- * Model InfoTemplate
- * 
- */
-export type InfoTemplate = Prisma.InfoTemplateModel
 /**
  * Model Content
  * 
@@ -79,3 +64,13 @@ export type Content = Prisma.ContentModel
  * 
  */
 export type Info = Prisma.InfoModel
+/**
+ * Model ContentTemplate
+ * 
+ */
+export type ContentTemplate = Prisma.ContentTemplateModel
+/**
+ * Model InfoTemplate
+ * 
+ */
+export type InfoTemplate = Prisma.InfoTemplateModel

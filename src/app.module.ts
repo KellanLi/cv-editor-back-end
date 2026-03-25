@@ -7,7 +7,6 @@ import { PrismaModule } from './provider/prisma/prisma.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { GlobalJwtModule } from './provider/jwt/jwt.module';
 import { ResumeModule } from './modules/resume/resume.module';
-import { SectionModule } from './modules/section/section.module';
 import { ContentTemplateModule } from './modules/content-template/content-template.module';
 
 @Module({
@@ -21,7 +20,6 @@ import { ContentTemplateModule } from './modules/content-template/content-templa
     AuthModule,
     GlobalJwtModule,
     ResumeModule,
-    SectionModule,
     ContentTemplateModule,
   ],
   controllers: [AppController],

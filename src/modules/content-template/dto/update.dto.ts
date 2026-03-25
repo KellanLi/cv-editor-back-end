@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
+import { InfoTemplateDto } from './info-template.dto';
 import { IsArray, IsNumber, IsString, ValidateNested } from 'class-validator';
-import { InfoTemplateItemDto } from './info-template-item.dto';
+import { Type } from 'class-transformer';
 
 export class UpdateDto {
   @ApiProperty({
@@ -9,7 +9,7 @@ export class UpdateDto {
     description: '模块ID',
   })
   @IsNumber()
-  sectionId: number;
+  id: number;
 
   @ApiProperty({
     example: 'test',
@@ -19,11 +19,18 @@ export class UpdateDto {
   name: string;
 
   @ApiProperty({
-    type: [InfoTemplateItemDto],
+    example: 'test',
+    description: '模块类型',
+  })
+  @IsString()
+  type: string;
+
+  @ApiProperty({
     description: '信息层列表',
+    type: () => [InfoTemplateDto],
   })
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => InfoTemplateItemDto)
-  infoTemplates: InfoTemplateItemDto[];
+  @Type(() => InfoTemplateDto)
+  infoTemplates: InfoTemplateDto[];
 }
