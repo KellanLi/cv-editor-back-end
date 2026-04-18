@@ -1,7 +1,7 @@
 import { IsEmail, IsString, MinLength, ValidateNested } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { UserDto } from './user.dto';
+import { UserDto } from '../../../common/dto/business/user.dto';
 import { TokenDto } from './token.dto';
 
 export class LoginDto {

@@ -1,8 +1,12 @@
-import { Controller, Get, UseGuards, Req } from '@nestjs/common';
+import { Controller, Get, UseGuards, Req, Post, Body } from '@nestjs/common';
 import { UserService } from './user.service';
 import { JwtGuard } from '../../provider/jwt/jwt.guard';
 import { Request } from '@/types/request.types';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { JwtPayload } from '@/common/decorators/jwt-payload.decorator';
+import { IJwtPayload } from '@/types/auth.types';
+import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.decorator';
+import { UserDto } from '@/common/dto/business/user.dto';
 
 @ApiTags('用户模块')
 @Controller('user')
@@ -14,5 +18,12 @@ export class UserController {
   @ApiOperation({ summary: '获取用户信息' })
   getProfile(@Req() req: Request) {
     return req.user;
+  }
+
+  @Post('detail')
+  @ApiOperation({ summary: '获取用户详情' })
+  @ApiResponseWrapper(UserDto)
+  detail(@JwtPayload() jwtPayload: IJwtPayload) {
+    return this.userService.detail(jwtPayload);
   }
 }

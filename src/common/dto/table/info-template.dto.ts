@@ -24,14 +24,14 @@ export class InfoTemplateTableDto {
     description: '信息模板ID',
   })
   @IsNumber()
-  id: number;
+  id!: number;
 
   @ApiProperty({
     example: 1,
     description: '内容模板ID',
   })
   @IsNumber()
-  contentTemplateId: number;
+  contentTemplateId!: number;
 
   @ApiProperty({
     example: 'xxx',

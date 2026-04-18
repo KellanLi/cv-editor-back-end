@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { ContentTemplateService } from './content-template.service';
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtGuard } from '@/provider/jwt/jwt.guard';
@@ -7,7 +7,7 @@ import { JwtPayload } from '@/common/decorators/jwt-payload.decorator';
 import { IJwtPayload } from '@/types/auth.types';
 import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.decorator';
 import { CreateDto } from './dto/create.dto';
-import { ContentTemplateDto } from './dto/content-template.dto';
+import { ContentTemplateDto } from '../../common/dto/business/content-template.dto';
 import { UpdateDto } from './dto/update.dto';
 import { DeleteDto } from './dto/delete.dto';
 

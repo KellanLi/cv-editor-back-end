@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { InfoTemplateDto } from './info-template.dto';
+import { InfoTemplateDto } from '../../../common/dto/business/info-template.dto';
 import { IsArray, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 

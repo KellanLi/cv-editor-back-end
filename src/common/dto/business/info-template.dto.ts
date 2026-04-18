@@ -4,4 +4,5 @@ import { OmitType } from '@nestjs/swagger';
 export class InfoTemplateDto extends OmitType(InfoTemplateTableDto, [
   'contentTemplate',
   'contentTemplateId',
+  'id',
 ]) {}

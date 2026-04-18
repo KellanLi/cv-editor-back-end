@@ -5,7 +5,7 @@ import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.decorator';
 import { LoginDataDto } from './dto/login.dto';
-import { UserDto } from './dto/user.dto';
+import { UserDto } from '../../common/dto/business/user.dto';
 
 @ApiTags('认证模块')
 @Controller('auth')

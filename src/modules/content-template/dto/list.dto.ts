@@ -1,5 +1,5 @@
 import { PaginationDto } from '@/common/dto/pagination.dto';
-import { ContentTemplateDto } from './content-template.dto';
+import { ContentTemplateDto } from '../../../common/dto/business/content-template.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
