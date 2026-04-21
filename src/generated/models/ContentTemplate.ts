@@ -40,7 +40,6 @@ export type ContentTemplateMinAggregateOutputType = {
   id: number | null
   userId: number | null
   name: string | null
-  type: string | null
   createdAt: Date | null
 }
 
@@ -48,7 +47,6 @@ export type ContentTemplateMaxAggregateOutputType = {
   id: number | null
   userId: number | null
   name: string | null
-  type: string | null
   createdAt: Date | null
 }
 
@@ -56,7 +54,6 @@ export type ContentTemplateCountAggregateOutputType = {
   id: number
   userId: number
   name: number
-  type: number
   createdAt: number
   _all: number
 }
@@ -76,7 +73,6 @@ export type ContentTemplateMinAggregateInputType = {
   id?: true
   userId?: true
   name?: true
-  type?: true
   createdAt?: true
 }
 
@@ -84,7 +80,6 @@ export type ContentTemplateMaxAggregateInputType = {
   id?: true
   userId?: true
   name?: true
-  type?: true
   createdAt?: true
 }
 
@@ -92,7 +87,6 @@ export type ContentTemplateCountAggregateInputType = {
   id?: true
   userId?: true
   name?: true
-  type?: true
   createdAt?: true
   _all?: true
 }
@@ -187,7 +181,6 @@ export type ContentTemplateGroupByOutputType = {
   id: number
   userId: number
   name: string
-  type: string
   createdAt: Date
   _count: ContentTemplateCountAggregateOutputType | null
   _avg: ContentTemplateAvgAggregateOutputType | null
@@ -196,7 +189,7 @@ export type ContentTemplateGroupByOutputType = {
   _max: ContentTemplateMaxAggregateOutputType | null
 }
 
-type GetContentTemplateGroupByPayload<T extends ContentTemplateGroupByArgs> = Prisma.PrismaPromise<
+export type GetContentTemplateGroupByPayload<T extends ContentTemplateGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ContentTemplateGroupByOutputType, T['by']> &
       {
@@ -218,7 +211,6 @@ export type ContentTemplateWhereInput = {
   id?: Prisma.IntFilter<"ContentTemplate"> | number
   userId?: Prisma.IntFilter<"ContentTemplate"> | number
   name?: Prisma.StringFilter<"ContentTemplate"> | string
-  type?: Prisma.StringFilter<"ContentTemplate"> | string
   createdAt?: Prisma.DateTimeFilter<"ContentTemplate"> | Date | string
   infoTemplates?: Prisma.InfoTemplateListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -228,7 +220,6 @@ export type ContentTemplateOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   infoTemplates?: Prisma.InfoTemplateOrderByRelationAggregateInput
   user?: Prisma.UserOrderByWithRelationInput
@@ -242,7 +233,6 @@ export type ContentTemplateWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ContentTemplateWhereInput | Prisma.ContentTemplateWhereInput[]
   userId?: Prisma.IntFilter<"ContentTemplate"> | number
   name?: Prisma.StringFilter<"ContentTemplate"> | string
-  type?: Prisma.StringFilter<"ContentTemplate"> | string
   createdAt?: Prisma.DateTimeFilter<"ContentTemplate"> | Date | string
   infoTemplates?: Prisma.InfoTemplateListRelationFilter
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -252,7 +242,6 @@ export type ContentTemplateOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ContentTemplateCountOrderByAggregateInput
   _avg?: Prisma.ContentTemplateAvgOrderByAggregateInput
@@ -268,13 +257,11 @@ export type ContentTemplateScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"ContentTemplate"> | number
   userId?: Prisma.IntWithAggregatesFilter<"ContentTemplate"> | number
   name?: Prisma.StringWithAggregatesFilter<"ContentTemplate"> | string
-  type?: Prisma.StringWithAggregatesFilter<"ContentTemplate"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"ContentTemplate"> | Date | string
 }
 
 export type ContentTemplateCreateInput = {
   name: string
-  type: string
   createdAt?: Date | string
   infoTemplates?: Prisma.InfoTemplateCreateNestedManyWithoutContentTemplateInput
   user: Prisma.UserCreateNestedOneWithoutContentTemplatesInput
@@ -284,14 +271,12 @@ export type ContentTemplateUncheckedCreateInput = {
   id?: number
   userId: number
   name: string
-  type: string
   createdAt?: Date | string
   infoTemplates?: Prisma.InfoTemplateUncheckedCreateNestedManyWithoutContentTemplateInput
 }
 
 export type ContentTemplateUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   infoTemplates?: Prisma.InfoTemplateUpdateManyWithoutContentTemplateNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutContentTemplatesNestedInput
@@ -301,7 +286,6 @@ export type ContentTemplateUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   infoTemplates?: Prisma.InfoTemplateUncheckedUpdateManyWithoutContentTemplateNestedInput
 }
@@ -310,13 +294,11 @@ export type ContentTemplateCreateManyInput = {
   id?: number
   userId: number
   name: string
-  type: string
   createdAt?: Date | string
 }
 
 export type ContentTemplateUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -324,7 +306,6 @@ export type ContentTemplateUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -348,7 +329,6 @@ export type ContentTemplateCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -361,7 +341,6 @@ export type ContentTemplateMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -369,7 +348,6 @@ export type ContentTemplateMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
-  type?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -441,7 +419,6 @@ export type ContentTemplateUpdateOneRequiredWithoutInfoTemplatesNestedInput = {
 
 export type ContentTemplateCreateWithoutUserInput = {
   name: string
-  type: string
   createdAt?: Date | string
   infoTemplates?: Prisma.InfoTemplateCreateNestedManyWithoutContentTemplateInput
 }
@@ -449,7 +426,6 @@ export type ContentTemplateCreateWithoutUserInput = {
 export type ContentTemplateUncheckedCreateWithoutUserInput = {
   id?: number
   name: string
-  type: string
   createdAt?: Date | string
   infoTemplates?: Prisma.InfoTemplateUncheckedCreateNestedManyWithoutContentTemplateInput
 }
@@ -487,13 +463,11 @@ export type ContentTemplateScalarWhereInput = {
   id?: Prisma.IntFilter<"ContentTemplate"> | number
   userId?: Prisma.IntFilter<"ContentTemplate"> | number
   name?: Prisma.StringFilter<"ContentTemplate"> | string
-  type?: Prisma.StringFilter<"ContentTemplate"> | string
   createdAt?: Prisma.DateTimeFilter<"ContentTemplate"> | Date | string
 }
 
 export type ContentTemplateCreateWithoutInfoTemplatesInput = {
   name: string
-  type: string
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutContentTemplatesInput
 }
@@ -502,7 +476,6 @@ export type ContentTemplateUncheckedCreateWithoutInfoTemplatesInput = {
   id?: number
   userId: number
   name: string
-  type: string
   createdAt?: Date | string
 }
 
@@ -524,7 +497,6 @@ export type ContentTemplateUpdateToOneWithWhereWithoutInfoTemplatesInput = {
 
 export type ContentTemplateUpdateWithoutInfoTemplatesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutContentTemplatesNestedInput
 }
@@ -533,20 +505,17 @@ export type ContentTemplateUncheckedUpdateWithoutInfoTemplatesInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ContentTemplateCreateManyUserInput = {
   id?: number
   name: string
-  type: string
   createdAt?: Date | string
 }
 
 export type ContentTemplateUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   infoTemplates?: Prisma.InfoTemplateUpdateManyWithoutContentTemplateNestedInput
 }
@@ -554,7 +523,6 @@ export type ContentTemplateUpdateWithoutUserInput = {
 export type ContentTemplateUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   infoTemplates?: Prisma.InfoTemplateUncheckedUpdateManyWithoutContentTemplateNestedInput
 }
@@ -562,7 +530,6 @@ export type ContentTemplateUncheckedUpdateWithoutUserInput = {
 export type ContentTemplateUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
-  type?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -601,7 +568,6 @@ export type ContentTemplateSelect<ExtArgs extends runtime.Types.Extensions.Inter
   id?: boolean
   userId?: boolean
   name?: boolean
-  type?: boolean
   createdAt?: boolean
   infoTemplates?: boolean | Prisma.ContentTemplate$infoTemplatesArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -614,11 +580,10 @@ export type ContentTemplateSelectScalar = {
   id?: boolean
   userId?: boolean
   name?: boolean
-  type?: boolean
   createdAt?: boolean
 }
 
-export type ContentTemplateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "type" | "createdAt", ExtArgs["result"]["contentTemplate"]>
+export type ContentTemplateOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "createdAt", ExtArgs["result"]["contentTemplate"]>
 export type ContentTemplateInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   infoTemplates?: boolean | Prisma.ContentTemplate$infoTemplatesArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -635,7 +600,6 @@ export type $ContentTemplatePayload<ExtArgs extends runtime.Types.Extensions.Int
     id: number
     userId: number
     name: string
-    type: string
     createdAt: Date
   }, ExtArgs["result"]["contentTemplate"]>
   composites: {}
@@ -1011,7 +975,6 @@ export interface ContentTemplateFieldRefs {
   readonly id: Prisma.FieldRef<"ContentTemplate", 'Int'>
   readonly userId: Prisma.FieldRef<"ContentTemplate", 'Int'>
   readonly name: Prisma.FieldRef<"ContentTemplate", 'String'>
-  readonly type: Prisma.FieldRef<"ContentTemplate", 'String'>
   readonly createdAt: Prisma.FieldRef<"ContentTemplate", 'DateTime'>
 }
     

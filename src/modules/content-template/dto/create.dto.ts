@@ -13,14 +13,6 @@ export class CreateDto {
   name: string;
 
   @ApiProperty({
-    description: '模块类型',
-    example: 'education',
-    type: String,
-  })
-  @IsString()
-  type: string;
-
-  @ApiProperty({
     description: '信息层列表',
     type: () => [InfoTemplateDto],
   })

@@ -33,13 +33,6 @@ export class ContentTemplateDtoTable {
   name: string;
 
   @ApiProperty({
-    example: 'basic',
-    description: '内容模板类型',
-  })
-  @IsString()
-  type: string;
-
-  @ApiProperty({
     example: '2023-01-01T00:00:00.000Z',
     description: '创建时间',
   })

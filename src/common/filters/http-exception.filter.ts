@@ -6,7 +6,11 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/client';
+import {
+  PrismaClientKnownRequestError,
+  PrismaClientUnknownRequestError,
+  PrismaClientValidationError,
+} from '@prisma/client/runtime/client';
 import { ErrorCode } from '@/common/enums/error-code.enum';
 
 @Catch()
@@ -38,8 +42,24 @@ export class HttpExceptionFilter<T = unknown> implements ExceptionFilter {
       }
       code = status;
     } else if (exception instanceof PrismaClientKnownRequestError) {
+      console.error('[PrismaClientKnownRequestError]', {
+        code: exception.code,
+        meta: exception.meta,
+        message: exception.message,
+        stack: exception.stack,
+      });
       code = ErrorCode.DATABASE_ERROR;
       message = '数据库错误';
+    } else if (exception instanceof PrismaClientValidationError) {
+      console.error('[PrismaClientValidationError]', {
+        message: exception.message,
+        stack: exception.stack,
+      });
+    } else if (exception instanceof PrismaClientUnknownRequestError) {
+      console.error('[PrismaClientUnknownRequestError]', {
+        message: exception.message,
+        stack: exception.stack,
+      });
     } else {
       console.error('未知错误', exception);
     }

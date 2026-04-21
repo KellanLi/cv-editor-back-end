@@ -103,7 +103,7 @@ export type ResumeScalarFieldEnum = (typeof ResumeScalarFieldEnum)[keyof typeof 
 export const SectionScalarFieldEnum = {
   id: 'id',
   resumeId: 'resumeId',
-  contentTemplateType: 'contentTemplateType'
+  contentTemplateId: 'contentTemplateId'
 } as const
 
 export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
@@ -131,7 +131,6 @@ export const ContentTemplateScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   name: 'name',
-  type: 'type',
   createdAt: 'createdAt'
 } as const
 
@@ -189,13 +188,6 @@ export const ResumeOrderByRelevanceFieldEnum = {
 export type ResumeOrderByRelevanceFieldEnum = (typeof ResumeOrderByRelevanceFieldEnum)[keyof typeof ResumeOrderByRelevanceFieldEnum]
 
 
-export const SectionOrderByRelevanceFieldEnum = {
-  contentTemplateType: 'contentTemplateType'
-} as const
-
-export type SectionOrderByRelevanceFieldEnum = (typeof SectionOrderByRelevanceFieldEnum)[keyof typeof SectionOrderByRelevanceFieldEnum]
-
-
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -221,8 +213,7 @@ export type InfoOrderByRelevanceFieldEnum = (typeof InfoOrderByRelevanceFieldEnu
 
 
 export const ContentTemplateOrderByRelevanceFieldEnum = {
-  name: 'name',
-  type: 'type'
+  name: 'name'
 } as const
 
 export type ContentTemplateOrderByRelevanceFieldEnum = (typeof ContentTemplateOrderByRelevanceFieldEnum)[keyof typeof ContentTemplateOrderByRelevanceFieldEnum]

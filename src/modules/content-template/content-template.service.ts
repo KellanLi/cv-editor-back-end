@@ -1,5 +1,5 @@
 import { PrismaService } from '@/provider/prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { ListDataDto, ListDto } from './dto/list.dto';
 import { CreateDto } from './dto/create.dto';
 import { UpdateDto } from './dto/update.dto';
@@ -45,12 +45,11 @@ export class ContentTemplateService {
   }
 
   async create(params: CreateDto, jwt: IJwtPayload) {
-    const { name, type, infoTemplates } = params;
+    const { name, infoTemplates } = params;
     const res = await this.prismaService.contentTemplate.create({
       data: {
         userId: jwt.id,
         name: name,
-        type: type,
         infoTemplates: {
           create: infoTemplates,
         },
@@ -63,14 +62,13 @@ export class ContentTemplateService {
   }
 
   async update(params: UpdateDto, jwt: IJwtPayload) {
-    const { id, type, name, infoTemplates } = params;
+    const { id, name, infoTemplates } = params;
     const res = await this.prismaService.contentTemplate.update({
       where: {
         id,
         userId: jwt.id,
       },
       data: {
-        type,
         name,
         infoTemplates: {
           deleteMany: {},
@@ -87,12 +85,21 @@ export class ContentTemplateService {
 
   async delete(params: DeleteDto, jwt: IJwtPayload) {
     const { id } = params;
-    const res = await this.prismaService.contentTemplate.delete({
-      where: {
-        userId: jwt.id,
-        id,
-      },
+    const existing = await this.prismaService.contentTemplate.findFirst({
+      where: { id, userId: jwt.id },
+      select: { id: true },
     });
+    if (!existing) {
+      throw new NotFoundException('内容模板不存在');
+    }
+    const [, res] = await this.prismaService.$transaction([
+      this.prismaService.infoTemplate.deleteMany({
+        where: { contentTemplateId: id },
+      }),
+      this.prismaService.contentTemplate.delete({
+        where: { id, userId: jwt.id },
+      }),
+    ]);
     return res;
   }
 }

@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.5.0
- * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
+ * Prisma Client JS version: 7.7.0
+ * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.5.0",
-  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
+  client: "7.7.0",
+  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
 /**
@@ -938,7 +938,7 @@ export type ResumeScalarFieldEnum = (typeof ResumeScalarFieldEnum)[keyof typeof 
 export const SectionScalarFieldEnum = {
   id: 'id',
   resumeId: 'resumeId',
-  contentTemplateType: 'contentTemplateType'
+  contentTemplateId: 'contentTemplateId'
 } as const
 
 export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]
@@ -966,7 +966,6 @@ export const ContentTemplateScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   name: 'name',
-  type: 'type',
   createdAt: 'createdAt'
 } as const
 
@@ -1024,13 +1023,6 @@ export const ResumeOrderByRelevanceFieldEnum = {
 export type ResumeOrderByRelevanceFieldEnum = (typeof ResumeOrderByRelevanceFieldEnum)[keyof typeof ResumeOrderByRelevanceFieldEnum]
 
 
-export const SectionOrderByRelevanceFieldEnum = {
-  contentTemplateType: 'contentTemplateType'
-} as const
-
-export type SectionOrderByRelevanceFieldEnum = (typeof SectionOrderByRelevanceFieldEnum)[keyof typeof SectionOrderByRelevanceFieldEnum]
-
-
 export const JsonNullValueFilter = {
   DbNull: DbNull,
   JsonNull: JsonNull,
@@ -1056,8 +1048,7 @@ export type InfoOrderByRelevanceFieldEnum = (typeof InfoOrderByRelevanceFieldEnu
 
 
 export const ContentTemplateOrderByRelevanceFieldEnum = {
-  name: 'name',
-  type: 'type'
+  name: 'name'
 } as const
 
 export type ContentTemplateOrderByRelevanceFieldEnum = (typeof ContentTemplateOrderByRelevanceFieldEnum)[keyof typeof ContentTemplateOrderByRelevanceFieldEnum]

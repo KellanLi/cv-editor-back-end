@@ -29,29 +29,31 @@ export type AggregateSection = {
 export type SectionAvgAggregateOutputType = {
   id: number | null
   resumeId: number | null
+  contentTemplateId: number | null
 }
 
 export type SectionSumAggregateOutputType = {
   id: number | null
   resumeId: number | null
+  contentTemplateId: number | null
 }
 
 export type SectionMinAggregateOutputType = {
   id: number | null
   resumeId: number | null
-  contentTemplateType: string | null
+  contentTemplateId: number | null
 }
 
 export type SectionMaxAggregateOutputType = {
   id: number | null
   resumeId: number | null
-  contentTemplateType: string | null
+  contentTemplateId: number | null
 }
 
 export type SectionCountAggregateOutputType = {
   id: number
   resumeId: number
-  contentTemplateType: number
+  contentTemplateId: number
   _all: number
 }
 
@@ -59,29 +61,31 @@ export type SectionCountAggregateOutputType = {
 export type SectionAvgAggregateInputType = {
   id?: true
   resumeId?: true
+  contentTemplateId?: true
 }
 
 export type SectionSumAggregateInputType = {
   id?: true
   resumeId?: true
+  contentTemplateId?: true
 }
 
 export type SectionMinAggregateInputType = {
   id?: true
   resumeId?: true
-  contentTemplateType?: true
+  contentTemplateId?: true
 }
 
 export type SectionMaxAggregateInputType = {
   id?: true
   resumeId?: true
-  contentTemplateType?: true
+  contentTemplateId?: true
 }
 
 export type SectionCountAggregateInputType = {
   id?: true
   resumeId?: true
-  contentTemplateType?: true
+  contentTemplateId?: true
   _all?: true
 }
 
@@ -174,7 +178,7 @@ export type SectionGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type SectionGroupByOutputType = {
   id: number
   resumeId: number
-  contentTemplateType: string
+  contentTemplateId: number
   _count: SectionCountAggregateOutputType | null
   _avg: SectionAvgAggregateOutputType | null
   _sum: SectionSumAggregateOutputType | null
@@ -182,7 +186,7 @@ export type SectionGroupByOutputType = {
   _max: SectionMaxAggregateOutputType | null
 }
 
-type GetSectionGroupByPayload<T extends SectionGroupByArgs> = Prisma.PrismaPromise<
+export type GetSectionGroupByPayload<T extends SectionGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<SectionGroupByOutputType, T['by']> &
       {
@@ -203,7 +207,7 @@ export type SectionWhereInput = {
   NOT?: Prisma.SectionWhereInput | Prisma.SectionWhereInput[]
   id?: Prisma.IntFilter<"Section"> | number
   resumeId?: Prisma.IntFilter<"Section"> | number
-  contentTemplateType?: Prisma.StringFilter<"Section"> | string
+  contentTemplateId?: Prisma.IntFilter<"Section"> | number
   contents?: Prisma.ContentListRelationFilter
   resume?: Prisma.XOR<Prisma.ResumeScalarRelationFilter, Prisma.ResumeWhereInput>
 }
@@ -211,10 +215,9 @@ export type SectionWhereInput = {
 export type SectionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   resumeId?: Prisma.SortOrder
-  contentTemplateType?: Prisma.SortOrder
+  contentTemplateId?: Prisma.SortOrder
   contents?: Prisma.ContentOrderByRelationAggregateInput
   resume?: Prisma.ResumeOrderByWithRelationInput
-  _relevance?: Prisma.SectionOrderByRelevanceInput
 }
 
 export type SectionWhereUniqueInput = Prisma.AtLeast<{
@@ -223,7 +226,7 @@ export type SectionWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.SectionWhereInput[]
   NOT?: Prisma.SectionWhereInput | Prisma.SectionWhereInput[]
   resumeId?: Prisma.IntFilter<"Section"> | number
-  contentTemplateType?: Prisma.StringFilter<"Section"> | string
+  contentTemplateId?: Prisma.IntFilter<"Section"> | number
   contents?: Prisma.ContentListRelationFilter
   resume?: Prisma.XOR<Prisma.ResumeScalarRelationFilter, Prisma.ResumeWhereInput>
 }, "id">
@@ -231,7 +234,7 @@ export type SectionWhereUniqueInput = Prisma.AtLeast<{
 export type SectionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   resumeId?: Prisma.SortOrder
-  contentTemplateType?: Prisma.SortOrder
+  contentTemplateId?: Prisma.SortOrder
   _count?: Prisma.SectionCountOrderByAggregateInput
   _avg?: Prisma.SectionAvgOrderByAggregateInput
   _max?: Prisma.SectionMaxOrderByAggregateInput
@@ -245,11 +248,11 @@ export type SectionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.SectionScalarWhereWithAggregatesInput | Prisma.SectionScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Section"> | number
   resumeId?: Prisma.IntWithAggregatesFilter<"Section"> | number
-  contentTemplateType?: Prisma.StringWithAggregatesFilter<"Section"> | string
+  contentTemplateId?: Prisma.IntWithAggregatesFilter<"Section"> | number
 }
 
 export type SectionCreateInput = {
-  contentTemplateType: string
+  contentTemplateId: number
   contents?: Prisma.ContentCreateNestedManyWithoutSectionInput
   resume: Prisma.ResumeCreateNestedOneWithoutSectionsInput
 }
@@ -257,12 +260,12 @@ export type SectionCreateInput = {
 export type SectionUncheckedCreateInput = {
   id?: number
   resumeId: number
-  contentTemplateType: string
+  contentTemplateId: number
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUpdateInput = {
-  contentTemplateType?: Prisma.StringFieldUpdateOperationsInput | string
+  contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
   contents?: Prisma.ContentUpdateManyWithoutSectionNestedInput
   resume?: Prisma.ResumeUpdateOneRequiredWithoutSectionsNestedInput
 }
@@ -270,24 +273,24 @@ export type SectionUpdateInput = {
 export type SectionUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   resumeId?: Prisma.IntFieldUpdateOperationsInput | number
-  contentTemplateType?: Prisma.StringFieldUpdateOperationsInput | string
+  contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
   contents?: Prisma.ContentUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionCreateManyInput = {
   id?: number
   resumeId: number
-  contentTemplateType: string
+  contentTemplateId: number
 }
 
 export type SectionUpdateManyMutationInput = {
-  contentTemplateType?: Prisma.StringFieldUpdateOperationsInput | string
+  contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type SectionUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   resumeId?: Prisma.IntFieldUpdateOperationsInput | number
-  contentTemplateType?: Prisma.StringFieldUpdateOperationsInput | string
+  contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type SectionListRelationFilter = {
@@ -300,38 +303,34 @@ export type SectionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type SectionOrderByRelevanceInput = {
-  fields: Prisma.SectionOrderByRelevanceFieldEnum | Prisma.SectionOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
-}
-
 export type SectionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   resumeId?: Prisma.SortOrder
-  contentTemplateType?: Prisma.SortOrder
+  contentTemplateId?: Prisma.SortOrder
 }
 
 export type SectionAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   resumeId?: Prisma.SortOrder
+  contentTemplateId?: Prisma.SortOrder
 }
 
 export type SectionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   resumeId?: Prisma.SortOrder
-  contentTemplateType?: Prisma.SortOrder
+  contentTemplateId?: Prisma.SortOrder
 }
 
 export type SectionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   resumeId?: Prisma.SortOrder
-  contentTemplateType?: Prisma.SortOrder
+  contentTemplateId?: Prisma.SortOrder
 }
 
 export type SectionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   resumeId?: Prisma.SortOrder
+  contentTemplateId?: Prisma.SortOrder
 }
 
 export type SectionScalarRelationFilter = {
@@ -396,13 +395,13 @@ export type SectionUpdateOneRequiredWithoutContentsNestedInput = {
 }
 
 export type SectionCreateWithoutResumeInput = {
-  contentTemplateType: string
+  contentTemplateId: number
   contents?: Prisma.ContentCreateNestedManyWithoutSectionInput
 }
 
 export type SectionUncheckedCreateWithoutResumeInput = {
   id?: number
-  contentTemplateType: string
+  contentTemplateId: number
   contents?: Prisma.ContentUncheckedCreateNestedManyWithoutSectionInput
 }
 
@@ -438,18 +437,18 @@ export type SectionScalarWhereInput = {
   NOT?: Prisma.SectionScalarWhereInput | Prisma.SectionScalarWhereInput[]
   id?: Prisma.IntFilter<"Section"> | number
   resumeId?: Prisma.IntFilter<"Section"> | number
-  contentTemplateType?: Prisma.StringFilter<"Section"> | string
+  contentTemplateId?: Prisma.IntFilter<"Section"> | number
 }
 
 export type SectionCreateWithoutContentsInput = {
-  contentTemplateType: string
+  contentTemplateId: number
   resume: Prisma.ResumeCreateNestedOneWithoutSectionsInput
 }
 
 export type SectionUncheckedCreateWithoutContentsInput = {
   id?: number
   resumeId: number
-  contentTemplateType: string
+  contentTemplateId: number
 }
 
 export type SectionCreateOrConnectWithoutContentsInput = {
@@ -469,35 +468,35 @@ export type SectionUpdateToOneWithWhereWithoutContentsInput = {
 }
 
 export type SectionUpdateWithoutContentsInput = {
-  contentTemplateType?: Prisma.StringFieldUpdateOperationsInput | string
+  contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
   resume?: Prisma.ResumeUpdateOneRequiredWithoutSectionsNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutContentsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   resumeId?: Prisma.IntFieldUpdateOperationsInput | number
-  contentTemplateType?: Prisma.StringFieldUpdateOperationsInput | string
+  contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type SectionCreateManyResumeInput = {
   id?: number
-  contentTemplateType: string
+  contentTemplateId: number
 }
 
 export type SectionUpdateWithoutResumeInput = {
-  contentTemplateType?: Prisma.StringFieldUpdateOperationsInput | string
+  contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
   contents?: Prisma.ContentUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateWithoutResumeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  contentTemplateType?: Prisma.StringFieldUpdateOperationsInput | string
+  contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
   contents?: Prisma.ContentUncheckedUpdateManyWithoutSectionNestedInput
 }
 
 export type SectionUncheckedUpdateManyWithoutResumeInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
-  contentTemplateType?: Prisma.StringFieldUpdateOperationsInput | string
+  contentTemplateId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -534,7 +533,7 @@ export type SectionCountOutputTypeCountContentsArgs<ExtArgs extends runtime.Type
 export type SectionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   resumeId?: boolean
-  contentTemplateType?: boolean
+  contentTemplateId?: boolean
   contents?: boolean | Prisma.Section$contentsArgs<ExtArgs>
   resume?: boolean | Prisma.ResumeDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.SectionCountOutputTypeDefaultArgs<ExtArgs>
@@ -545,10 +544,10 @@ export type SectionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type SectionSelectScalar = {
   id?: boolean
   resumeId?: boolean
-  contentTemplateType?: boolean
+  contentTemplateId?: boolean
 }
 
-export type SectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "resumeId" | "contentTemplateType", ExtArgs["result"]["section"]>
+export type SectionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "resumeId" | "contentTemplateId", ExtArgs["result"]["section"]>
 export type SectionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   contents?: boolean | Prisma.Section$contentsArgs<ExtArgs>
   resume?: boolean | Prisma.ResumeDefaultArgs<ExtArgs>
@@ -564,7 +563,7 @@ export type $SectionPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     resumeId: number
-    contentTemplateType: string
+    contentTemplateId: number
   }, ExtArgs["result"]["section"]>
   composites: {}
 }
@@ -938,7 +937,7 @@ export interface Prisma__SectionClient<T, Null = never, ExtArgs extends runtime.
 export interface SectionFieldRefs {
   readonly id: Prisma.FieldRef<"Section", 'Int'>
   readonly resumeId: Prisma.FieldRef<"Section", 'Int'>
-  readonly contentTemplateType: Prisma.FieldRef<"Section", 'String'>
+  readonly contentTemplateId: Prisma.FieldRef<"Section", 'Int'>
 }
     
 

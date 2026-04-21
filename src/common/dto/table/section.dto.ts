@@ -1,10 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsNumber,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsNumber, IsOptional, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ContentTableDto } from './content.dto';
 import { ResumeTableDto } from './resume.dto';
@@ -25,11 +20,11 @@ export class SectionTableDto {
   resumeId: number;
 
   @ApiProperty({
-    example: 'basic',
-    description: '内容模板类型',
+    example: 1,
+    description: '内容模板ID',
   })
-  @IsString()
-  contentTemplateType: string;
+  @IsNumber()
+  contentTemplateId: number;
 
   @ApiProperty({
     type: () => [ContentTableDto],

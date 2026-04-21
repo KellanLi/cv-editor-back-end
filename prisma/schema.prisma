@@ -31,11 +31,11 @@ model Resume {
 }
 
 model Section {
-  id                  Int       @id @default(autoincrement())
-  resumeId            Int
-  contentTemplateType String
-  contents            Content[]
-  resume              Resume    @relation(fields: [resumeId], references: [id])
+  id                Int       @id @default(autoincrement())
+  resumeId          Int
+  contentTemplateId Int
+  contents          Content[]
+  resume            Resume    @relation(fields: [resumeId], references: [id])
 }
 
 model Content {
@@ -57,7 +57,6 @@ model ContentTemplate {
   id            Int            @id @default(autoincrement())
   userId        Int
   name          String
-  type          String
   createdAt     DateTime       @default(now())
   infoTemplates InfoTemplate[]
   user          User           @relation(fields: [userId], references: [id])
