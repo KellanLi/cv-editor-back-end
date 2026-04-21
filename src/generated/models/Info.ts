@@ -29,28 +29,33 @@ export type AggregateInfo = {
 export type InfoAvgAggregateOutputType = {
   id: number | null
   contentId: number | null
+  order: number | null
 }
 
 export type InfoSumAggregateOutputType = {
   id: number | null
   contentId: number | null
+  order: number | null
 }
 
 export type InfoMinAggregateOutputType = {
   id: number | null
   contentId: number | null
+  order: number | null
   type: string | null
 }
 
 export type InfoMaxAggregateOutputType = {
   id: number | null
   contentId: number | null
+  order: number | null
   type: string | null
 }
 
 export type InfoCountAggregateOutputType = {
   id: number
   contentId: number
+  order: number
   type: number
   values: number
   _all: number
@@ -60,28 +65,33 @@ export type InfoCountAggregateOutputType = {
 export type InfoAvgAggregateInputType = {
   id?: true
   contentId?: true
+  order?: true
 }
 
 export type InfoSumAggregateInputType = {
   id?: true
   contentId?: true
+  order?: true
 }
 
 export type InfoMinAggregateInputType = {
   id?: true
   contentId?: true
+  order?: true
   type?: true
 }
 
 export type InfoMaxAggregateInputType = {
   id?: true
   contentId?: true
+  order?: true
   type?: true
 }
 
 export type InfoCountAggregateInputType = {
   id?: true
   contentId?: true
+  order?: true
   type?: true
   values?: true
   _all?: true
@@ -176,6 +186,7 @@ export type InfoGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
 export type InfoGroupByOutputType = {
   id: number
   contentId: number
+  order: number
   type: string
   values: runtime.JsonValue
   _count: InfoCountAggregateOutputType | null
@@ -185,7 +196,7 @@ export type InfoGroupByOutputType = {
   _max: InfoMaxAggregateOutputType | null
 }
 
-export type GetInfoGroupByPayload<T extends InfoGroupByArgs> = Prisma.PrismaPromise<
+type GetInfoGroupByPayload<T extends InfoGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<InfoGroupByOutputType, T['by']> &
       {
@@ -206,6 +217,7 @@ export type InfoWhereInput = {
   NOT?: Prisma.InfoWhereInput | Prisma.InfoWhereInput[]
   id?: Prisma.IntFilter<"Info"> | number
   contentId?: Prisma.IntFilter<"Info"> | number
+  order?: Prisma.IntFilter<"Info"> | number
   type?: Prisma.StringFilter<"Info"> | string
   values?: Prisma.JsonFilter<"Info">
   content?: Prisma.XOR<Prisma.ContentScalarRelationFilter, Prisma.ContentWhereInput>
@@ -214,6 +226,7 @@ export type InfoWhereInput = {
 export type InfoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   contentId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   type?: Prisma.SortOrder
   values?: Prisma.SortOrder
   content?: Prisma.ContentOrderByWithRelationInput
@@ -226,6 +239,7 @@ export type InfoWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.InfoWhereInput[]
   NOT?: Prisma.InfoWhereInput | Prisma.InfoWhereInput[]
   contentId?: Prisma.IntFilter<"Info"> | number
+  order?: Prisma.IntFilter<"Info"> | number
   type?: Prisma.StringFilter<"Info"> | string
   values?: Prisma.JsonFilter<"Info">
   content?: Prisma.XOR<Prisma.ContentScalarRelationFilter, Prisma.ContentWhereInput>
@@ -234,6 +248,7 @@ export type InfoWhereUniqueInput = Prisma.AtLeast<{
 export type InfoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   contentId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   type?: Prisma.SortOrder
   values?: Prisma.SortOrder
   _count?: Prisma.InfoCountOrderByAggregateInput
@@ -249,11 +264,13 @@ export type InfoScalarWhereWithAggregatesInput = {
   NOT?: Prisma.InfoScalarWhereWithAggregatesInput | Prisma.InfoScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Info"> | number
   contentId?: Prisma.IntWithAggregatesFilter<"Info"> | number
+  order?: Prisma.IntWithAggregatesFilter<"Info"> | number
   type?: Prisma.StringWithAggregatesFilter<"Info"> | string
   values?: Prisma.JsonWithAggregatesFilter<"Info">
 }
 
 export type InfoCreateInput = {
+  order: number
   type: string
   values: Prisma.JsonNullValueInput | runtime.InputJsonValue
   content: Prisma.ContentCreateNestedOneWithoutInfosInput
@@ -262,11 +279,13 @@ export type InfoCreateInput = {
 export type InfoUncheckedCreateInput = {
   id?: number
   contentId: number
+  order: number
   type: string
   values: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type InfoUpdateInput = {
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
   content?: Prisma.ContentUpdateOneRequiredWithoutInfosNestedInput
@@ -275,6 +294,7 @@ export type InfoUpdateInput = {
 export type InfoUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   contentId?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
@@ -282,11 +302,13 @@ export type InfoUncheckedUpdateInput = {
 export type InfoCreateManyInput = {
   id?: number
   contentId: number
+  order: number
   type: string
   values: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type InfoUpdateManyMutationInput = {
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
@@ -294,6 +316,7 @@ export type InfoUpdateManyMutationInput = {
 export type InfoUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   contentId?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
@@ -317,6 +340,7 @@ export type InfoOrderByRelevanceInput = {
 export type InfoCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contentId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   type?: Prisma.SortOrder
   values?: Prisma.SortOrder
 }
@@ -324,23 +348,27 @@ export type InfoCountOrderByAggregateInput = {
 export type InfoAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contentId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type InfoMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contentId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   type?: Prisma.SortOrder
 }
 
 export type InfoMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contentId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   type?: Prisma.SortOrder
 }
 
 export type InfoSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   contentId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type InfoCreateNestedManyWithoutContentInput = {
@@ -386,12 +414,14 @@ export type InfoUncheckedUpdateManyWithoutContentNestedInput = {
 }
 
 export type InfoCreateWithoutContentInput = {
+  order: number
   type: string
   values: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type InfoUncheckedCreateWithoutContentInput = {
   id?: number
+  order: number
   type: string
   values: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
@@ -428,29 +458,34 @@ export type InfoScalarWhereInput = {
   NOT?: Prisma.InfoScalarWhereInput | Prisma.InfoScalarWhereInput[]
   id?: Prisma.IntFilter<"Info"> | number
   contentId?: Prisma.IntFilter<"Info"> | number
+  order?: Prisma.IntFilter<"Info"> | number
   type?: Prisma.StringFilter<"Info"> | string
   values?: Prisma.JsonFilter<"Info">
 }
 
 export type InfoCreateManyContentInput = {
   id?: number
+  order: number
   type: string
   values: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type InfoUpdateWithoutContentInput = {
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type InfoUncheckedUpdateWithoutContentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
 
 export type InfoUncheckedUpdateManyWithoutContentInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   type?: Prisma.StringFieldUpdateOperationsInput | string
   values?: Prisma.JsonNullValueInput | runtime.InputJsonValue
 }
@@ -460,6 +495,7 @@ export type InfoUncheckedUpdateManyWithoutContentInput = {
 export type InfoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   contentId?: boolean
+  order?: boolean
   type?: boolean
   values?: boolean
   content?: boolean | Prisma.ContentDefaultArgs<ExtArgs>
@@ -470,11 +506,12 @@ export type InfoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
 export type InfoSelectScalar = {
   id?: boolean
   contentId?: boolean
+  order?: boolean
   type?: boolean
   values?: boolean
 }
 
-export type InfoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "contentId" | "type" | "values", ExtArgs["result"]["info"]>
+export type InfoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "contentId" | "order" | "type" | "values", ExtArgs["result"]["info"]>
 export type InfoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   content?: boolean | Prisma.ContentDefaultArgs<ExtArgs>
 }
@@ -487,6 +524,7 @@ export type $InfoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     contentId: number
+    order: number
     type: string
     values: runtime.JsonValue
   }, ExtArgs["result"]["info"]>
@@ -861,6 +899,7 @@ export interface Prisma__InfoClient<T, Null = never, ExtArgs extends runtime.Typ
 export interface InfoFieldRefs {
   readonly id: Prisma.FieldRef<"Info", 'Int'>
   readonly contentId: Prisma.FieldRef<"Info", 'Int'>
+  readonly order: Prisma.FieldRef<"Info", 'Int'>
   readonly type: Prisma.FieldRef<"Info", 'String'>
   readonly values: Prisma.FieldRef<"Info", 'Json'>
 }

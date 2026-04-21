@@ -111,7 +111,8 @@ export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeo
 
 export const ContentScalarFieldEnum = {
   id: 'id',
-  sectionId: 'sectionId'
+  sectionId: 'sectionId',
+  order: 'order'
 } as const
 
 export type ContentScalarFieldEnum = (typeof ContentScalarFieldEnum)[keyof typeof ContentScalarFieldEnum]
@@ -120,6 +121,7 @@ export type ContentScalarFieldEnum = (typeof ContentScalarFieldEnum)[keyof typeo
 export const InfoScalarFieldEnum = {
   id: 'id',
   contentId: 'contentId',
+  order: 'order',
   type: 'type',
   values: 'values'
 } as const

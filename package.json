@@ -20,7 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "g:res": "node scripts/generate-resource.js",
     "g:pro": "node scripts/generate-provider.js",
-    "db:migrate": "pnpm dlx prisma migrate dev --name",
+    "db:migrate": "node scripts/db-migrate.js",
     "db:generate": "pnpm dlx prisma generate"
   },
   "dependencies": {

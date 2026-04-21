@@ -29,26 +29,31 @@ export type AggregateContent = {
 export type ContentAvgAggregateOutputType = {
   id: number | null
   sectionId: number | null
+  order: number | null
 }
 
 export type ContentSumAggregateOutputType = {
   id: number | null
   sectionId: number | null
+  order: number | null
 }
 
 export type ContentMinAggregateOutputType = {
   id: number | null
   sectionId: number | null
+  order: number | null
 }
 
 export type ContentMaxAggregateOutputType = {
   id: number | null
   sectionId: number | null
+  order: number | null
 }
 
 export type ContentCountAggregateOutputType = {
   id: number
   sectionId: number
+  order: number
   _all: number
 }
 
@@ -56,26 +61,31 @@ export type ContentCountAggregateOutputType = {
 export type ContentAvgAggregateInputType = {
   id?: true
   sectionId?: true
+  order?: true
 }
 
 export type ContentSumAggregateInputType = {
   id?: true
   sectionId?: true
+  order?: true
 }
 
 export type ContentMinAggregateInputType = {
   id?: true
   sectionId?: true
+  order?: true
 }
 
 export type ContentMaxAggregateInputType = {
   id?: true
   sectionId?: true
+  order?: true
 }
 
 export type ContentCountAggregateInputType = {
   id?: true
   sectionId?: true
+  order?: true
   _all?: true
 }
 
@@ -168,6 +178,7 @@ export type ContentGroupByArgs<ExtArgs extends runtime.Types.Extensions.Internal
 export type ContentGroupByOutputType = {
   id: number
   sectionId: number
+  order: number
   _count: ContentCountAggregateOutputType | null
   _avg: ContentAvgAggregateOutputType | null
   _sum: ContentSumAggregateOutputType | null
@@ -175,7 +186,7 @@ export type ContentGroupByOutputType = {
   _max: ContentMaxAggregateOutputType | null
 }
 
-export type GetContentGroupByPayload<T extends ContentGroupByArgs> = Prisma.PrismaPromise<
+type GetContentGroupByPayload<T extends ContentGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ContentGroupByOutputType, T['by']> &
       {
@@ -196,6 +207,7 @@ export type ContentWhereInput = {
   NOT?: Prisma.ContentWhereInput | Prisma.ContentWhereInput[]
   id?: Prisma.IntFilter<"Content"> | number
   sectionId?: Prisma.IntFilter<"Content"> | number
+  order?: Prisma.IntFilter<"Content"> | number
   section?: Prisma.XOR<Prisma.SectionScalarRelationFilter, Prisma.SectionWhereInput>
   infos?: Prisma.InfoListRelationFilter
 }
@@ -203,6 +215,7 @@ export type ContentWhereInput = {
 export type ContentOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   section?: Prisma.SectionOrderByWithRelationInput
   infos?: Prisma.InfoOrderByRelationAggregateInput
 }
@@ -213,6 +226,7 @@ export type ContentWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ContentWhereInput[]
   NOT?: Prisma.ContentWhereInput | Prisma.ContentWhereInput[]
   sectionId?: Prisma.IntFilter<"Content"> | number
+  order?: Prisma.IntFilter<"Content"> | number
   section?: Prisma.XOR<Prisma.SectionScalarRelationFilter, Prisma.SectionWhereInput>
   infos?: Prisma.InfoListRelationFilter
 }, "id">
@@ -220,6 +234,7 @@ export type ContentWhereUniqueInput = Prisma.AtLeast<{
 export type ContentOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   _count?: Prisma.ContentCountOrderByAggregateInput
   _avg?: Prisma.ContentAvgOrderByAggregateInput
   _max?: Prisma.ContentMaxOrderByAggregateInput
@@ -233,9 +248,11 @@ export type ContentScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ContentScalarWhereWithAggregatesInput | Prisma.ContentScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"Content"> | number
   sectionId?: Prisma.IntWithAggregatesFilter<"Content"> | number
+  order?: Prisma.IntWithAggregatesFilter<"Content"> | number
 }
 
 export type ContentCreateInput = {
+  order: number
   section: Prisma.SectionCreateNestedOneWithoutContentsInput
   infos?: Prisma.InfoCreateNestedManyWithoutContentInput
 }
@@ -243,10 +260,12 @@ export type ContentCreateInput = {
 export type ContentUncheckedCreateInput = {
   id?: number
   sectionId: number
+  order: number
   infos?: Prisma.InfoUncheckedCreateNestedManyWithoutContentInput
 }
 
 export type ContentUpdateInput = {
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   section?: Prisma.SectionUpdateOneRequiredWithoutContentsNestedInput
   infos?: Prisma.InfoUpdateManyWithoutContentNestedInput
 }
@@ -254,21 +273,24 @@ export type ContentUpdateInput = {
 export type ContentUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   sectionId?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   infos?: Prisma.InfoUncheckedUpdateManyWithoutContentNestedInput
 }
 
 export type ContentCreateManyInput = {
   id?: number
   sectionId: number
+  order: number
 }
 
 export type ContentUpdateManyMutationInput = {
-
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ContentUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   sectionId?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ContentListRelationFilter = {
@@ -284,26 +306,31 @@ export type ContentOrderByRelationAggregateInput = {
 export type ContentCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type ContentAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type ContentMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type ContentMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type ContentSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
   sectionId?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type ContentScalarRelationFilter = {
@@ -368,11 +395,13 @@ export type ContentUpdateOneRequiredWithoutInfosNestedInput = {
 }
 
 export type ContentCreateWithoutSectionInput = {
+  order: number
   infos?: Prisma.InfoCreateNestedManyWithoutContentInput
 }
 
 export type ContentUncheckedCreateWithoutSectionInput = {
   id?: number
+  order: number
   infos?: Prisma.InfoUncheckedCreateNestedManyWithoutContentInput
 }
 
@@ -408,15 +437,18 @@ export type ContentScalarWhereInput = {
   NOT?: Prisma.ContentScalarWhereInput | Prisma.ContentScalarWhereInput[]
   id?: Prisma.IntFilter<"Content"> | number
   sectionId?: Prisma.IntFilter<"Content"> | number
+  order?: Prisma.IntFilter<"Content"> | number
 }
 
 export type ContentCreateWithoutInfosInput = {
+  order: number
   section: Prisma.SectionCreateNestedOneWithoutContentsInput
 }
 
 export type ContentUncheckedCreateWithoutInfosInput = {
   id?: number
   sectionId: number
+  order: number
 }
 
 export type ContentCreateOrConnectWithoutInfosInput = {
@@ -436,29 +468,35 @@ export type ContentUpdateToOneWithWhereWithoutInfosInput = {
 }
 
 export type ContentUpdateWithoutInfosInput = {
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   section?: Prisma.SectionUpdateOneRequiredWithoutContentsNestedInput
 }
 
 export type ContentUncheckedUpdateWithoutInfosInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   sectionId?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ContentCreateManySectionInput = {
   id?: number
+  order: number
 }
 
 export type ContentUpdateWithoutSectionInput = {
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   infos?: Prisma.InfoUpdateManyWithoutContentNestedInput
 }
 
 export type ContentUncheckedUpdateWithoutSectionInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   infos?: Prisma.InfoUncheckedUpdateManyWithoutContentNestedInput
 }
 
 export type ContentUncheckedUpdateManyWithoutSectionInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
+  order?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -495,6 +533,7 @@ export type ContentCountOutputTypeCountInfosArgs<ExtArgs extends runtime.Types.E
 export type ContentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   sectionId?: boolean
+  order?: boolean
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
   infos?: boolean | Prisma.Content$infosArgs<ExtArgs>
   _count?: boolean | Prisma.ContentCountOutputTypeDefaultArgs<ExtArgs>
@@ -505,9 +544,10 @@ export type ContentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
 export type ContentSelectScalar = {
   id?: boolean
   sectionId?: boolean
+  order?: boolean
 }
 
-export type ContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sectionId", ExtArgs["result"]["content"]>
+export type ContentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "sectionId" | "order", ExtArgs["result"]["content"]>
 export type ContentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   section?: boolean | Prisma.SectionDefaultArgs<ExtArgs>
   infos?: boolean | Prisma.Content$infosArgs<ExtArgs>
@@ -523,6 +563,7 @@ export type $ContentPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     sectionId: number
+    order: number
   }, ExtArgs["result"]["content"]>
   composites: {}
 }
@@ -896,6 +937,7 @@ export interface Prisma__ContentClient<T, Null = never, ExtArgs extends runtime.
 export interface ContentFieldRefs {
   readonly id: Prisma.FieldRef<"Content", 'Int'>
   readonly sectionId: Prisma.FieldRef<"Content", 'Int'>
+  readonly order: Prisma.FieldRef<"Content", 'Int'>
 }
     
 
