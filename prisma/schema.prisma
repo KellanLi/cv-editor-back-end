@@ -41,6 +41,7 @@ model Section {
 model Content {
   id        Int     @id @default(autoincrement())
   sectionId Int
+  order     Int
   section   Section @relation(fields: [sectionId], references: [id])
   infos     Info[]
 }
@@ -48,6 +49,7 @@ model Content {
 model Info {
   id        Int     @id @default(autoincrement())
   contentId Int
+  order     Int
   type      String
   values    Json
   content   Content @relation(fields: [contentId], references: [id])
