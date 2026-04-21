@@ -10,7 +10,7 @@ import { Type } from 'class-transformer';
 import { InfoTemplateTableDto } from './info-template.dto';
 import { UserTableDto } from './user.dto';
 
-export class ContentTemplateDtoTable {
+export class ContentTemplateTableDto {
   @ApiProperty({
     example: 1,
     description: '内容模板ID',

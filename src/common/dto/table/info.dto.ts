@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  IsArray,
   IsNumber,
   IsOptional,
   IsString,
@@ -8,14 +7,6 @@ import {
 } from 'class-validator';
 import { ContentTableDto } from './content.dto';
 import { Type } from 'class-transformer';
-
-// model Info {
-//   id        Int     @id @default(autoincrement())
-//   contentId Int
-//   type      String
-//   values    Json
-//   content   Content @relation(fields: [contentId], references: [id])
-// }
 
 export class InfoTableDto {
   @ApiProperty({
@@ -33,6 +24,13 @@ export class InfoTableDto {
   contentId: number;
 
   @ApiProperty({
+    example: 1,
+    description: '排序',
+  })
+  @IsNumber()
+  order: number;
+
+  @ApiProperty({
     example: 'xxx',
     description: '信息层类型',
   })
@@ -41,18 +39,16 @@ export class InfoTableDto {
 
   @ApiProperty({
     example: ['value1', 'value2'],
-    description: '信息值数组',
+    description: '信息层字段值（JSON，与前端约定一致）',
   })
-  @IsArray()
-  @IsString({ each: true })
-  values: string[];
+  values: unknown;
 
   @ApiProperty({
     type: () => ContentTableDto,
     description: '内容',
   })
   @IsOptional()
-  @ValidateNested({ each: true })
+  @ValidateNested()
   @Type(() => ContentTableDto)
   content?: ContentTableDto;
 }

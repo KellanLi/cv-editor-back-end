@@ -2,13 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsOptional, ValidateNested } from 'class-validator';
 import { InfoTableDto } from './info.dto';
 import { Type } from 'class-transformer';
-
-// model Content {
-//   id        Int     @id @default(autoincrement())
-//   sectionId Int
-//   section   Section @relation(fields: [sectionId], references: [id])
-//   infos     Info[]
-// }
+import { SectionTableDto } from './section.dto';
 
 export class ContentTableDto {
   @ApiProperty({
@@ -24,6 +18,22 @@ export class ContentTableDto {
   })
   @IsNumber()
   sectionId: number;
+
+  @ApiProperty({
+    example: 1,
+    description: '排序',
+  })
+  @IsNumber()
+  order: number;
+
+  @ApiProperty({
+    type: () => SectionTableDto,
+    description: '模块',
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => SectionTableDto)
+  section?: SectionTableDto;
 
   @ApiProperty({
     type: () => [InfoTableDto],

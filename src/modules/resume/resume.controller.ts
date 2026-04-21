@@ -9,7 +9,6 @@ import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.dec
 import { CreateResumeDto } from './dto/create.dto';
 import { ResumeDto } from '@/common/dto/business/resume.dto';
 import { DeleteResumeDto } from './dto/delete.dto';
-import type { Resume } from '@/generated/client';
 
 @ApiTags('简历模块')
 @Controller('resume')
@@ -21,10 +20,7 @@ export class ResumeController {
   @ApiOperation({ summary: '简历列表' })
   @ApiBody({ type: ListResumeDto })
   @ApiResponseWrapper(ListResumeDataDto)
-  list(
-    @Body() body: ListResumeDto,
-    @JwtPayload() jwt: IJwtPayload,
-  ): Promise<ListResumeDataDto> {
+  list(@Body() body: ListResumeDto, @JwtPayload() jwt: IJwtPayload) {
     return this.resumeService.list(body, jwt);
   }
 
@@ -32,10 +28,7 @@ export class ResumeController {
   @ApiOperation({ summary: '创建简历' })
   @ApiBody({ type: CreateResumeDto })
   @ApiResponseWrapper(ResumeDto)
-  create(
-    @Body() body: CreateResumeDto,
-    @JwtPayload() jwt: IJwtPayload,
-  ): Promise<Resume> {
+  create(@Body() body: CreateResumeDto, @JwtPayload() jwt: IJwtPayload) {
     return this.resumeService.create(body, jwt);
   }
 
@@ -43,10 +36,7 @@ export class ResumeController {
   @ApiOperation({ summary: '删除简历' })
   @ApiBody({ type: DeleteResumeDto })
   @ApiResponseWrapper(ResumeDto)
-  delete(
-    @Body() body: DeleteResumeDto,
-    @JwtPayload() jwt: IJwtPayload,
-  ): Promise<Resume> {
+  delete(@Body() body: DeleteResumeDto, @JwtPayload() jwt: IJwtPayload) {
     return this.resumeService.delete(body, jwt);
   }
 }

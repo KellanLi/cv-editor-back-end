@@ -1,23 +1,16 @@
 import { PrismaService } from '@/provider/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import {
-  ListContentTemplateDataDto,
-  ListContentTemplateDto,
-} from './dto/list.dto';
+import { ListContentTemplateDto } from './dto/list.dto';
 import { CreateContentTemplateDto } from './dto/create.dto';
 import { UpdateContentTemplateDto } from './dto/update.dto';
 import { DeleteContentTemplateDto } from './dto/delete.dto';
 import { IJwtPayload } from '@/types/auth.types';
-import { ContentTemplateDto } from '@/common/dto/business/content-template.dto';
 
 @Injectable()
 export class ContentTemplateService {
   constructor(private prismaService: PrismaService) {}
 
-  async list(
-    params: ListContentTemplateDto,
-    jwt: IJwtPayload,
-  ): Promise<ListContentTemplateDataDto> {
+  async list(params: ListContentTemplateDto, jwt: IJwtPayload) {
     const { filter, pagination } = params;
     const { name } = filter;
     const { page, pageSize } = pagination;
@@ -42,7 +35,7 @@ export class ContentTemplateService {
     ]);
 
     return {
-      list: list as unknown as ContentTemplateDto[],
+      list,
       pagination: {
         page,
         pageSize,

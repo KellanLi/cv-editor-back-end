@@ -7,16 +7,7 @@ import {
   IsOptional,
   ValidateNested,
 } from 'class-validator';
-import { ContentTemplateDtoTable } from './content-template.dto';
-
-// model InfoTemplate {
-//   id                Int             @id @default(autoincrement())
-//   contentTemplateId Int
-//   type              String
-//   names             Json
-//   order             Int
-//   contentTemplate   ContentTemplate @relation(fields: [contentTemplateId], references: [id])
-// }
+import { ContentTemplateTableDto } from './content-template.dto';
 
 export class InfoTemplateTableDto {
   @ApiProperty({
@@ -56,11 +47,11 @@ export class InfoTemplateTableDto {
   order: number;
 
   @ApiProperty({
-    type: () => ContentTemplateDtoTable,
+    type: () => ContentTemplateTableDto,
     description: '内容模板信息',
   })
   @IsOptional()
   @ValidateNested()
-  @Type(() => ContentTemplateDtoTable)
-  contentTemplate?: ContentTemplateDtoTable;
+  @Type(() => ContentTemplateTableDto)
+  contentTemplate?: ContentTemplateTableDto;
 }

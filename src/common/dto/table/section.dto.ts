@@ -42,5 +42,5 @@ export class SectionTableDto {
   @IsOptional()
   @ValidateNested()
   @Type(() => ResumeTableDto)
-  resume: ResumeTableDto;
+  resume?: ResumeTableDto;
 }

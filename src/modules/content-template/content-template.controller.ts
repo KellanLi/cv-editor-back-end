@@ -14,7 +14,7 @@ import { ContentTemplateDto } from '../../common/dto/business/content-template.d
 import { UpdateContentTemplateDto } from './dto/update.dto';
 import { DeleteContentTemplateDto } from './dto/delete.dto';
 
-@ApiTags('模块管理模块')
+@ApiTags('内容模板模块')
 @Controller('content-template')
 @UseGuards(JwtGuard)
 export class ContentTemplateController {
@@ -23,7 +23,7 @@ export class ContentTemplateController {
   ) {}
 
   @Post('list')
-  @ApiOperation({ summary: '模块列表' })
+  @ApiOperation({ summary: '内容模板列表' })
   @ApiBody({ type: ListContentTemplateDto })
   @ApiResponseWrapper(ListContentTemplateDataDto)
   list(@Body() body: ListContentTemplateDto, @JwtPayload() jwt: IJwtPayload) {
@@ -31,7 +31,7 @@ export class ContentTemplateController {
   }
 
   @Post('create')
-  @ApiOperation({ summary: '创建模块' })
+  @ApiOperation({ summary: '创建内容模板' })
   @ApiBody({ type: CreateContentTemplateDto })
   @ApiResponseWrapper(ContentTemplateDto)
   create(
@@ -42,7 +42,7 @@ export class ContentTemplateController {
   }
 
   @Post('update')
-  @ApiOperation({ summary: '更新模块' })
+  @ApiOperation({ summary: '更新内容模板' })
   @ApiBody({ type: UpdateContentTemplateDto })
   @ApiResponseWrapper(ContentTemplateDto)
   update(
@@ -53,7 +53,7 @@ export class ContentTemplateController {
   }
 
   @Post('delete')
-  @ApiOperation({ summary: '删除模块' })
+  @ApiOperation({ summary: '删除内容模板' })
   @ApiBody({ type: DeleteContentTemplateDto })
   @ApiResponseWrapper(ContentTemplateDto)
   delete(

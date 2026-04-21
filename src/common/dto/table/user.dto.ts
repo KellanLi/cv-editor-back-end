@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { ResumeTableDto } from './resume.dto';
 import { Type } from 'class-transformer';
-import { ContentTemplateDtoTable } from './content-template.dto';
+import { ContentTemplateTableDto } from './content-template.dto';
 
 export class UserTableDto {
   id: number;
@@ -70,11 +70,11 @@ export class UserTableDto {
 
   @ApiProperty({
     description: '内容模板列表',
-    type: () => [ContentTemplateDtoTable],
+    type: () => [ContentTemplateTableDto],
   })
   @IsOptional()
   @IsArray()
   @ValidateNested({ each: true })
-  @Type(() => ContentTemplateDtoTable)
-  contentTemplates?: ContentTemplateDtoTable[];
+  @Type(() => ContentTemplateTableDto)
+  contentTemplates?: ContentTemplateTableDto[];
 }

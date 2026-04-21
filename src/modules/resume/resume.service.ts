@@ -1,6 +1,6 @@
 import { PrismaService } from '@/provider/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ListResumeDataDto, ListResumeDto } from './dto/list.dto';
+import { ListResumeDto } from './dto/list.dto';
 import { CreateResumeDto } from './dto/create.dto';
 import { DeleteResumeDto } from './dto/delete.dto';
 import { IJwtPayload } from '@/types/auth.types';
@@ -10,10 +10,7 @@ import type { Resume } from '@/generated/client';
 export class ResumeService {
   constructor(private prismaService: PrismaService) {}
 
-  async list(
-    params: ListResumeDto,
-    jwt: IJwtPayload,
-  ): Promise<ListResumeDataDto> {
+  async list(params: ListResumeDto, jwt: IJwtPayload) {
     const { filter, pagination } = params;
     const { title } = filter;
     const { page, pageSize } = pagination;
@@ -42,7 +39,7 @@ export class ResumeService {
     };
   }
 
-  async create(params: CreateResumeDto, jwt: IJwtPayload): Promise<Resume> {
+  async create(params: CreateResumeDto, jwt: IJwtPayload) {
     const { title } = params;
     return this.prismaService.resume.create({
       data: {
@@ -52,7 +49,7 @@ export class ResumeService {
     });
   }
 
-  async delete(params: DeleteResumeDto, jwt: IJwtPayload): Promise<Resume> {
+  async delete(params: DeleteResumeDto, jwt: IJwtPayload) {
     const { id } = params;
     const existing = await this.prismaService.resume.findFirst({
       where: { id, userId: jwt.id },
