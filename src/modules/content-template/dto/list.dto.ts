@@ -4,7 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsArray, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class FilterDto {
+export class FilterContentTemplateDto {
   @ApiProperty({
     description: '模块名称',
     example: '教育经历',
@@ -14,14 +14,14 @@ export class FilterDto {
   name: string;
 }
 
-export class ListDto {
+export class ListContentTemplateDto {
   @ApiProperty({
     description: '过滤参数',
-    type: FilterDto,
+    type: FilterContentTemplateDto,
   })
   @ValidateNested()
-  @Type(() => FilterDto)
-  filter: FilterDto;
+  @Type(() => FilterContentTemplateDto)
+  filter: FilterContentTemplateDto;
 
   @ApiProperty({
     description: '分页参数',
@@ -32,7 +32,7 @@ export class ListDto {
   pagination: PaginationDto;
 }
 
-export class ListDataDto {
+export class ListContentTemplateDataDto {
   @ApiProperty({
     description: '列表数据',
     type: [ContentTemplateDto],

@@ -1,16 +1,22 @@
 import { PrismaService } from '@/provider/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { ListDataDto, ListDto } from './dto/list.dto';
-import { CreateDto } from './dto/create.dto';
-import { UpdateDto } from './dto/update.dto';
-import { DeleteDto } from './dto/delete.dto';
+import {
+  ListContentTemplateDataDto,
+  ListContentTemplateDto,
+} from './dto/list.dto';
+import { CreateContentTemplateDto } from './dto/create.dto';
+import { UpdateContentTemplateDto } from './dto/update.dto';
+import { DeleteContentTemplateDto } from './dto/delete.dto';
 import { IJwtPayload } from '@/types/auth.types';
 
 @Injectable()
 export class ContentTemplateService {
   constructor(private prismaService: PrismaService) {}
 
-  async list(params: ListDto, jwt: IJwtPayload): Promise<ListDataDto> {
+  async list(
+    params: ListContentTemplateDto,
+    jwt: IJwtPayload,
+  ): Promise<ListContentTemplateDataDto> {
     const { filter, pagination } = params;
     const { name } = filter;
     const { page, pageSize } = pagination;
@@ -44,7 +50,7 @@ export class ContentTemplateService {
     };
   }
 
-  async create(params: CreateDto, jwt: IJwtPayload) {
+  async create(params: CreateContentTemplateDto, jwt: IJwtPayload) {
     const { name, infoTemplates } = params;
     const res = await this.prismaService.contentTemplate.create({
       data: {
@@ -61,7 +67,7 @@ export class ContentTemplateService {
     return res;
   }
 
-  async update(params: UpdateDto, jwt: IJwtPayload) {
+  async update(params: UpdateContentTemplateDto, jwt: IJwtPayload) {
     const { id, name, infoTemplates } = params;
     const res = await this.prismaService.contentTemplate.update({
       where: {
@@ -83,7 +89,7 @@ export class ContentTemplateService {
     return res;
   }
 
-  async delete(params: DeleteDto, jwt: IJwtPayload) {
+  async delete(params: DeleteContentTemplateDto, jwt: IJwtPayload) {
     const { id } = params;
     const existing = await this.prismaService.contentTemplate.findFirst({
       where: { id, userId: jwt.id },

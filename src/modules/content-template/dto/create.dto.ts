@@ -3,7 +3,7 @@ import { InfoTemplateDto } from '../../../common/dto/business/info-template.dto'
 import { IsArray, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class CreateDto {
+export class CreateContentTemplateDto {
   @ApiProperty({
     description: '模块名称',
     example: '教育经历',
