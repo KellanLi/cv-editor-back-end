@@ -46,6 +46,9 @@ lerna-debug.log*
 .temp
 .tmp
 
+# 本地上传图片（毕设 ECS 磁盘存储）
+/uploads
+
 # Runtime data
 pids
 *.pid
