@@ -8,6 +8,7 @@ import { CreateContentTemplateDto } from './dto/create.dto';
 import { UpdateContentTemplateDto } from './dto/update.dto';
 import { DeleteContentTemplateDto } from './dto/delete.dto';
 import { IJwtPayload } from '@/types/auth.types';
+import { ContentTemplateDto } from '@/common/dto/business/content-template.dto';
 
 @Injectable()
 export class ContentTemplateService {
@@ -41,7 +42,7 @@ export class ContentTemplateService {
     ]);
 
     return {
-      list,
+      list: list as unknown as ContentTemplateDto[],
       pagination: {
         page,
         pageSize,
