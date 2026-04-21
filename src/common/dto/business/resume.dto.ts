@@ -1,40 +1,17 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsNumber, IsString } from 'class-validator';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ResumeTableDto } from '@/common/dto/table/resume.dto';
+import { SectionDto } from './section.dto';
+import { IsOptional, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
 
-/** 与 {@link ResumeTableDto} 标量字段一致；独立定义以避免与 Section 表 DTO 循环引用导致类型退化为 error。 */
-export class ResumeDto {
+/** 简历 API 响应：不含 `user`；可选嵌套 `sections` 为业务 {@link SectionDto}。 */
+export class ResumeDto extends OmitType(ResumeTableDto, ['user', 'sections']) {
   @ApiProperty({
-    example: 1,
-    description: '简历ID',
+    type: () => [SectionDto],
+    description: '模块',
   })
-  @IsNumber()
-  id: number;
-
-  @ApiProperty({
-    example: 1,
-    description: '用户ID',
-  })
-  @IsNumber()
-  userId: number;
-
-  @ApiProperty({
-    example: '我的简历',
-    description: '简历标题',
-  })
-  @IsString()
-  title: string;
-
-  @ApiProperty({
-    example: '2023-01-01T00:00:00.000Z',
-    description: '创建时间',
-  })
-  @IsDate({ message: '创建时间格式不正确' })
-  createdAt: Date;
-
-  @ApiProperty({
-    example: '2023-01-01T00:00:00.000Z',
-    description: '更新时间',
-  })
-  @IsDate({ message: '更新时间格式不正确' })
-  updatedAt: Date;
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => SectionDto)
+  sections?: SectionDto[];
 }
