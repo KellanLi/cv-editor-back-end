@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Resume: 'Resume',
+  ResumeProfile: 'ResumeProfile',
   Section: 'Section',
   Content: 'Content',
   Info: 'Info',
@@ -98,6 +99,21 @@ export const ResumeScalarFieldEnum = {
 } as const
 
 export type ResumeScalarFieldEnum = (typeof ResumeScalarFieldEnum)[keyof typeof ResumeScalarFieldEnum]
+
+
+export const ResumeProfileScalarFieldEnum = {
+  id: 'id',
+  resumeId: 'resumeId',
+  photoUrl: 'photoUrl',
+  fullName: 'fullName',
+  birthDate: 'birthDate',
+  targetPosition: 'targetPosition',
+  email: 'email',
+  phone: 'phone',
+  profileExtra: 'profileExtra'
+} as const
+
+export type ResumeProfileScalarFieldEnum = (typeof ResumeProfileScalarFieldEnum)[keyof typeof ResumeProfileScalarFieldEnum]
 
 
 export const SectionScalarFieldEnum = {
@@ -158,6 +174,14 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const JsonNullValueInput = {
   JsonNull: JsonNull
 } as const
@@ -205,6 +229,17 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const ResumeProfileOrderByRelevanceFieldEnum = {
+  photoUrl: 'photoUrl',
+  fullName: 'fullName',
+  targetPosition: 'targetPosition',
+  email: 'email',
+  phone: 'phone'
+} as const
+
+export type ResumeProfileOrderByRelevanceFieldEnum = (typeof ResumeProfileOrderByRelevanceFieldEnum)[keyof typeof ResumeProfileOrderByRelevanceFieldEnum]
 
 
 export const InfoOrderByRelevanceFieldEnum = {

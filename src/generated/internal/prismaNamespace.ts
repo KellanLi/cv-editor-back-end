@@ -80,12 +80,12 @@ export type PrismaVersion = {
 }
 
 /**
- * Prisma Client JS version: 7.5.0
- * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
+ * Prisma Client JS version: 7.8.0
+ * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
  */
 export const prismaVersion: PrismaVersion = {
-  client: "7.5.0",
-  engine: "280c870be64f457428992c43c1f6d557fab6e29e"
+  client: "7.8.0",
+  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
 }
 
 /**
@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Resume: 'Resume',
+  ResumeProfile: 'ResumeProfile',
   Section: 'Section',
   Content: 'Content',
   Info: 'Info',
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "resume" | "section" | "content" | "info" | "contentTemplate" | "infoTemplate"
+    modelProps: "user" | "resume" | "resumeProfile" | "section" | "content" | "info" | "contentTemplate" | "infoTemplate"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -539,6 +540,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ResumeCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ResumeCountAggregateOutputType> | number
+        }
+      }
+    }
+    ResumeProfile: {
+      payload: Prisma.$ResumeProfilePayload<ExtArgs>
+      fields: Prisma.ResumeProfileFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ResumeProfileFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeProfilePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ResumeProfileFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeProfilePayload>
+        }
+        findFirst: {
+          args: Prisma.ResumeProfileFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeProfilePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ResumeProfileFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeProfilePayload>
+        }
+        findMany: {
+          args: Prisma.ResumeProfileFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeProfilePayload>[]
+        }
+        create: {
+          args: Prisma.ResumeProfileCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeProfilePayload>
+        }
+        createMany: {
+          args: Prisma.ResumeProfileCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.ResumeProfileDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeProfilePayload>
+        }
+        update: {
+          args: Prisma.ResumeProfileUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeProfilePayload>
+        }
+        deleteMany: {
+          args: Prisma.ResumeProfileDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ResumeProfileUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.ResumeProfileUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ResumeProfilePayload>
+        }
+        aggregate: {
+          args: Prisma.ResumeProfileAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateResumeProfile>
+        }
+        groupBy: {
+          args: Prisma.ResumeProfileGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResumeProfileGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ResumeProfileCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ResumeProfileCountAggregateOutputType> | number
         }
       }
     }
@@ -935,6 +1002,21 @@ export const ResumeScalarFieldEnum = {
 export type ResumeScalarFieldEnum = (typeof ResumeScalarFieldEnum)[keyof typeof ResumeScalarFieldEnum]
 
 
+export const ResumeProfileScalarFieldEnum = {
+  id: 'id',
+  resumeId: 'resumeId',
+  photoUrl: 'photoUrl',
+  fullName: 'fullName',
+  birthDate: 'birthDate',
+  targetPosition: 'targetPosition',
+  email: 'email',
+  phone: 'phone',
+  profileExtra: 'profileExtra'
+} as const
+
+export type ResumeProfileScalarFieldEnum = (typeof ResumeProfileScalarFieldEnum)[keyof typeof ResumeProfileScalarFieldEnum]
+
+
 export const SectionScalarFieldEnum = {
   id: 'id',
   resumeId: 'resumeId',
@@ -993,6 +1075,14 @@ export const SortOrder = {
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
 export const JsonNullValueInput = {
   JsonNull: JsonNull
 } as const
@@ -1040,6 +1130,17 @@ export const QueryMode = {
 } as const
 
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const ResumeProfileOrderByRelevanceFieldEnum = {
+  photoUrl: 'photoUrl',
+  fullName: 'fullName',
+  targetPosition: 'targetPosition',
+  email: 'email',
+  phone: 'phone'
+} as const
+
+export type ResumeProfileOrderByRelevanceFieldEnum = (typeof ResumeProfileOrderByRelevanceFieldEnum)[keyof typeof ResumeProfileOrderByRelevanceFieldEnum]
 
 
 export const InfoOrderByRelevanceFieldEnum = {
@@ -1203,10 +1304,26 @@ export type PrismaClientOptions = ({
    * ```
    */
   comments?: runtime.SqlCommenterPlugin[]
+  /**
+   * Optional maximum size for the query plan cache. If not provided, a default size will be used.
+   * A value of `0` can be used to disable the cache entirely. A higher cache size can improve
+   * performance for applications that execute a large number of unique queries, while a smaller
+   * cache size can reduce memory usage.
+   * 
+   * @example
+   * ```
+   * const prisma = new PrismaClient({
+   *   adapter,
+   *   queryPlanCacheMaxSize: 100,
+   * })
+   * ```
+   */
+  queryPlanCacheMaxSize?: number
 }
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   resume?: Prisma.ResumeOmit
+  resumeProfile?: Prisma.ResumeProfileOmit
   section?: Prisma.SectionOmit
   content?: Prisma.ContentOmit
   info?: Prisma.InfoOmit

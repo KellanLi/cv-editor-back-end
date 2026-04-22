@@ -28,6 +28,11 @@ export type User = Prisma.UserModel
  */
 export type Resume = Prisma.ResumeModel
 /**
+ * Model ResumeProfile
+ * 简历个人信息（与 {@link Resume} 一对一）
+ */
+export type ResumeProfile = Prisma.ResumeProfileModel
+/**
  * Model Section
  * 
  */

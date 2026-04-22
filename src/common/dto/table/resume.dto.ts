@@ -10,6 +10,7 @@ import {
 import { Type } from 'class-transformer';
 import { UserTableDto } from './user.dto';
 import { SectionTableDto } from './section.dto';
+import { ResumeProfileTableDto } from './resume-profile.dto';
 
 export class ResumeTableDto {
   @ApiProperty({
@@ -46,6 +47,16 @@ export class ResumeTableDto {
   })
   @IsDate({ message: '更新时间格式不正确' })
   updatedAt: Date;
+
+  @ApiProperty({
+    type: () => ResumeProfileTableDto,
+    required: false,
+    description: '简历个人信息',
+  })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => ResumeProfileTableDto)
+  profile?: ResumeProfileTableDto;
 
   @ApiProperty({
     type: () => UserTableDto,

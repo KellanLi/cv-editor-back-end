@@ -10,6 +10,7 @@
  */
 export type * from './models/User'
 export type * from './models/Resume'
+export type * from './models/ResumeProfile'
 export type * from './models/Section'
 export type * from './models/Content'
 export type * from './models/Info'

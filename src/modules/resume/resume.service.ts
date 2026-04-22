@@ -1,10 +1,16 @@
 import { PrismaService } from '@/provider/prisma/prisma.service';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { ListResumeDto } from './dto/list.dto';
 import { CreateResumeDto } from './dto/create.dto';
 import { DeleteResumeDto } from './dto/delete.dto';
+import { UpdateResumeTitleDto } from './dto/update-title.dto';
+import { UpdateResumeProfileDto } from './dto/update-profile.dto';
 import { IJwtPayload } from '@/types/auth.types';
-import type { Resume } from '@/generated/client';
+import { Prisma } from '@/generated/client';
 
 @Injectable()
 export class ResumeService {
@@ -25,6 +31,7 @@ export class ResumeService {
         where,
         skip: (page - 1) * pageSize,
         take: pageSize,
+        include: { profile: true },
       }),
       this.prismaService.resume.count({ where }),
     ]);
@@ -39,13 +46,88 @@ export class ResumeService {
     };
   }
 
+  async updateTitle(params: UpdateResumeTitleDto, jwt: IJwtPayload) {
+    const { id, title } = params;
+    const existing = await this.prismaService.resume.findFirst({
+      where: { id, userId: jwt.id },
+      select: { id: true },
+    });
+    if (!existing) {
+      throw new NotFoundException('简历不存在');
+    }
+    return this.prismaService.resume.update({
+      where: { id, userId: jwt.id },
+      data: { title },
+      include: { profile: true },
+    });
+  }
+
+  async updateProfile(dto: UpdateResumeProfileDto, jwt: IJwtPayload) {
+    const { id: resumeId, profileExtra, ...rest } = dto;
+    const data: {
+      photoUrl?: string | null;
+      fullName?: string | null;
+      birthDate?: Date | null;
+      targetPosition?: string | null;
+      email?: string | null;
+      phone?: string | null;
+      profileExtra?: Prisma.InputJsonValue | typeof Prisma.JsonNull;
+    } = {
+      ...rest,
+      ...(profileExtra !== undefined
+        ? {
+            profileExtra:
+              profileExtra === null
+                ? Prisma.JsonNull
+                : (profileExtra as Prisma.InputJsonValue),
+          }
+        : {}),
+    };
+
+    if (Object.keys(data).length === 0) {
+      throw new BadRequestException('请至少提供一个要修改的字段');
+    }
+
+    const existing = await this.prismaService.resume.findFirst({
+      where: { id: resumeId, userId: jwt.id },
+      select: { id: true },
+    });
+    if (!existing) {
+      throw new NotFoundException('简历不存在');
+    }
+    await this.prismaService.$transaction(
+      async (tx: Prisma.TransactionClient) => {
+        // type-aware ESLint 对 Prisma 生成委托偶发误报为 `error` 类型，故抑制本条（`tx` 已标注为 `Prisma.TransactionClient`）
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        await tx.resumeProfile.upsert({
+          where: { resumeId },
+          create: {
+            resume: { connect: { id: resumeId } },
+            ...data,
+          },
+          update: data,
+        });
+        await tx.resume.update({
+          where: { id: resumeId, userId: jwt.id },
+          data: { updatedAt: new Date() },
+        });
+      },
+    );
+    return this.prismaService.resume.findFirstOrThrow({
+      where: { id: resumeId, userId: jwt.id },
+      include: { profile: true },
+    });
+  }
+
   async create(params: CreateResumeDto, jwt: IJwtPayload) {
     const { title } = params;
     return this.prismaService.resume.create({
       data: {
         userId: jwt.id,
         title,
+        profile: { create: {} },
       },
+      include: { profile: true },
     });
   }
 
@@ -72,7 +154,10 @@ export class ResumeService {
         where: { section: { resumeId: id } },
       });
       await tx.section.deleteMany({ where: { resumeId: id } });
-      return tx.resume.delete({ where: { id, userId: jwt.id } });
+      return tx.resume.delete({
+        where: { id, userId: jwt.id },
+        include: { profile: true },
+      });
     });
   }
 }

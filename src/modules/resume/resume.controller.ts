@@ -9,6 +9,8 @@ import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.dec
 import { CreateResumeDto } from './dto/create.dto';
 import { ResumeDto } from '@/common/dto/business/resume.dto';
 import { DeleteResumeDto } from './dto/delete.dto';
+import { UpdateResumeTitleDto } from './dto/update-title.dto';
+import { UpdateResumeProfileDto } from './dto/update-profile.dto';
 
 @ApiTags('简历模块')
 @Controller('resume')
@@ -38,5 +40,27 @@ export class ResumeController {
   @ApiResponseWrapper(ResumeDto)
   delete(@Body() body: DeleteResumeDto, @JwtPayload() jwt: IJwtPayload) {
     return this.resumeService.delete(body, jwt);
+  }
+
+  @Post('update-title')
+  @ApiOperation({ summary: '修改简历名称' })
+  @ApiBody({ type: UpdateResumeTitleDto })
+  @ApiResponseWrapper(ResumeDto)
+  updateTitle(
+    @Body() body: UpdateResumeTitleDto,
+    @JwtPayload() jwt: IJwtPayload,
+  ) {
+    return this.resumeService.updateTitle(body, jwt);
+  }
+
+  @Post('update-profile')
+  @ApiOperation({ summary: '修改简历个人信息（ResumeProfile）' })
+  @ApiBody({ type: UpdateResumeProfileDto })
+  @ApiResponseWrapper(ResumeDto)
+  updateProfile(
+    @Body() body: UpdateResumeProfileDto,
+    @JwtPayload() jwt: IJwtPayload,
+  ) {
+    return this.resumeService.updateProfile(body, jwt);
   }
 }

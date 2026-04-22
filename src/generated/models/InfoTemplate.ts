@@ -196,7 +196,7 @@ export type InfoTemplateGroupByOutputType = {
   _max: InfoTemplateMaxAggregateOutputType | null
 }
 
-type GetInfoTemplateGroupByPayload<T extends InfoTemplateGroupByArgs> = Prisma.PrismaPromise<
+export type GetInfoTemplateGroupByPayload<T extends InfoTemplateGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<InfoTemplateGroupByOutputType, T['by']> &
       {

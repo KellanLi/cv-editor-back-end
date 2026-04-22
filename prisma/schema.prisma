@@ -21,13 +21,36 @@ model User {
 }
 
 model Resume {
-  id        Int       @id @default(autoincrement())
+  id        Int            @id @default(autoincrement())
   userId    Int
   title     String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  user      User           @relation(fields: [userId], references: [id])
   sections  Section[]
+  /// 与简历 1:1 的个人信息
+  profile   ResumeProfile?
+}
+
+/// 简历个人信息（与 {@link Resume} 一对一）
+model ResumeProfile {
+  id             Int       @id @default(autoincrement())
+  resumeId       Int       @unique
+  /// 证件照 URL
+  photoUrl       String?
+  /// 简历展示用姓名（可与账户姓名不同）
+  fullName       String?
+  /// 出生日期（仅存日期，无时刻）
+  birthDate      DateTime? @db.Date
+  /// 目标岗位
+  targetPosition String?
+  /// 简历联系邮箱
+  email          String?
+  /// 联系电话
+  phone          String?
+  /// 可扩展的键值；应用层约定值为字符串，如 { "wechat": "…", "city": "上海" }
+  profileExtra   Json?
+  resume         Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 }
 
 model Section {

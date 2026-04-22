@@ -186,7 +186,7 @@ export type ContentGroupByOutputType = {
   _max: ContentMaxAggregateOutputType | null
 }
 
-type GetContentGroupByPayload<T extends ContentGroupByArgs> = Prisma.PrismaPromise<
+export type GetContentGroupByPayload<T extends ContentGroupByArgs> = Prisma.PrismaPromise<
   Array<
     Prisma.PickEnumerable<ContentGroupByOutputType, T['by']> &
       {
