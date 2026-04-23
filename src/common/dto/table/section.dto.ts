@@ -27,6 +27,13 @@ export class SectionTableDto {
   contentTemplateId: number;
 
   @ApiProperty({
+    example: 1,
+    description: '同一简历内的展示顺序（升序）',
+  })
+  @IsNumber()
+  order: number;
+
+  @ApiProperty({
     type: () => [ContentTableDto],
     description: '内容',
   })

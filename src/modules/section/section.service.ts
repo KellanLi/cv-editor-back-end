@@ -73,7 +73,7 @@ export class SectionService {
       this.prismaService.section.findMany({
         where,
         include: sectionInclude,
-        orderBy: { id: 'asc' },
+        orderBy: [{ order: 'asc' }, { id: 'asc' }],
         skip: (page - 1) * pageSize,
         take: pageSize,
       }),
@@ -91,7 +91,7 @@ export class SectionService {
   }
 
   async create(params: CreateSectionDto, jwt: IJwtPayload) {
-    const { resumeId, contentTemplateId } = params;
+    const { resumeId, contentTemplateId, order } = params;
     await this.assertResumeOwned(resumeId, jwt.id);
 
     const template = await this.prismaService.contentTemplate.findFirst({
@@ -109,6 +109,7 @@ export class SectionService {
         data: {
           resumeId,
           contentTemplateId,
+          order,
         },
       });
 

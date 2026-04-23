@@ -1021,7 +1021,8 @@ export type ResumeProfileScalarFieldEnum = (typeof ResumeProfileScalarFieldEnum)
 export const SectionScalarFieldEnum = {
   id: 'id',
   resumeId: 'resumeId',
-  contentTemplateId: 'contentTemplateId'
+  contentTemplateId: 'contentTemplateId',
+  order: 'order'
 } as const
 
 export type SectionScalarFieldEnum = (typeof SectionScalarFieldEnum)[keyof typeof SectionScalarFieldEnum]

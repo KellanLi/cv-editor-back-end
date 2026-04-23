@@ -15,4 +15,11 @@ export class CreateSectionDto {
   })
   @IsNumber()
   contentTemplateId: number;
+
+  @ApiProperty({
+    description: '同一简历内的展示顺序（升序）',
+    example: 1,
+  })
+  @IsNumber()
+  order: number;
 }

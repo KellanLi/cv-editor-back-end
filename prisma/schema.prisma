@@ -59,6 +59,8 @@ model Section {
   id                Int       @id @default(autoincrement())
   resumeId          Int
   contentTemplateId Int
+  /// 同一简历内模块的展示顺序（升序）
+  order             Int       @default(0)
   contents          Content[]
   resume            Resume    @relation(fields: [resumeId], references: [id])
 }
