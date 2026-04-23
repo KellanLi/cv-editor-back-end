@@ -1,9 +1,11 @@
 import { PrismaService } from '@/provider/prisma/prisma.service';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSectionDto } from './dto/create.dto';
 import { DeleteSectionDto } from './dto/delete.dto';
 import { ListSectionDto } from './dto/list.dto';
 import { UpdateSectionContentDto } from './dto/update-content.dto';
+import { UpdateSectionDto } from './dto/update.dto';
+import { ReorderSectionDto } from './dto/reorder.dto';
 import { IJwtPayload } from '@/types/auth.types';
 import type { Prisma } from '@/generated/client';
 
@@ -165,6 +167,68 @@ export class SectionService {
     });
 
     return snapshot;
+  }
+
+  async update(
+    params: UpdateSectionDto,
+    jwt: IJwtPayload,
+  ): Promise<SectionWithContents> {
+    const { id, order } = params;
+    await this.getSectionOwnedOrThrow(id, jwt.id);
+
+    await this.prismaService.section.update({
+      where: { id },
+      data: { order },
+    });
+
+    return this.prismaService.section.findUniqueOrThrow({
+      where: { id },
+      include: sectionInclude,
+    });
+  }
+
+  async reorder(params: ReorderSectionDto, jwt: IJwtPayload) {
+    const { resumeId, items } = params;
+    await this.assertResumeOwned(resumeId, jwt.id);
+
+    if (items.length === 0) {
+      const list = await this.prismaService.section.findMany({
+        where: { resumeId },
+        include: sectionInclude,
+        orderBy: [{ order: 'asc' }, { id: 'asc' }],
+      });
+      return { list };
+    }
+
+    const ids = items.map((it) => it.id);
+    const uniqueIds = new Set(ids);
+    if (uniqueIds.size !== ids.length) {
+      throw new BadRequestException('模块ID存在重复');
+    }
+
+    const owned = await this.prismaService.section.findMany({
+      where: { id: { in: ids }, resumeId },
+      select: { id: true },
+    });
+    if (owned.length !== ids.length) {
+      throw new NotFoundException('存在不属于该简历的模块');
+    }
+
+    await this.prismaService.$transaction(
+      items.map((it) =>
+        this.prismaService.section.update({
+          where: { id: it.id },
+          data: { order: it.order },
+        }),
+      ),
+    );
+
+    const list = await this.prismaService.section.findMany({
+      where: { resumeId },
+      include: sectionInclude,
+      orderBy: [{ order: 'asc' }, { id: 'asc' }],
+    });
+    return { list };
   }
 
   async updateContent(
