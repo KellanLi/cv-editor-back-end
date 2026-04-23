@@ -60,6 +60,6 @@ pnpm db:generate
 
 ## 典型顺序
 
-1. 修改 `prisma/schema.prisma` → `pnpm run db:migrate -- <name>` → `pnpm db:generate`（`migrate dev` 通常会 generate，若以团队流程为准可只跑 migrate）。
+1. 修改 `prisma/schema.prisma` → 按 `db-sync` skill 的严格顺序执行（**`db:migrate` 后必须 `db:generate`**，本项目 Prisma v7 下 `migrate dev` 不会自动 generate；随后重启 `pnpm dev`）。
 2. 新业务域 → `pnpm g:res <module>`，再在 `app.module.ts` 中 `imports` 新模块（若 CLI 未自动注册）。
 3. 新基础设施封装 → `pnpm g:pro <provider>`，再按需注册为全局模块或导出供其他模块使用。

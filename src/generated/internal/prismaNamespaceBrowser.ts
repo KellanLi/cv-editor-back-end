@@ -107,6 +107,7 @@ export const ResumeProfileScalarFieldEnum = {
   photoUrl: 'photoUrl',
   fullName: 'fullName',
   birthDate: 'birthDate',
+  gender: 'gender',
   targetPosition: 'targetPosition',
   email: 'email',
   phone: 'phone',
@@ -234,6 +235,7 @@ export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
 export const ResumeProfileOrderByRelevanceFieldEnum = {
   photoUrl: 'photoUrl',
   fullName: 'fullName',
+  gender: 'gender',
   targetPosition: 'targetPosition',
   email: 'email',
   phone: 'phone'

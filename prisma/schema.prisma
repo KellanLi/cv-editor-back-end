@@ -42,6 +42,8 @@ model ResumeProfile {
   fullName       String?
   /// 出生日期（仅存日期，无时刻）
   birthDate      DateTime? @db.Date
+  /// 性别（应用层约定值，如 "male" / "female" / "other"）
+  gender         String?
   /// 目标岗位
   targetPosition String?
   /// 简历联系邮箱

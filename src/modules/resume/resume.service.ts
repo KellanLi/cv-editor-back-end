@@ -81,6 +81,7 @@ export class ResumeService {
       photoUrl?: string | null;
       fullName?: string | null;
       birthDate?: Date | null;
+      gender?: string | null;
       targetPosition?: string | null;
       email?: string | null;
       phone?: string | null;
@@ -110,8 +111,6 @@ export class ResumeService {
     }
     await this.prismaService.$transaction(
       async (tx: Prisma.TransactionClient) => {
-        // type-aware ESLint 对 Prisma 生成委托偶发误报为 `error` 类型，故抑制本条（`tx` 已标注为 `Prisma.TransactionClient`）
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         await tx.resumeProfile.upsert({
           where: { resumeId },
           create: {

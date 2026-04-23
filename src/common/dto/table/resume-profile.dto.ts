@@ -33,6 +33,15 @@ export class ResumeProfileTableDto {
   @Type(() => Date)
   birthDate?: Date | null;
 
+  @ApiProperty({
+    required: false,
+    example: 'male',
+    description: '性别（如 male / female / other）',
+  })
+  @IsOptional()
+  @IsString()
+  gender?: string | null;
+
   @ApiProperty({ required: false, description: '目标岗位' })
   @IsOptional()
   @IsString()

@@ -36,6 +36,15 @@ export class UpdateResumeProfileDto {
   @IsDate({ message: '出生日期格式不正确' })
   birthDate?: Date;
 
+  @ApiProperty({
+    required: false,
+    example: 'male',
+    description: '性别（如 male / female / other）',
+  })
+  @IsOptional()
+  @IsString()
+  gender?: string;
+
   @ApiProperty({ required: false, description: '目标岗位' })
   @IsOptional()
   @IsString()

@@ -42,6 +42,7 @@ export type ResumeProfileMinAggregateOutputType = {
   photoUrl: string | null
   fullName: string | null
   birthDate: Date | null
+  gender: string | null
   targetPosition: string | null
   email: string | null
   phone: string | null
@@ -53,6 +54,7 @@ export type ResumeProfileMaxAggregateOutputType = {
   photoUrl: string | null
   fullName: string | null
   birthDate: Date | null
+  gender: string | null
   targetPosition: string | null
   email: string | null
   phone: string | null
@@ -64,6 +66,7 @@ export type ResumeProfileCountAggregateOutputType = {
   photoUrl: number
   fullName: number
   birthDate: number
+  gender: number
   targetPosition: number
   email: number
   phone: number
@@ -88,6 +91,7 @@ export type ResumeProfileMinAggregateInputType = {
   photoUrl?: true
   fullName?: true
   birthDate?: true
+  gender?: true
   targetPosition?: true
   email?: true
   phone?: true
@@ -99,6 +103,7 @@ export type ResumeProfileMaxAggregateInputType = {
   photoUrl?: true
   fullName?: true
   birthDate?: true
+  gender?: true
   targetPosition?: true
   email?: true
   phone?: true
@@ -110,6 +115,7 @@ export type ResumeProfileCountAggregateInputType = {
   photoUrl?: true
   fullName?: true
   birthDate?: true
+  gender?: true
   targetPosition?: true
   email?: true
   phone?: true
@@ -209,6 +215,7 @@ export type ResumeProfileGroupByOutputType = {
   photoUrl: string | null
   fullName: string | null
   birthDate: Date | null
+  gender: string | null
   targetPosition: string | null
   email: string | null
   phone: string | null
@@ -244,6 +251,7 @@ export type ResumeProfileWhereInput = {
   photoUrl?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
   fullName?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
   birthDate?: Prisma.DateTimeNullableFilter<"ResumeProfile"> | Date | string | null
+  gender?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
   targetPosition?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
   email?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
   phone?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
@@ -257,6 +265,7 @@ export type ResumeProfileOrderByWithRelationInput = {
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   fullName?: Prisma.SortOrderInput | Prisma.SortOrder
   birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  gender?: Prisma.SortOrderInput | Prisma.SortOrder
   targetPosition?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -274,6 +283,7 @@ export type ResumeProfileWhereUniqueInput = Prisma.AtLeast<{
   photoUrl?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
   fullName?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
   birthDate?: Prisma.DateTimeNullableFilter<"ResumeProfile"> | Date | string | null
+  gender?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
   targetPosition?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
   email?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
   phone?: Prisma.StringNullableFilter<"ResumeProfile"> | string | null
@@ -287,6 +297,7 @@ export type ResumeProfileOrderByWithAggregationInput = {
   photoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   fullName?: Prisma.SortOrderInput | Prisma.SortOrder
   birthDate?: Prisma.SortOrderInput | Prisma.SortOrder
+  gender?: Prisma.SortOrderInput | Prisma.SortOrder
   targetPosition?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -307,6 +318,7 @@ export type ResumeProfileScalarWhereWithAggregatesInput = {
   photoUrl?: Prisma.StringNullableWithAggregatesFilter<"ResumeProfile"> | string | null
   fullName?: Prisma.StringNullableWithAggregatesFilter<"ResumeProfile"> | string | null
   birthDate?: Prisma.DateTimeNullableWithAggregatesFilter<"ResumeProfile"> | Date | string | null
+  gender?: Prisma.StringNullableWithAggregatesFilter<"ResumeProfile"> | string | null
   targetPosition?: Prisma.StringNullableWithAggregatesFilter<"ResumeProfile"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"ResumeProfile"> | string | null
   phone?: Prisma.StringNullableWithAggregatesFilter<"ResumeProfile"> | string | null
@@ -317,6 +329,7 @@ export type ResumeProfileCreateInput = {
   photoUrl?: string | null
   fullName?: string | null
   birthDate?: Date | string | null
+  gender?: string | null
   targetPosition?: string | null
   email?: string | null
   phone?: string | null
@@ -330,6 +343,7 @@ export type ResumeProfileUncheckedCreateInput = {
   photoUrl?: string | null
   fullName?: string | null
   birthDate?: Date | string | null
+  gender?: string | null
   targetPosition?: string | null
   email?: string | null
   phone?: string | null
@@ -340,6 +354,7 @@ export type ResumeProfileUpdateInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetPosition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -353,6 +368,7 @@ export type ResumeProfileUncheckedUpdateInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetPosition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -365,6 +381,7 @@ export type ResumeProfileCreateManyInput = {
   photoUrl?: string | null
   fullName?: string | null
   birthDate?: Date | string | null
+  gender?: string | null
   targetPosition?: string | null
   email?: string | null
   phone?: string | null
@@ -375,6 +392,7 @@ export type ResumeProfileUpdateManyMutationInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetPosition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -387,6 +405,7 @@ export type ResumeProfileUncheckedUpdateManyInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetPosition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -410,6 +429,7 @@ export type ResumeProfileCountOrderByAggregateInput = {
   photoUrl?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   targetPosition?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
@@ -427,6 +447,7 @@ export type ResumeProfileMaxOrderByAggregateInput = {
   photoUrl?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   targetPosition?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
@@ -438,6 +459,7 @@ export type ResumeProfileMinOrderByAggregateInput = {
   photoUrl?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   birthDate?: Prisma.SortOrder
+  gender?: Prisma.SortOrder
   targetPosition?: Prisma.SortOrder
   email?: Prisma.SortOrder
   phone?: Prisma.SortOrder
@@ -488,6 +510,7 @@ export type ResumeProfileCreateWithoutResumeInput = {
   photoUrl?: string | null
   fullName?: string | null
   birthDate?: Date | string | null
+  gender?: string | null
   targetPosition?: string | null
   email?: string | null
   phone?: string | null
@@ -499,6 +522,7 @@ export type ResumeProfileUncheckedCreateWithoutResumeInput = {
   photoUrl?: string | null
   fullName?: string | null
   birthDate?: Date | string | null
+  gender?: string | null
   targetPosition?: string | null
   email?: string | null
   phone?: string | null
@@ -525,6 +549,7 @@ export type ResumeProfileUpdateWithoutResumeInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetPosition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -536,6 +561,7 @@ export type ResumeProfileUncheckedUpdateWithoutResumeInput = {
   photoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   birthDate?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   targetPosition?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -550,6 +576,7 @@ export type ResumeProfileSelect<ExtArgs extends runtime.Types.Extensions.Interna
   photoUrl?: boolean
   fullName?: boolean
   birthDate?: boolean
+  gender?: boolean
   targetPosition?: boolean
   email?: boolean
   phone?: boolean
@@ -565,13 +592,14 @@ export type ResumeProfileSelectScalar = {
   photoUrl?: boolean
   fullName?: boolean
   birthDate?: boolean
+  gender?: boolean
   targetPosition?: boolean
   email?: boolean
   phone?: boolean
   profileExtra?: boolean
 }
 
-export type ResumeProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "resumeId" | "photoUrl" | "fullName" | "birthDate" | "targetPosition" | "email" | "phone" | "profileExtra", ExtArgs["result"]["resumeProfile"]>
+export type ResumeProfileOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "resumeId" | "photoUrl" | "fullName" | "birthDate" | "gender" | "targetPosition" | "email" | "phone" | "profileExtra", ExtArgs["result"]["resumeProfile"]>
 export type ResumeProfileInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   resume?: boolean | Prisma.ResumeDefaultArgs<ExtArgs>
 }
@@ -596,6 +624,10 @@ export type $ResumeProfilePayload<ExtArgs extends runtime.Types.Extensions.Inter
      * 出生日期（仅存日期，无时刻）
      */
     birthDate: Date | null
+    /**
+     * 性别（应用层约定值，如 "male" / "female" / "other"）
+     */
+    gender: string | null
     /**
      * 目标岗位
      */
@@ -987,6 +1019,7 @@ export interface ResumeProfileFieldRefs {
   readonly photoUrl: Prisma.FieldRef<"ResumeProfile", 'String'>
   readonly fullName: Prisma.FieldRef<"ResumeProfile", 'String'>
   readonly birthDate: Prisma.FieldRef<"ResumeProfile", 'DateTime'>
+  readonly gender: Prisma.FieldRef<"ResumeProfile", 'String'>
   readonly targetPosition: Prisma.FieldRef<"ResumeProfile", 'String'>
   readonly email: Prisma.FieldRef<"ResumeProfile", 'String'>
   readonly phone: Prisma.FieldRef<"ResumeProfile", 'String'>
