@@ -9,6 +9,7 @@ import { ApiResponseWrapper } from '@/common/decorators/api-response-wrapper.dec
 import { CreateResumeDto } from './dto/create.dto';
 import { ResumeDto } from '@/common/dto/business/resume.dto';
 import { DeleteResumeDto } from './dto/delete.dto';
+import { DetailResumeDto } from './dto/detail.dto';
 import { UpdateResumeTitleDto } from './dto/update-title.dto';
 import { UpdateResumeProfileDto } from './dto/update-profile.dto';
 
@@ -24,6 +25,14 @@ export class ResumeController {
   @ApiResponseWrapper(ListResumeDataDto)
   list(@Body() body: ListResumeDto, @JwtPayload() jwt: IJwtPayload) {
     return this.resumeService.list(body, jwt);
+  }
+
+  @Post('detail')
+  @ApiOperation({ summary: '简历详情（含 ResumeProfile）' })
+  @ApiBody({ type: DetailResumeDto })
+  @ApiResponseWrapper(ResumeDto)
+  detail(@Body() body: DetailResumeDto, @JwtPayload() jwt: IJwtPayload) {
+    return this.resumeService.detail(body, jwt);
   }
 
   @Post('create')

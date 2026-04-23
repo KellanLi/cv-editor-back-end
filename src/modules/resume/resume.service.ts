@@ -7,6 +7,7 @@ import {
 import { ListResumeDto } from './dto/list.dto';
 import { CreateResumeDto } from './dto/create.dto';
 import { DeleteResumeDto } from './dto/delete.dto';
+import { DetailResumeDto } from './dto/detail.dto';
 import { UpdateResumeTitleDto } from './dto/update-title.dto';
 import { UpdateResumeProfileDto } from './dto/update-profile.dto';
 import { IJwtPayload } from '@/types/auth.types';
@@ -44,6 +45,18 @@ export class ResumeService {
         total,
       },
     };
+  }
+
+  async detail(params: DetailResumeDto, jwt: IJwtPayload) {
+    const { id } = params;
+    const resume = await this.prismaService.resume.findFirst({
+      where: { id, userId: jwt.id },
+      include: { profile: true },
+    });
+    if (!resume) {
+      throw new NotFoundException('简历不存在');
+    }
+    return resume;
   }
 
   async updateTitle(params: UpdateResumeTitleDto, jwt: IJwtPayload) {
