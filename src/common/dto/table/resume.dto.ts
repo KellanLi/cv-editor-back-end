@@ -35,6 +35,15 @@ export class ResumeTableDto {
   title: string;
 
   @ApiProperty({
+    required: false,
+    example: 'https://cdn.example.com/covers/1.png',
+    description: '列表/卡片等场景用的封面图 URL',
+  })
+  @IsOptional()
+  @IsString()
+  listCoverImageUrl?: string | null;
+
+  @ApiProperty({
     example: '2023-01-01T00:00:00.000Z',
     description: '创建时间',
   })

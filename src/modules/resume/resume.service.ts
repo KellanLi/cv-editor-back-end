@@ -9,6 +9,7 @@ import { CreateResumeDto } from './dto/create.dto';
 import { DeleteResumeDto } from './dto/delete.dto';
 import { DetailResumeDto } from './dto/detail.dto';
 import { UpdateResumeTitleDto } from './dto/update-title.dto';
+import { UpdateResumeListCoverDto } from './dto/update-list-cover.dto';
 import { UpdateResumeProfileDto } from './dto/update-profile.dto';
 import { IJwtPayload } from '@/types/auth.types';
 import { Prisma } from '@/generated/client';
@@ -57,6 +58,25 @@ export class ResumeService {
       throw new NotFoundException('简历不存在');
     }
     return resume;
+  }
+
+  async updateListCover(params: UpdateResumeListCoverDto, jwt: IJwtPayload) {
+    const { id, listCoverImageUrl } = params;
+    if (listCoverImageUrl === undefined) {
+      throw new BadRequestException('请提供 listCoverImageUrl（可用 `null` 清空）');
+    }
+    const existing = await this.prismaService.resume.findFirst({
+      where: { id, userId: jwt.id },
+      select: { id: true },
+    });
+    if (!existing) {
+      throw new NotFoundException('简历不存在');
+    }
+    return this.prismaService.resume.update({
+      where: { id, userId: jwt.id },
+      data: { listCoverImageUrl },
+      include: { profile: true },
+    });
   }
 
   async updateTitle(params: UpdateResumeTitleDto, jwt: IJwtPayload) {
@@ -132,11 +152,14 @@ export class ResumeService {
   }
 
   async create(params: CreateResumeDto, jwt: IJwtPayload) {
-    const { title } = params;
+    const { title, listCoverImageUrl } = params;
     return this.prismaService.resume.create({
       data: {
         userId: jwt.id,
         title,
+        ...(listCoverImageUrl != null
+          ? { listCoverImageUrl: listCoverImageUrl }
+          : {}),
         profile: { create: {} },
       },
       include: { profile: true },

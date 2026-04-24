@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 
 export class CreateResumeDto {
   @ApiProperty({
@@ -9,4 +9,13 @@ export class CreateResumeDto {
   })
   @IsString()
   title: string;
+
+  @ApiProperty({
+    required: false,
+    example: 'https://cdn.example.com/covers/1.png',
+    description: '列表/卡片等场景用的封面图 URL',
+  })
+  @IsOptional()
+  @IsString()
+  listCoverImageUrl?: string;
 }

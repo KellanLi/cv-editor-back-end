@@ -11,6 +11,7 @@ import { ResumeDto } from '@/common/dto/business/resume.dto';
 import { DeleteResumeDto } from './dto/delete.dto';
 import { DetailResumeDto } from './dto/detail.dto';
 import { UpdateResumeTitleDto } from './dto/update-title.dto';
+import { UpdateResumeListCoverDto } from './dto/update-list-cover.dto';
 import { UpdateResumeProfileDto } from './dto/update-profile.dto';
 
 @ApiTags('简历模块')
@@ -60,6 +61,17 @@ export class ResumeController {
     @JwtPayload() jwt: IJwtPayload,
   ) {
     return this.resumeService.updateTitle(body, jwt);
+  }
+
+  @Post('update-list-cover')
+  @ApiOperation({ summary: '修改列表展示用封面图' })
+  @ApiBody({ type: UpdateResumeListCoverDto })
+  @ApiResponseWrapper(ResumeDto)
+  updateListCover(
+    @Body() body: UpdateResumeListCoverDto,
+    @JwtPayload() jwt: IJwtPayload,
+  ) {
+    return this.resumeService.updateListCover(body, jwt);
   }
 
   @Post('update-profile')
