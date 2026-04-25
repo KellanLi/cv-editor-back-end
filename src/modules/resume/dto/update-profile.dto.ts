@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
+  IsArray,
   IsDate,
   IsNumber,
-  IsObject,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -62,10 +62,13 @@ export class UpdateResumeProfileDto {
 
   @ApiProperty({
     required: false,
-    example: { wechat: 'wx_001' },
-    description: '可扩展键值',
+    type: String,
+    isArray: true,
+    example: ['wechat:wx_001', 'city:上海'],
+    description: '可扩展字符串列表',
   })
   @IsOptional()
-  @IsObject()
+  @IsArray()
+  @IsString({ each: true })
   profileExtra?: string[];
 }

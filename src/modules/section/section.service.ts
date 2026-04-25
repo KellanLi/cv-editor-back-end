@@ -1,5 +1,9 @@
 import { PrismaService } from '@/provider/prisma/prisma.service';
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateSectionDto } from './dto/create.dto';
 import { DeleteSectionDto } from './dto/delete.dto';
 import { ListSectionDto } from './dto/list.dto';

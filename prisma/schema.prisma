@@ -32,6 +32,10 @@ model Resume {
   sections  Section[]
   /// 与简历 1:1 的个人信息
   profile   ResumeProfile?
+  /// 同一份简历下可有多条独立 AI 对话（LangGraph thread 与表 `threadId` 对齐）
+  aiConversations AiConversation[]
+  /// 同一份简历下、跨所有对话复用的长上下文（如 JD）；按 `key` 区分
+  aiGlobalContexts AiGlobalContext[]
 }
 
 /// 简历个人信息（与 {@link Resume} 一对一）
@@ -52,7 +56,7 @@ model ResumeProfile {
   email          String?
   /// 联系电话
   phone          String?
-  /// 可扩展的键值；应用层约定值为字符串，如 { "wechat": "…", "city": "上海" }
+  /// 可扩展字符串列表；应用层约定值为 string[]，如 ["wechat:wx_001", "city:上海"]
   profileExtra   Json?
   resume         Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 }
@@ -100,4 +104,106 @@ model InfoTemplate {
   names             Json
   order             Int
   contentTemplate   ContentTemplate @relation(fields: [contentTemplateId], references: [id])
+}
+
+// --- AI（LangGraph：会话线程、消息、工具调用、简历级全局上下文；DB 为 MySQL）---
+
+enum AiConversationPurpose {
+  BASIC_QA
+  DIALOGUE_EDIT
+  RESUME_DIAGNOSIS
+}
+
+enum AiMessageRole {
+  system
+  user
+  assistant
+  tool
+}
+
+/// 一条「对话线程」：必须属于某份简历；同一份简历可有多条（多窗口/多主题）
+model AiConversation {
+  id        Int                   @id @default(autoincrement())
+  resumeId  Int
+  purpose   AiConversationPurpose @default(BASIC_QA)
+  /// 与 LangGraph checkpointer 的 configurable.thread_id 对齐
+  threadId  String                @unique @map("thread_id")
+  title     String?
+  status    String                @default("active")
+  lastMsgAt DateTime?             @map("last_msg_at")
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+
+  resume   Resume      @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  messages AiMessage[]
+
+  @@index([resumeId, lastMsgAt(sort: Desc)])
+  @@map("ai_conversation")
+}
+
+model AiMessage {
+  id             Int          @id @default(autoincrement())
+  conversationId Int          @map("conversation_id")
+  seq            Int
+  role           AiMessageRole
+  text           String?      @db.Text
+  contentJson    Json?        @map("content_json")
+  providerMeta   Json?        @map("provider_meta")
+  createdAt      DateTime     @default(now())
+
+  conversation AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  toolCalls    AiToolCall[]
+
+  @@unique([conversationId, seq])
+  @@index([conversationId, seq])
+  @@map("ai_message")
+}
+
+model AiToolCall {
+  id            Int       @id @default(autoincrement())
+  messageId     Int       @map("message_id")
+  idempotencyKey String?  @map("idempotency_key")
+  name          String
+  input         Json
+  status        String
+  output        Json?
+  error         String?   @db.Text
+  externalId    String?   @map("external_id")
+  startedAt     DateTime? @map("started_at")
+  endedAt       DateTime? @map("ended_at")
+
+  message AiMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+  @@map("ai_tool_call")
+}
+
+/// 单份简历维度的「全局」上下文（如 JD），该简历下所有 AiConversation 共享
+model AiGlobalContext {
+  id        Int      @id @default(autoincrement())
+  resumeId  Int
+  key       String
+  value     String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@unique([resumeId, key])
+  @@index([resumeId])
+  @@map("ai_global_context")
+}
+
+/// 可选：自管 LangGraph checkpoint；若改用 Redis/Postgres 官方存储可移除此表
+model AiCheckpointer {
+  id               Int      @id @default(autoincrement())
+  threadId         String   @map("thread_id")
+  checkpointId     String   @map("checkpoint_id")
+  parentCheckpointId String? @map("parent_checkpoint_id")
+  stateJson        Json?    @map("state_json")
+  metadata         Json?
+  createdAt        DateTime @default(now())
+
+  @@index([threadId, checkpointId])
+  @@map("ai_checkpointer")
 }

@@ -63,7 +63,9 @@ export class ResumeService {
   async updateListCover(params: UpdateResumeListCoverDto, jwt: IJwtPayload) {
     const { id, listCoverImageUrl } = params;
     if (listCoverImageUrl === undefined) {
-      throw new BadRequestException('请提供 listCoverImageUrl（可用 `null` 清空）');
+      throw new BadRequestException(
+        '请提供 listCoverImageUrl（可用 `null` 清空）',
+      );
     }
     const existing = await this.prismaService.resume.findFirst({
       where: { id, userId: jwt.id },

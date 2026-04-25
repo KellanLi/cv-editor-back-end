@@ -11,6 +11,7 @@ import { ResumeModule } from './modules/resume/resume.module';
 import { ContentTemplateModule } from './modules/content-template/content-template.module';
 import { SectionModule } from './modules/section/section.module';
 import { StorageModule } from './modules/storage/storage.module';
+import { AiModule } from './modules/ai/ai.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { StorageModule } from './modules/storage/storage.module';
     ContentTemplateModule,
     SectionModule,
     StorageModule,
+    AiModule,
   ],
   controllers: [AppController],
   providers: [AppService],

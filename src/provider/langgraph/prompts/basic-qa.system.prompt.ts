@@ -1,0 +1,56 @@
+import type { IJwtPayload } from '@/types/auth.types';
+import { PrismaService } from '@/provider/prisma/prisma.service';
+
+/**
+ * 基础问答系统提示：
+ * - **JD**：每次请求均从 `AiGlobalContext`（key=`job_description`）读入并写入 system，作为默认「岗位/招聘侧」上下文，不走工具。
+ * - **简历模块正文**：不预塞全文，由模型按需调用 `load_resume_context`。
+ */
+export async function buildBasicQaSystemPrompt(
+  prisma: PrismaService,
+  resumeId: number,
+  jwt: IJwtPayload,
+  input: {
+    selectedSectionIds?: number[];
+    enableWebSearch?: boolean;
+  },
+): Promise<string> {
+  const resume = await prisma.resume.findFirst({
+    where: { id: resumeId, userId: jwt.id },
+    select: { title: true },
+  });
+  const jdRow = await prisma.aiGlobalContext.findUnique({
+    where: {
+      resumeId_key: { resumeId, key: 'job_description' },
+    },
+    select: { value: true },
+  });
+
+  const lines: string[] = [
+    '你是「简历编辑」场景下的中文助手，回答简洁、可执行。',
+    `当前简历 ID：${resumeId}，标题：${resume?.title ?? '（未命名）'}。`,
+    '需要依据简历里具体模块/字段作答时，请先调用工具 **load_resume_context** 拉取该简历的原文结构；不要凭空虚构经历。',
+    '若用户只问通识问题且与简历无关，可不必拉取简历。',
+  ];
+
+  lines.push(
+    '【JD 默认上下文】（与下方 load_resume_context 拉取的简历原文相互独立；未配置则标注无）',
+  );
+  if (jdRow?.value) {
+    lines.push(jdRow.value);
+  } else {
+    lines.push('（当前简历未配置 job_description，无 JD 文本。）');
+  }
+
+  if ((input.selectedSectionIds ?? []).length > 0) {
+    lines.push(
+      `用户在界面中选中的 Section ID 可作为拉取范围提示：${(input.selectedSectionIds ?? []).join(', ')}（你仍可在工具里指定其它 sectionIds）。`,
+    );
+  }
+  if (input.enableWebSearch) {
+    lines.push(
+      '用户已开启联网：需要站外信息时请调用 **web_search**，不要编造事实。',
+    );
+  }
+  return lines.join('\n');
+}

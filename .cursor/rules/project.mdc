@@ -8,7 +8,8 @@ alwaysApply: true
 ## 项目背景
 
 - **产品**：AI 辅助的简历编辑系统。
-- **技术栈**：NestJS（Express）、pnpm、Prisma + MySQL、LangChain。
+- **技术栈**：NestJS（Express）、pnpm、**Prisma + MySQL**、**LangGraph**（编排层，基于 `langgraph` / `@langchain/*` 生态）。
+- **数据与 AI 边界**：`Resume` 1:N `AiConversation`（同一份简历下可有多条独立对话线程）；`AiGlobalContext` 按**单份 `Resume`** 存 JD 等，供该简历下**所有**对话复用，不按用户全账户一份。
 
 ## 领域名词（中英 / 代码用语一致）
 
