@@ -1,4 +1,5 @@
-import { DynamicTool } from '@langchain/core/tools';
+import { tool } from '@langchain/core/tools';
+import { z } from 'zod';
 
 const TAVILY_SEARCH_URL = 'https://api.tavily.com/search';
 const MAX_QUERY_LEN = 400;
@@ -22,19 +23,19 @@ type TavilySearchJson = {
  * 使用 [Tavily Search](https://tavily.com) 的 `/search` API（为 LLM/RAG 场景设计），
  * 以 `Authorization: Bearer <TAVILY_API_KEY>` 调用。
  * 未配置 `TAVILY_API_KEY` 时返回说明文本，不伪造检索结果。
+ *
+ * 使用带 Zod 入参的 `tool()`，便于在 OpenAI 风格 `tools` / function calling 中生成
+ * 标准的 `type: "object" + properties` 结构（部分兼容网关对 Dynamic 字符串工具有兼容性问题）。
  */
 export function createWebSearchTool(
   options: {
     tavilyApiKey?: string;
   } = {},
-): DynamicTool {
+) {
   const tavilyApiKey = options.tavilyApiKey;
-  return new DynamicTool({
-    name: 'web_search',
-    description:
-      '联网检索。入参为自然语言搜索查询字符串；返回与查询相关的网页摘要与出处链接（需服务端已配置 Tavily API Key）。',
-    func: async (input: string) => {
-      const trimmed = String(input ?? '').trim();
+  return tool(
+    async ({ query }) => {
+      const trimmed = String(query ?? '').trim();
       if (!trimmed) {
         return '（空查询）';
       }
@@ -76,7 +77,17 @@ export function createWebSearchTool(
         q,
       );
     },
-  });
+    {
+      name: 'web_search',
+      description:
+        '联网搜索：根据自然语言问题检索互联网，返回相关网页的标题、链接与内容摘要。需要站外信息、事实核对或「最新/网页」类问题时必须调用此工具，不要编造网页内容。',
+      schema: z.object({
+        query: z
+          .string()
+          .describe('搜索查询，使用完整、具体的自然语言关键词或问句。'),
+      }),
+    },
+  );
 }
 
 function formatTavilyForAgent(data: TavilySearchJson, query: string): string {

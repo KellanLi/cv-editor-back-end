@@ -78,6 +78,9 @@ export class LanggraphService {
       enableWebSearch: input.enableWebSearch,
       tavilyApiKey,
     });
+    this.logger.debug(
+      `streamBasicQa: thread=${input.threadId} enableWebSearch=${String(input.enableWebSearch)} tavilyConfigured=${String(!!tavilyApiKey)} toolNames=${tools.map((t) => t.name).join(',')}`,
+    );
 
     const agent = createReactAgent({
       llm: this.llm,

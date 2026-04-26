@@ -1,4 +1,4 @@
-import type { DynamicTool } from '@langchain/core/tools';
+import type { ClientTool } from '@langchain/core/tools';
 import { PrismaService } from '@/provider/prisma/prisma.service';
 import { createGetResumeContextTool } from './get-resume-context.tool';
 import { createWebSearchTool } from './web-search.tool';
@@ -15,8 +15,8 @@ export function buildAgentTools(opts: {
   /**
    * 可注入单例 web_search（便于测试/替换）；未传时内部 new
    */
-  webSearch?: DynamicTool;
-}): DynamicTool[] {
+  webSearch?: ClientTool;
+}): ClientTool[] {
   const resumeTool = createGetResumeContextTool(opts.prisma, {
     resumeId: opts.resumeId,
     userId: opts.userId,

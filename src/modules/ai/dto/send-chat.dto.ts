@@ -54,7 +54,9 @@ export class SendAiChatDto {
 
   @ApiProperty({
     required: false,
-    description: '是否允许使用联网/网页检索工具',
+    default: false,
+    description:
+      '是否挂载联网工具 web_search（Tavily）。**默认为否**；需检索时必须传 `true`（且服务端配置 TAVILY_API_KEY 才会真正出网，否则工具会返回需配置 key 的说明）。',
   })
   @IsOptional()
   @IsBoolean()

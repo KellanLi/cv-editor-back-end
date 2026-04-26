@@ -49,7 +49,7 @@ export async function buildBasicQaSystemPrompt(
   }
   if (input.enableWebSearch) {
     lines.push(
-      '用户已开启联网：需要站外信息时请调用 **web_search**，不要编造事实。',
+      '【联网已开启】凡问题涉及站外知识、可检索的公开资料、或需要「最新/网页/来源」信息，你必须**先**调用工具 **web_search**（入参为搜索查询 `query`），**禁止**在从未调用 `web_search` 的情况下说「无法联网」或编造假链接；在拿到工具返回的摘要与 URL 后再用中文组织答案。',
     );
   }
   return lines.join('\n');

@@ -25,6 +25,21 @@ import { Prisma } from '@/generated/client';
 import type { Response } from 'express';
 import { buildBasicQaSystemPrompt } from '@/provider/langgraph/prompts/basic-qa.system.prompt';
 
+/**
+ * 请求体未走全局 `ValidationPipe` 时，布尔与字符串可能混用；仅将明确的 true、字符串 "true" / "1" 等视为开启联网。
+ */
+function isWebSearchRequestEnabled(value: unknown): boolean {
+  if (value === true) return true;
+  if (value === false) return false;
+  if (typeof value === 'string') {
+    const s = value.trim().toLowerCase();
+    return s === 'true' || s === '1' || s === 'yes' || s === 'on';
+  }
+  if (value === 1) return true;
+  if (value === 0) return false;
+  return false;
+}
+
 @Injectable()
 export class AiService {
   constructor(
@@ -237,11 +252,12 @@ export class AiService {
     const { resumeId, userMessage, selectedSectionIds, enableWebSearch } =
       params;
     await this.assertResumeOwned(resumeId, jwt);
+    const webOn = isWebSearchRequestEnabled(enableWebSearch);
 
     const userTurnMeta: Prisma.InputJsonValue = {
       kind: 'user_turn',
       selectedSectionIds: selectedSectionIds ?? [],
-      enableWebSearch: enableWebSearch ?? false,
+      enableWebSearch: webOn,
     };
 
     return this.prisma.$transaction(async (tx) => {
@@ -331,6 +347,7 @@ export class AiService {
 
     let conversationId = 0;
     let threadId = '';
+    const webSearchOn = isWebSearchRequestEnabled(params.enableWebSearch);
 
     try {
       await this.assertResumeOwned(params.resumeId, jwt);
@@ -373,7 +390,7 @@ export class AiService {
           const userTurnMeta: Prisma.InputJsonValue = {
             kind: 'user_turn',
             selectedSectionIds: params.selectedSectionIds ?? [],
-            enableWebSearch: params.enableWebSearch ?? false,
+            enableWebSearch: webSearchOn,
             stream: true,
           };
 
@@ -415,7 +432,7 @@ export class AiService {
         jwt,
         {
           selectedSectionIds: params.selectedSectionIds,
-          enableWebSearch: params.enableWebSearch,
+          enableWebSearch: webSearchOn,
         },
       );
 
@@ -429,7 +446,7 @@ export class AiService {
         resumeId: params.resumeId,
         userId: jwt.id,
         suggestedSectionIds: params.selectedSectionIds,
-        enableWebSearch: params.enableWebSearch ?? false,
+        enableWebSearch: webSearchOn,
       })) {
         if (ev.kind === 'error') {
           this.writeSse(res, 'error', {
