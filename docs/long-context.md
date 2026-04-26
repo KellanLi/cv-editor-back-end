@@ -55,7 +55,9 @@
 
 ## 5. 数据模型（目标形态）
 
-以下表名为逻辑设计，落库时与 `prisma/schema.prisma` 一致，**实际字段以迁移后的 schema 为准**。
+**落库实现**：`prisma/schema.prisma` 中已定义 `AiConversationContextSummary`、`AiContextChunk`、`AiContextCompactionJob` 与枚举 `AiContextCompactionJobStatus`；`AiConversation` 上已建立 `contextSummary`、`contextChunks`、`compactionJobs` 关系。迁移见 `prisma/migrations/20260426162806_add_ai_long_context_tables/`。表 DTO 见 `src/common/dto/table/ai-conversation-context-summary.dto.ts` 等。
+
+以下字段说明与上表一致，**若与 `schema.prisma` 有出入以 schema 为准**。
 
 ### 5.1 枚举
 
@@ -194,4 +196,4 @@
 
 ## 12. 文档与实现同步
 
-- 首次落地前应对 `prisma/schema.prisma` 做迁移并执行 `prisma generate`；本文档的表字段若与实现微调，**以 schema 为最终权威**，并**回更本文**一节的表格。
+- 表结构已随迁移落地；之后若再改 `prisma/schema.prisma`，**以 schema 为最终权威**，并**回更本文**第 5 节与相关说明。

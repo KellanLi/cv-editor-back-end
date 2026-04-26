@@ -3,7 +3,8 @@
  */
 export type LanggraphStreamInput = {
   threadId: string;
-  userText: string;
+  /** 与表 `ai_conversation.id` 一致；长上下文与 `get_conversation_context` 工具用 */
+  conversationId: number;
   systemPrompt: string;
   /** 当前对话绑定的简历（工具内 ACL、加载范围） */
   resumeId: number;

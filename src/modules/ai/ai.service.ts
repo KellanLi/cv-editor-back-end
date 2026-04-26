@@ -483,7 +483,7 @@ export class AiService {
 
       for await (const ev of this.langgraph.streamBasicQa({
         threadId,
-        userText: params.userMessage,
+        conversationId,
         systemPrompt,
         resumeId: params.resumeId,
         userId: jwt.id,

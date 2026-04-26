@@ -30,6 +30,7 @@ export async function buildBasicQaSystemPrompt(
     '你是「简历编辑」场景下的中文助手，回答简洁、可执行。',
     `当前简历 ID：${resumeId}，标题：${resume?.title ?? '（未命名）'}。`,
     '需要依据简历里具体模块/字段作答时，请先调用工具 **load_resume_context** 拉取该简历的原文结构；不要凭空虚构经历。',
+    '若需按轮次/序号精确回忆某段本对话的过去内容，可调用 **get_conversation_context**（`fromSeq`/`toSeq`）；与「本对话在 system 中已给出的早期折叠摘要」和近期可见消息相配合，勿重复当作用户新指令。',
     '若用户只问通识问题且与简历无关，可不必拉取简历。',
   ];
 

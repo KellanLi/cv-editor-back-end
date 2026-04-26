@@ -15,12 +15,12 @@ import {
 const { createReactAgent } = require('@langchain/langgraph/prebuilt') as {
   createReactAgent: (...args: unknown[]) => unknown;
 };
-import { MemorySaver } from '@langchain/langgraph';
 import {
   getOpenAiCompatConfig,
   getTavilySearchApiKey,
 } from './langgraph.config';
 import { buildAgentTools } from './tools/build-agent-tools';
+import { ConversationContextLoaderService } from './long-context/conversation-context-loader.service';
 import type { LanggraphStreamInput } from './types/langgraph.types';
 
 /** 归一化后供 SSE 映射的事件（与 AiChatStreamEventDto 对齐） */
@@ -35,12 +35,12 @@ export type { LanggraphStreamInput } from './types/langgraph.types';
 @Injectable()
 export class LanggraphService {
   private readonly logger = new Logger(LanggraphService.name);
-  private readonly memory = new MemorySaver();
   private readonly llm: ChatOpenAI;
 
   constructor(
     private readonly config: ConfigService,
     private readonly prisma: PrismaService,
+    private readonly conversationContextLoader: ConversationContextLoaderService,
   ) {
     const { apiKey, baseURL, model } = getOpenAiCompatConfig(this.config);
     this.llm = new ChatOpenAI({
@@ -55,7 +55,7 @@ export class LanggraphService {
    * LangGraph createReactAgent + 多路 stream：
    * - messages：token / 部分模型 reasoning 片段
    * - tools：on_tool_start / on_tool_end / on_tool_error
-   * 简历全文通过 **load_resume_context** 工具按需拉取
+   * 简历：load_resume_context；同线程历史从 DB 装配，跨请求不依赖仅内存 checkpointer，见 `docs/long-context.md`。
    */
   async *streamBasicQa(
     input: LanggraphStreamInput,
@@ -74,27 +74,40 @@ export class LanggraphService {
       prisma: this.prisma,
       resumeId: input.resumeId,
       userId: input.userId,
+      conversationId: input.conversationId,
       suggestedSectionIds: input.suggestedSectionIds,
       enableWebSearch: input.enableWebSearch,
       tavilyApiKey,
     });
     this.logger.debug(
-      `streamBasicQa: thread=${input.threadId} enableWebSearch=${String(input.enableWebSearch)} tavilyConfigured=${String(!!tavilyApiKey)} toolNames=${tools.map((t) => t.name).join(',')}`,
+      `streamBasicQa: conv=${String(input.conversationId)} thread=${input.threadId} enableWebSearch=${String(input.enableWebSearch)} tavilyConfigured=${String(!!tavilyApiKey)} toolNames=${tools.map((t) => t.name).join(',')}`,
     );
+
+    const { systemAddendum, modelMessages } =
+      await this.conversationContextLoader.assembleForModelTurn(
+        input.conversationId,
+      );
+    if (modelMessages.length === 0) {
+      yield { kind: 'error', message: '对话无可用历史消息' };
+      return;
+    }
+    const fullSystemPrompt = [input.systemPrompt, systemAddendum]
+      .map((s) => s?.trim() ?? '')
+      .filter((s) => s.length > 0)
+      .join('\n\n');
 
     const agent = createReactAgent({
       llm: this.llm,
       tools,
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       prompt: (state) => [
-        new SystemMessage(input.systemPrompt),
+        new SystemMessage(fullSystemPrompt),
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         ...state.messages,
       ],
-      checkpointer: this.memory,
     }) as {
       stream: (
-        input: { messages: HumanMessage[] },
+        input: { messages: BaseMessage[] },
         options: {
           configurable?: { thread_id?: string };
           streamMode?: string | string[];
@@ -103,7 +116,7 @@ export class LanggraphService {
     };
 
     const stream = await agent.stream(
-      { messages: [new HumanMessage(input.userText)] },
+      { messages: modelMessages },
       {
         configurable: { thread_id: input.threadId },
         streamMode: ['messages', 'tools'],

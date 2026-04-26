@@ -2,11 +2,13 @@ import type { ClientTool } from '@langchain/core/tools';
 import { PrismaService } from '@/provider/prisma/prisma.service';
 import { createGetResumeContextTool } from './get-resume-context.tool';
 import { createWebSearchTool } from './web-search.tool';
+import { createGetConversationContextTool } from './get-conversation-context.tool';
 
 export function buildAgentTools(opts: {
   prisma: PrismaService;
   resumeId: number;
   userId: number;
+  conversationId: number;
   suggestedSectionIds?: number[];
   /** 是否除简历工具外再挂上联网工具 */
   enableWebSearch: boolean;
@@ -22,7 +24,12 @@ export function buildAgentTools(opts: {
     userId: opts.userId,
     suggestedSectionIds: opts.suggestedSectionIds,
   });
+  const historyTool = createGetConversationContextTool(opts.prisma, {
+    conversationId: opts.conversationId,
+    userId: opts.userId,
+  });
+  const base: ClientTool[] = [resumeTool, historyTool];
   const web =
     opts.webSearch ?? createWebSearchTool({ tavilyApiKey: opts.tavilyApiKey });
-  return opts.enableWebSearch ? [resumeTool, web] : [resumeTool];
+  return opts.enableWebSearch ? [...base, web] : base;
 }
