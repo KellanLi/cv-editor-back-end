@@ -52,6 +52,34 @@ export class AiService {
     res.write(`data: ${JSON.stringify(data)}\n\n`);
   }
 
+  /**
+   * 未带 conversationId 的「新会话首条」时：用 LLM 起标题并写库；失败时用首条内容截断兜底（仍写库），供列表与 meta 展示。
+   */
+  private async resolveAndPersistNewConversationTitle(
+    params: SendAiChatDto,
+    newConversationId: number,
+  ): Promise<string | null> {
+    if (params.conversationId != null) {
+      return null;
+    }
+    let title = await this.langgraph.generateConversationTitle(
+      params.userMessage,
+    );
+    if (!title) {
+      const t = params.userMessage.trim();
+      if (t) {
+        title = t.length > 40 ? `${t.slice(0, 40)}…` : t;
+      }
+    }
+    if (title) {
+      await this.prisma.aiConversation.update({
+        where: { id: newConversationId },
+        data: { title },
+      });
+    }
+    return title;
+  }
+
   private async assertResumeOwned(resumeId: number, jwt: IJwtPayload) {
     const r = await this.prisma.resume.findFirst({
       where: { id: resumeId, userId: jwt.id },
@@ -260,7 +288,7 @@ export class AiService {
       enableWebSearch: webOn,
     };
 
-    return this.prisma.$transaction(async (tx) => {
+    const out = await this.prisma.$transaction(async (tx) => {
       let conversation = params.conversationId
         ? await tx.aiConversation.findFirst({
             where: {
@@ -332,6 +360,12 @@ export class AiService {
         assistantMessage: assistantMsg,
       };
     });
+
+    await this.resolveAndPersistNewConversationTitle(
+      params,
+      out.conversationId,
+    );
+    return out;
   }
 
   /**
@@ -417,12 +451,20 @@ export class AiService {
       conversationId = conversation.id;
       threadId = conversation.threadId;
 
+      const metaTitle = await this.resolveAndPersistNewConversationTitle(
+        params,
+        conversationId,
+      );
+
       this.writeSse(res, 'meta', {
         phase: 'meta',
         conversationId,
         payload: {
           threadId,
           userMessageId: userMsg.id,
+          ...(metaTitle != null && metaTitle.length > 0
+            ? { title: metaTitle }
+            : {}),
         },
       });
 

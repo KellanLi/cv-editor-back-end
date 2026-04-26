@@ -150,13 +150,13 @@ export class AiController {
   @Post('chat/stream')
   @ApiOperation({
     summary:
-      '基础问答（SSE 流式）：LangGraph messages/tools 流映射为 message/reasoning/tool 事件',
+      '基础问答（SSE 流式）：`conversationId` 可选，不传时首条在服务端建会话、LLM 起标题；LangGraph 流为 message / reasoning / tool 等',
   })
   @ApiBody({ type: SendAiChatDto })
   @ApiProduces('text/event-stream')
   @ApiOkResponse({
     description:
-      'SSE 事件流（event: message/error/done, data: AiChatStreamEventDto 的 JSON 字符串）',
+      'SSE：`event: meta` 在首条落库后尽早发出，data 含 `phase: "meta"`、`conversationId`，`payload` 含 `threadId`、`userMessageId`、新会话时可能含 `title`；正文的 `message` / `error` / `done` 等同前',
   })
   async streamChat(
     @Body() body: SendAiChatDto,

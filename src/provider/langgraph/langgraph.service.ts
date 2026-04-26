@@ -149,6 +149,82 @@ export class LanggraphService {
     }
   }
 
+  /**
+   * 由用户首条消息生成短标题，供新会话在首条请求内写库与 SSE meta 使用；无 key 或失败时返回 null。
+   */
+  async generateConversationTitle(
+    firstUserText: string,
+  ): Promise<string | null> {
+    const { apiKey, baseURL, model } = getOpenAiCompatConfig(this.config);
+    if (!apiKey) {
+      this.logger.debug('generateConversationTitle: no OPENAI_API_KEY');
+      return null;
+    }
+
+    const normalized = firstUserText.trim().replace(/\s+/g, ' ');
+    if (!normalized) {
+      return null;
+    }
+    const snippet =
+      normalized.length > 1500 ? `${normalized.slice(0, 1500)}…` : normalized;
+
+    const titleLlm = new ChatOpenAI({
+      model,
+      temperature: 0.2,
+      maxTokens: 100,
+      apiKey,
+      configuration: { baseURL },
+    });
+
+    try {
+      const res = await titleLlm.invoke([
+        new SystemMessage(
+          '你是「简历助手」的会话标题生成器。请根据用户的第一条消息，用不超过 24 个字符的中文写一句「对话标题」：要概括用户意图、便于在列表中辨认。不要引号、不要换行、不要任何前缀/解释/结尾标点，只输出标题正文本身。',
+        ),
+        new HumanMessage(`用户首条消息如下：\n${snippet}`),
+      ]);
+      const raw = this.readPlainTextFromAiMessage(res);
+      if (!raw) {
+        return null;
+      }
+      const first = raw.split(/[\n\r]+/u)[0];
+      if (!first) {
+        return null;
+      }
+      const line = first.replace(/^["'「『\s]+|["'」』\s]+$/gu, '').trim();
+      if (!line) {
+        return null;
+      }
+      return line.length > 60 ? `${line.slice(0, 57)}…` : line;
+    } catch (e) {
+      this.logger.warn(
+        `generateConversationTitle: ${e instanceof Error ? e.message : String(e)}`,
+      );
+      return null;
+    }
+  }
+
+  private readPlainTextFromAiMessage(msg: { content: unknown }): string {
+    const c = msg.content;
+    if (typeof c === 'string') {
+      return c;
+    }
+    if (Array.isArray(c)) {
+      let s = '';
+      for (const part of c) {
+        if (!part || typeof part !== 'object') {
+          continue;
+        }
+        const p = part as { type?: string; text?: string };
+        if (p.type === 'text' && typeof p.text === 'string') {
+          s += p.text;
+        }
+      }
+      return s;
+    }
+    return '';
+  }
+
   private splitMessageChunk(chunk: AIMessageChunk): {
     textDelta?: string;
     reasoningDelta?: string;
