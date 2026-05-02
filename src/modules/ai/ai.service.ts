@@ -1,8 +1,10 @@
 import { PrismaService } from '@/provider/prisma/prisma.service';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { LanggraphService } from '@/provider/langgraph/langgraph.service';
 import { IJwtPayload } from '@/types/auth.types';
 import { randomUUID } from 'node:crypto';
+import { appendFile, mkdir } from 'node:fs/promises';
+import { join } from 'node:path';
 import {
   ListAiConversationDto,
   ListAiConversationDataDto,
@@ -40,8 +42,31 @@ function isWebSearchRequestEnabled(value: unknown): boolean {
   return false;
 }
 
+function isLikelyResumeEditIntent(text: string): boolean {
+  const normalized = text.trim().toLowerCase();
+  if (!normalized) {
+    return false;
+  }
+  return /修改|编辑|更新|新增|添加|创建|删除|重排|排序|调整|改一下|改成|修正|润色/u.test(
+    normalized,
+  );
+}
+
+function hasResumeWriteToolCall(toolEvents: unknown[]): boolean {
+  if (!toolEvents.length) {
+    return false;
+  }
+  const payloadText = JSON.stringify(toolEvents).toLowerCase();
+  return (
+    payloadText.includes('update_section_content') ||
+    payloadText.includes('create_section')
+  );
+}
+
 @Injectable()
 export class AiService {
+  private readonly logger = new Logger(AiService.name);
+
   constructor(
     private readonly prisma: PrismaService,
     private readonly langgraph: LanggraphService,
@@ -50,6 +75,47 @@ export class AiService {
   private writeSse(res: Response, event: string, data: unknown) {
     res.write(`event: ${event}\n`);
     res.write(`data: ${JSON.stringify(data)}\n\n`);
+  }
+
+  private async createChatLogFile(params: {
+    conversationId: number;
+    threadId: string;
+  }): Promise<string | null> {
+    try {
+      const dir = join(process.cwd(), 'docs', 'chat-logs');
+      await mkdir(dir, { recursive: true });
+      const ts = new Date().toISOString().replace(/[:.]/g, '-');
+      const threadSafe = params.threadId.replace(/[^a-zA-Z0-9_-]/g, '_');
+      return join(
+        dir,
+        `${ts}-conv-${params.conversationId}-thread-${threadSafe}.jsonl`,
+      );
+    } catch (error) {
+      this.logger.warn(
+        `createChatLogFile failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+      return null;
+    }
+  }
+
+  private async appendChatLog(
+    logFilePath: string | null,
+    entry: Record<string, unknown>,
+  ): Promise<void> {
+    if (!logFilePath) {
+      return;
+    }
+    try {
+      await appendFile(
+        logFilePath,
+        `${JSON.stringify({ ts: new Date().toISOString(), ...entry })}\n`,
+        'utf8',
+      );
+    } catch (error) {
+      this.logger.warn(
+        `appendChatLog failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
   }
 
   /**
@@ -313,6 +379,14 @@ export class AiService {
             title: null,
           },
         });
+      } else if (
+        params.purpose !== undefined &&
+        params.purpose !== conversation.purpose
+      ) {
+        conversation = await tx.aiConversation.update({
+          where: { id: conversation.id },
+          data: { purpose: params.purpose },
+        });
       }
 
       const last = await tx.aiMessage.findFirst({
@@ -382,6 +456,16 @@ export class AiService {
     let conversationId = 0;
     let threadId = '';
     const webSearchOn = isWebSearchRequestEnabled(params.enableWebSearch);
+    let logFilePath: string | null = null;
+    const toolEvents: unknown[] = [];
+    let streamFailureReason = '';
+    let clientDisconnected = false;
+    let assistantText = '';
+    let streamOk = true;
+
+    res.on('close', () => {
+      clientDisconnected = true;
+    });
 
     try {
       await this.assertResumeOwned(params.resumeId, jwt);
@@ -411,6 +495,14 @@ export class AiService {
                 threadId: randomUUID(),
                 title: null,
               },
+            });
+          } else if (
+            params.purpose !== undefined &&
+            params.purpose !== conversation.purpose
+          ) {
+            conversation = await tx.aiConversation.update({
+              where: { id: conversation.id },
+              data: { purpose: params.purpose },
             });
           }
 
@@ -450,6 +542,18 @@ export class AiService {
 
       conversationId = conversation.id;
       threadId = conversation.threadId;
+      logFilePath = await this.createChatLogFile({ conversationId, threadId });
+      await this.appendChatLog(logFilePath, {
+        kind: 'request',
+        conversationId,
+        threadId,
+        resumeId: params.resumeId,
+        userId: jwt.id,
+        purpose: conversation.purpose,
+        enableWebSearch: webSearchOn,
+        selectedSectionIds: params.selectedSectionIds ?? [],
+        userMessage: params.userMessage,
+      });
 
       const metaTitle = await this.resolveAndPersistNewConversationTitle(
         params,
@@ -475,11 +579,14 @@ export class AiService {
         {
           selectedSectionIds: params.selectedSectionIds,
           enableWebSearch: webSearchOn,
+          purpose: conversation.purpose,
         },
       );
-
-      let assistantText = '';
-      let streamOk = true;
+      await this.appendChatLog(logFilePath, {
+        kind: 'system_prompt',
+        conversationId,
+        text: systemPrompt,
+      });
 
       for await (const ev of this.langgraph.streamBasicQa({
         threadId,
@@ -487,9 +594,18 @@ export class AiService {
         systemPrompt,
         resumeId: params.resumeId,
         userId: jwt.id,
+        purpose: conversation.purpose,
         suggestedSectionIds: params.selectedSectionIds,
         enableWebSearch: webSearchOn,
       })) {
+        if (clientDisconnected) {
+          streamOk = false;
+          streamFailureReason = 'client_disconnected';
+          this.logger.warn(
+            `streamChat aborted: client disconnected (conversationId=${String(conversationId)})`,
+          );
+          break;
+        }
         if (ev.kind === 'error') {
           this.writeSse(res, 'error', {
             phase: 'error',
@@ -497,6 +613,7 @@ export class AiService {
             conversationId,
           });
           streamOk = false;
+          streamFailureReason = ev.message || 'langgraph_stream_error';
           break;
         }
         if (ev.kind === 'message') {
@@ -515,6 +632,7 @@ export class AiService {
             payload: ev.payload,
           });
         } else if (ev.kind === 'tool') {
+          toolEvents.push(ev.payload);
           this.writeSse(res, 'tool', {
             phase: 'tool',
             conversationId,
@@ -524,6 +642,38 @@ export class AiService {
       }
 
       if (streamOk) {
+        const wantsEdit = isLikelyResumeEditIntent(params.userMessage);
+        const writeToolCalled = hasResumeWriteToolCall(toolEvents);
+        let guardrailNote = '';
+        if (
+          wantsEdit &&
+          conversation.purpose !== AiConversationPurpose.DIALOGUE_EDIT
+        ) {
+          guardrailNote = [
+            '⚠️ 本轮会话模式为非编辑模式，后端未挂载写入工具。',
+            '因此未对简历做任何修改；若要实际改简历，请将会话 purpose 切到 DIALOGUE_EDIT 后重试。',
+          ].join('\n');
+        } else if (
+          wantsEdit &&
+          conversation.purpose === AiConversationPurpose.DIALOGUE_EDIT &&
+          !writeToolCalled
+        ) {
+          guardrailNote = [
+            '⚠️ 本轮未检测到写入工具调用（`update_section_content` / `create_section`）。',
+            '因此并未真正修改简历；请重试并要求我先调用工具再反馈结果。',
+          ].join('\n');
+        }
+        if (guardrailNote) {
+          const noteDelta = `\n\n${guardrailNote}`;
+          assistantText += noteDelta;
+          this.writeSse(res, 'message', {
+            phase: 'message',
+            deltaText: noteDelta,
+            conversationId,
+            payload: { guardrail: true },
+          });
+        }
+
         const last = await this.prisma.aiMessage.findFirst({
           where: { conversationId },
           orderBy: { seq: 'desc' },
@@ -558,14 +708,50 @@ export class AiService {
             assistantMessageId: assistantMsg.id,
           },
         });
+        await this.appendChatLog(logFilePath, {
+          kind: 'assistant_final',
+          conversationId,
+          assistantMessageId: assistantMsg.id,
+          text: assistantText,
+        });
+        await this.appendChatLog(logFilePath, {
+          kind: 'tool_calls',
+          conversationId,
+          count: toolEvents.length,
+          payload: toolEvents,
+        });
+        await this.appendChatLog(logFilePath, {
+          kind: 'done',
+          conversationId,
+          ok: true,
+        });
+      } else {
+        await this.appendChatLog(logFilePath, {
+          kind: 'terminated',
+          conversationId,
+          ok: false,
+          reason: streamFailureReason || 'stream_not_completed',
+          partialAssistantText: assistantText,
+          toolCallCount: toolEvents.length,
+        });
       }
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'stream chat failed';
+      streamFailureReason = message;
       this.writeSse(res, 'error', {
         phase: 'error',
         deltaText: message,
         ...(conversationId ? { conversationId } : {}),
+      });
+      await this.appendChatLog(logFilePath, {
+        kind: 'exception',
+        ok: false,
+        reason: message,
+        conversationId: conversationId || null,
+        threadId: threadId || null,
+        partialAssistantText: assistantText,
+        toolCallCount: toolEvents.length,
       });
     } finally {
       res.end();

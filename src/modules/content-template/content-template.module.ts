@@ -5,5 +5,6 @@ import { ContentTemplateController } from './content-template.controller';
 @Module({
   controllers: [ContentTemplateController],
   providers: [ContentTemplateService],
+  exports: [ContentTemplateService],
 })
 export class ContentTemplateModule {}

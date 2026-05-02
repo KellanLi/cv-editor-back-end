@@ -28,7 +28,8 @@ export class ConversationContextLoaderService {
     const summary = await this.prisma.aiConversationContextSummary.findUnique({
       where: { conversationId },
     });
-    const covered = summary?.coversUpToSeq ?? 0;
+    // 无摘要时应保留整段消息；首轮用户消息通常 seq=0，默认 covered 需为 -1。
+    const covered = summary ? summary.coversUpToSeq : -1;
     const rolling = (summary?.rollingSummary ?? '').trim();
     const tail = await this.prisma.aiMessage.findMany({
       where: {

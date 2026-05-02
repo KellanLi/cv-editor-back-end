@@ -1,5 +1,6 @@
 import { PrismaService } from '@/provider/prisma/prisma.service';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import type { Prisma } from '@/generated/client';
 import { ListContentTemplateDto } from './dto/list.dto';
 import { CreateContentTemplateDto } from './dto/create.dto';
 import { UpdateContentTemplateDto } from './dto/update.dto';
@@ -9,6 +10,29 @@ import { IJwtPayload } from '@/types/auth.types';
 @Injectable()
 export class ContentTemplateService {
   constructor(private prismaService: PrismaService) {}
+
+  /**
+   * 当前用户拥有的单条内容模板（含 infoTemplates，按 order 升序）。
+   */
+  async findByIdForUser(
+    id: number,
+    jwt: IJwtPayload,
+  ): Promise<
+    Prisma.ContentTemplateGetPayload<{
+      include: { infoTemplates: true };
+    }>
+  > {
+    const res = await this.prismaService.contentTemplate.findFirst({
+      where: { id, userId: jwt.id },
+      include: {
+        infoTemplates: { orderBy: { order: 'asc' } },
+      },
+    });
+    if (!res) {
+      throw new NotFoundException('内容模板不存在');
+    }
+    return res;
+  }
 
   async list(params: ListContentTemplateDto, jwt: IJwtPayload) {
     const { filter, pagination } = params;

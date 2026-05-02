@@ -12,6 +12,7 @@ import { UpdateSectionDto } from './dto/update.dto';
 import { ReorderSectionDto } from './dto/reorder.dto';
 import { IJwtPayload } from '@/types/auth.types';
 import type { Prisma } from '@/generated/client';
+import { ResumeUpdatesService } from '@/provider/resume-updates/resume-updates.service';
 
 const sectionInclude = {
   contents: {
@@ -37,7 +38,10 @@ function emptyValuesForTemplate(
 
 @Injectable()
 export class SectionService {
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(
+    private readonly prismaService: PrismaService,
+    private readonly resumeUpdatesService: ResumeUpdatesService,
+  ) {}
 
   private async assertResumeOwned(
     resumeId: number,
@@ -55,15 +59,37 @@ export class SectionService {
   private async getSectionOwnedOrThrow(
     sectionId: number,
     userId: number,
-  ): Promise<{ id: number }> {
+  ): Promise<{ id: number; resumeId: number }> {
     const section = await this.prismaService.section.findFirst({
       where: { id: sectionId, resume: { userId } },
-      select: { id: true },
+      select: { id: true, resumeId: true },
     });
     if (!section) {
       throw new NotFoundException('模块不存在');
     }
     return section;
+  }
+
+  private async touchResumeAndPublish(params: {
+    resumeId: number;
+    userId: number;
+    trigger:
+      | 'section.create'
+      | 'section.delete'
+      | 'section.update'
+      | 'section.reorder'
+      | 'section.update-content';
+    sectionId?: number;
+  }) {
+    await this.prismaService.resume.updateMany({
+      where: { id: params.resumeId, userId: params.userId },
+      data: { updatedAt: new Date() },
+    });
+    this.resumeUpdatesService.publishToResume(params.userId, {
+      resumeId: params.resumeId,
+      trigger: params.trigger,
+      sectionId: params.sectionId,
+    });
   }
 
   async list(params: ListSectionDto, jwt: IJwtPayload) {
@@ -110,7 +136,7 @@ export class SectionService {
       throw new NotFoundException('内容模板不存在');
     }
 
-    return this.prismaService.$transaction(async (tx) => {
+    const created = await this.prismaService.$transaction(async (tx) => {
       const section = await tx.section.create({
         data: {
           resumeId,
@@ -140,6 +166,13 @@ export class SectionService {
         include: sectionInclude,
       });
     });
+    await this.touchResumeAndPublish({
+      resumeId,
+      userId: jwt.id,
+      trigger: 'section.create',
+      sectionId: created.id,
+    });
+    return created;
   }
 
   async delete(
@@ -147,7 +180,7 @@ export class SectionService {
     jwt: IJwtPayload,
   ): Promise<SectionWithContents> {
     const { id } = params;
-    await this.getSectionOwnedOrThrow(id, jwt.id);
+    const ownedSection = await this.getSectionOwnedOrThrow(id, jwt.id);
 
     const snapshot = await this.prismaService.section.findFirst({
       where: { id, resume: { userId: jwt.id } },
@@ -169,6 +202,12 @@ export class SectionService {
       await tx.content.deleteMany({ where: { sectionId: id } });
       await tx.section.delete({ where: { id } });
     });
+    await this.touchResumeAndPublish({
+      resumeId: ownedSection.resumeId,
+      userId: jwt.id,
+      trigger: 'section.delete',
+      sectionId: id,
+    });
 
     return snapshot;
   }
@@ -178,11 +217,17 @@ export class SectionService {
     jwt: IJwtPayload,
   ): Promise<SectionWithContents> {
     const { id, order } = params;
-    await this.getSectionOwnedOrThrow(id, jwt.id);
+    const ownedSection = await this.getSectionOwnedOrThrow(id, jwt.id);
 
     await this.prismaService.section.update({
       where: { id },
       data: { order },
+    });
+    await this.touchResumeAndPublish({
+      resumeId: ownedSection.resumeId,
+      userId: jwt.id,
+      trigger: 'section.update',
+      sectionId: id,
     });
 
     return this.prismaService.section.findUniqueOrThrow({
@@ -232,6 +277,11 @@ export class SectionService {
       include: sectionInclude,
       orderBy: [{ order: 'asc' }, { id: 'asc' }],
     });
+    await this.touchResumeAndPublish({
+      resumeId,
+      userId: jwt.id,
+      trigger: 'section.reorder',
+    });
     return { list };
   }
 
@@ -240,9 +290,9 @@ export class SectionService {
     jwt: IJwtPayload,
   ): Promise<SectionWithContents> {
     const { sectionId, contents } = params;
-    await this.getSectionOwnedOrThrow(sectionId, jwt.id);
+    const ownedSection = await this.getSectionOwnedOrThrow(sectionId, jwt.id);
 
-    return this.prismaService.$transaction(async (tx) => {
+    const updated = await this.prismaService.$transaction(async (tx) => {
       const existingContents = await tx.content.findMany({
         where: { sectionId },
         select: { id: true },
@@ -276,5 +326,12 @@ export class SectionService {
         include: sectionInclude,
       });
     });
+    await this.touchResumeAndPublish({
+      resumeId: ownedSection.resumeId,
+      userId: jwt.id,
+      trigger: 'section.update-content',
+      sectionId,
+    });
+    return updated;
   }
 }

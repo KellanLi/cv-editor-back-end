@@ -13,10 +13,26 @@ import { UpdateResumeListCoverDto } from './dto/update-list-cover.dto';
 import { UpdateResumeProfileDto } from './dto/update-profile.dto';
 import { IJwtPayload } from '@/types/auth.types';
 import { Prisma } from '@/generated/client';
+import { StreamResumeUpdatesDto } from './dto/stream-updates.dto';
+import { ResumeUpdatesService } from '@/provider/resume-updates/resume-updates.service';
+import type { Response } from 'express';
 
 @Injectable()
 export class ResumeService {
-  constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private readonly resumeUpdatesService: ResumeUpdatesService,
+  ) {}
+
+  private async assertResumeOwnedOrThrow(resumeId: number, userId: number) {
+    const resume = await this.prismaService.resume.findFirst({
+      where: { id: resumeId, userId },
+      select: { id: true },
+    });
+    if (!resume) {
+      throw new NotFoundException('简历不存在');
+    }
+  }
 
   async list(params: ListResumeDto, jwt: IJwtPayload) {
     const { filter, pagination } = params;
@@ -50,14 +66,11 @@ export class ResumeService {
 
   async detail(params: DetailResumeDto, jwt: IJwtPayload) {
     const { id } = params;
-    const resume = await this.prismaService.resume.findFirst({
+    await this.assertResumeOwnedOrThrow(id, jwt.id);
+    return this.prismaService.resume.findFirstOrThrow({
       where: { id, userId: jwt.id },
       include: { profile: true },
     });
-    if (!resume) {
-      throw new NotFoundException('简历不存在');
-    }
-    return resume;
   }
 
   async updateListCover(params: UpdateResumeListCoverDto, jwt: IJwtPayload) {
@@ -74,11 +87,16 @@ export class ResumeService {
     if (!existing) {
       throw new NotFoundException('简历不存在');
     }
-    return this.prismaService.resume.update({
+    const updated = await this.prismaService.resume.update({
       where: { id, userId: jwt.id },
       data: { listCoverImageUrl },
       include: { profile: true },
     });
+    this.resumeUpdatesService.publishToResume(jwt.id, {
+      resumeId: id,
+      trigger: 'resume.update-list-cover',
+    });
+    return updated;
   }
 
   async updateTitle(params: UpdateResumeTitleDto, jwt: IJwtPayload) {
@@ -90,11 +108,16 @@ export class ResumeService {
     if (!existing) {
       throw new NotFoundException('简历不存在');
     }
-    return this.prismaService.resume.update({
+    const updated = await this.prismaService.resume.update({
       where: { id, userId: jwt.id },
       data: { title },
       include: { profile: true },
     });
+    this.resumeUpdatesService.publishToResume(jwt.id, {
+      resumeId: id,
+      trigger: 'resume.update-title',
+    });
+    return updated;
   }
 
   async updateProfile(dto: UpdateResumeProfileDto, jwt: IJwtPayload) {
@@ -147,9 +170,27 @@ export class ResumeService {
         });
       },
     );
-    return this.prismaService.resume.findFirstOrThrow({
+    const updated = await this.prismaService.resume.findFirstOrThrow({
       where: { id: resumeId, userId: jwt.id },
       include: { profile: true },
+    });
+    this.resumeUpdatesService.publishToResume(jwt.id, {
+      resumeId,
+      trigger: 'resume.update-profile',
+    });
+    return updated;
+  }
+
+  async streamUpdates(
+    params: StreamResumeUpdatesDto,
+    jwt: IJwtPayload,
+    res: Response,
+  ) {
+    await this.assertResumeOwnedOrThrow(params.resumeId, jwt.id);
+    await this.resumeUpdatesService.streamResumeUpdates({
+      userId: jwt.id,
+      resumeId: params.resumeId,
+      res,
     });
   }
 

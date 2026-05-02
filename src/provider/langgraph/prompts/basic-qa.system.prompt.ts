@@ -1,5 +1,6 @@
 import type { IJwtPayload } from '@/types/auth.types';
 import { PrismaService } from '@/provider/prisma/prisma.service';
+import { AiConversationPurpose } from '@/generated/enums';
 
 /**
  * 基础问答系统提示：
@@ -13,6 +14,7 @@ export async function buildBasicQaSystemPrompt(
   input: {
     selectedSectionIds?: number[];
     enableWebSearch?: boolean;
+    purpose: AiConversationPurpose;
   },
 ): Promise<string> {
   const resume = await prisma.resume.findFirst({
@@ -33,6 +35,36 @@ export async function buildBasicQaSystemPrompt(
     '若需按轮次/序号精确回忆某段本对话的过去内容，可调用 **get_conversation_context**（`fromSeq`/`toSeq`）；与「本对话在 system 中已给出的早期折叠摘要」和近期可见消息相配合，勿重复当作用户新指令。',
     '若用户只问通识问题且与简历无关，可不必拉取简历。',
   ];
+
+  if (input.purpose === AiConversationPurpose.DIALOGUE_EDIT) {
+    lines.push(
+      '**当前模式：DIALOGUE_EDIT（可编辑）**。改简历正文前，先 **load_content_template**（入参为该 Section 的 contentTemplateId，可从 load_resume_context 得知）理解各字段 names 与 values 下标；再用 **update_section_content** 一次只更新**一个** sectionId（会全量替换该模块下所有 Content/Info，勿漏条目）。',
+    );
+    lines.push(
+      '当你声称“已修改/已新增/已删除”时，必须先真实调用写入工具（**update_section_content** 或 **create_section**）并基于工具结果反馈；若未调用或调用失败，必须明确说明“未实际修改成功”，禁止臆造完成状态。',
+    );
+    lines.push(
+      '**新建模块**：**list_content_templates** 选模板 →（建议）load_resume_context scope=outline 看 order → **create_section**（resumeId 必须等于当前简历）。',
+    );
+    lines.push(
+      [
+        '**Section 编辑 Skill（必须遵守）**：',
+        'A) 先按 info.order 对齐同 order 的模板信息层，再写 values；Info.type 必须与模板一致。',
+        'B) update_section_content 传结构化参数，不要手写 JSON 字符串转义；时间段可直接传对象 {start,end}。',
+        'C) 典型格式：',
+        '  - TITLE_AND_TIME_PERIOD: ["标题",{"start":"2026-04-01","end":"2026-04-18"}]',
+        '  - LEFT_AND_RIGHT_TEXT: ["左文本","右文本"]',
+        '  - RICH_TEXT: ["<p>富文本</p>"]',
+      ].join('\n'),
+    );
+  } else {
+    lines.push(
+      `**当前模式：${input.purpose}（非编辑）**。请勿尝试新增/修改模块内容，仅做问答、分析与建议。`,
+    );
+    lines.push(
+      '若用户提出“请修改简历”等编辑请求，你必须明确说明当前模式不可写入，并引导其切换到 DIALOGUE_EDIT；禁止假装已完成修改。',
+    );
+  }
 
   lines.push(
     '【JD 默认上下文】（与下方 load_resume_context 拉取的简历原文相互独立；未配置则标注无）',

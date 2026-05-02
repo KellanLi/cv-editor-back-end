@@ -22,6 +22,8 @@ import {
 import { buildAgentTools } from './tools/build-agent-tools';
 import { ConversationContextLoaderService } from './long-context/conversation-context-loader.service';
 import type { LanggraphStreamInput } from './types/langgraph.types';
+import { SectionService } from '@/modules/section/section.service';
+import { ContentTemplateService } from '@/modules/content-template/content-template.service';
 
 /** 归一化后供 SSE 映射的事件（与 AiChatStreamEventDto 对齐） */
 export type LanggraphStreamEmit =
@@ -41,6 +43,8 @@ export class LanggraphService {
     private readonly config: ConfigService,
     private readonly prisma: PrismaService,
     private readonly conversationContextLoader: ConversationContextLoaderService,
+    private readonly sectionService: SectionService,
+    private readonly contentTemplateService: ContentTemplateService,
   ) {
     const { apiKey, baseURL, model } = getOpenAiCompatConfig(this.config);
     this.llm = new ChatOpenAI({
@@ -72,9 +76,12 @@ export class LanggraphService {
     const tavilyApiKey = getTavilySearchApiKey(this.config);
     const tools = buildAgentTools({
       prisma: this.prisma,
+      sectionService: this.sectionService,
+      contentTemplateService: this.contentTemplateService,
       resumeId: input.resumeId,
       userId: input.userId,
       conversationId: input.conversationId,
+      purpose: input.purpose,
       suggestedSectionIds: input.suggestedSectionIds,
       enableWebSearch: input.enableWebSearch,
       tavilyApiKey,
@@ -111,6 +118,7 @@ export class LanggraphService {
         options: {
           configurable?: { thread_id?: string };
           streamMode?: string | string[];
+          recursionLimit?: number;
         },
       ) => Promise<AsyncIterable<unknown>>;
     };
@@ -120,6 +128,7 @@ export class LanggraphService {
       {
         configurable: { thread_id: input.threadId },
         streamMode: ['messages', 'tools'],
+        recursionLimit: 30,
       },
     );
 

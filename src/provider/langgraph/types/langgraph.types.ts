@@ -1,3 +1,5 @@
+import { AiConversationPurpose } from '@/generated/enums';
+
 /**
  * LangGraph 流式入参（由 AiService 在鉴权后传入，含简历隔离字段）
  */
@@ -14,4 +16,5 @@ export type LanggraphStreamInput = {
    */
   suggestedSectionIds?: number[];
   enableWebSearch: boolean;
+  purpose: AiConversationPurpose;
 };

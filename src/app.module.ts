@@ -12,6 +12,7 @@ import { ContentTemplateModule } from './modules/content-template/content-templa
 import { SectionModule } from './modules/section/section.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { AiModule } from './modules/ai/ai.module';
+import { ResumeUpdatesModule } from './provider/resume-updates/resume-updates.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AiModule } from './modules/ai/ai.module';
     SectionModule,
     StorageModule,
     AiModule,
+    ResumeUpdatesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
