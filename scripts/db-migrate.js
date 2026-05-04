@@ -3,7 +3,8 @@
 const { spawnSync } = require('child_process');
 const path = require('path');
 
-const name = process.argv[2];
+const raw = process.argv.slice(2);
+const name = raw[0] === '--' ? raw[1] : raw[0];
 
 if (!name) {
   console.error('❌ 请输入迁移名称，例如: pnpm db:migrate add_content_info_order');

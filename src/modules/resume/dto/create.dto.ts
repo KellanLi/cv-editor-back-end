@@ -1,5 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString, MaxLength } from 'class-validator';
+
+const JD_MAX_CHARS = 200_000;
 
 export class CreateResumeDto {
   @ApiProperty({
@@ -18,4 +20,14 @@ export class CreateResumeDto {
   @IsOptional()
   @IsString()
   listCoverImageUrl?: string;
+
+  @ApiProperty({
+    required: false,
+    description:
+      '职位描述（JD）全文；可选。创建后可用 resume/update-job-description 修改或清空',
+  })
+  @IsOptional()
+  @IsString()
+  @MaxLength(JD_MAX_CHARS)
+  jobDescriptionText?: string;
 }

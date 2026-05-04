@@ -44,6 +44,15 @@ export class ResumeTableDto {
   listCoverImageUrl?: string | null;
 
   @ApiProperty({
+    required: false,
+    nullable: true,
+    description: '职位描述（JD）全文；该简历下所有 AI 对话复用',
+  })
+  @IsOptional()
+  @IsString()
+  jobDescriptionText?: string | null;
+
+  @ApiProperty({
     example: '2023-01-01T00:00:00.000Z',
     description: '创建时间',
   })

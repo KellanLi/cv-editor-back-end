@@ -6,6 +6,7 @@ type ResumeUpdateTrigger =
   | 'resume.update-title'
   | 'resume.update-profile'
   | 'resume.update-list-cover'
+  | 'resume.update-job-description'
   | 'section.create'
   | 'section.delete'
   | 'section.update'

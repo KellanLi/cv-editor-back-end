@@ -26,6 +26,8 @@ model Resume {
   title     String
   /// 列表/卡片等场景展示用的封面图 URL
   listCoverImageUrl String?
+  /// 该简历关联的职位描述（JD）全文；该简历下所有 AI 对话复用（优先于 `AiGlobalContext` key=job_description）
+  jobDescriptionText String? @map("job_description_text") @db.LongText
   createdAt DateTime       @default(now())
   updatedAt DateTime       @updatedAt
   user      User           @relation(fields: [userId], references: [id])

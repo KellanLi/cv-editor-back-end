@@ -41,6 +41,7 @@ export type ResumeMinAggregateOutputType = {
   userId: number | null
   title: string | null
   listCoverImageUrl: string | null
+  jobDescriptionText: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +51,7 @@ export type ResumeMaxAggregateOutputType = {
   userId: number | null
   title: string | null
   listCoverImageUrl: string | null
+  jobDescriptionText: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -59,6 +61,7 @@ export type ResumeCountAggregateOutputType = {
   userId: number
   title: number
   listCoverImageUrl: number
+  jobDescriptionText: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -80,6 +83,7 @@ export type ResumeMinAggregateInputType = {
   userId?: true
   title?: true
   listCoverImageUrl?: true
+  jobDescriptionText?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -89,6 +93,7 @@ export type ResumeMaxAggregateInputType = {
   userId?: true
   title?: true
   listCoverImageUrl?: true
+  jobDescriptionText?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -98,6 +103,7 @@ export type ResumeCountAggregateInputType = {
   userId?: true
   title?: true
   listCoverImageUrl?: true
+  jobDescriptionText?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -194,6 +200,7 @@ export type ResumeGroupByOutputType = {
   userId: number
   title: string
   listCoverImageUrl: string | null
+  jobDescriptionText: string | null
   createdAt: Date
   updatedAt: Date
   _count: ResumeCountAggregateOutputType | null
@@ -226,6 +233,7 @@ export type ResumeWhereInput = {
   userId?: Prisma.IntFilter<"Resume"> | number
   title?: Prisma.StringFilter<"Resume"> | string
   listCoverImageUrl?: Prisma.StringNullableFilter<"Resume"> | string | null
+  jobDescriptionText?: Prisma.StringNullableFilter<"Resume"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -240,6 +248,7 @@ export type ResumeOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   listCoverImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  jobDescriptionText?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
@@ -258,6 +267,7 @@ export type ResumeWhereUniqueInput = Prisma.AtLeast<{
   userId?: Prisma.IntFilter<"Resume"> | number
   title?: Prisma.StringFilter<"Resume"> | string
   listCoverImageUrl?: Prisma.StringNullableFilter<"Resume"> | string | null
+  jobDescriptionText?: Prisma.StringNullableFilter<"Resume"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -272,6 +282,7 @@ export type ResumeOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   listCoverImageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  jobDescriptionText?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ResumeCountOrderByAggregateInput
@@ -289,6 +300,7 @@ export type ResumeScalarWhereWithAggregatesInput = {
   userId?: Prisma.IntWithAggregatesFilter<"Resume"> | number
   title?: Prisma.StringWithAggregatesFilter<"Resume"> | string
   listCoverImageUrl?: Prisma.StringNullableWithAggregatesFilter<"Resume"> | string | null
+  jobDescriptionText?: Prisma.StringNullableWithAggregatesFilter<"Resume"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Resume"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Resume"> | Date | string
 }
@@ -296,6 +308,7 @@ export type ResumeScalarWhereWithAggregatesInput = {
 export type ResumeCreateInput = {
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutResumesInput
@@ -310,6 +323,7 @@ export type ResumeUncheckedCreateInput = {
   userId: number
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
@@ -321,6 +335,7 @@ export type ResumeUncheckedCreateInput = {
 export type ResumeUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutResumesNestedInput
@@ -335,6 +350,7 @@ export type ResumeUncheckedUpdateInput = {
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
@@ -348,6 +364,7 @@ export type ResumeCreateManyInput = {
   userId: number
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -355,6 +372,7 @@ export type ResumeCreateManyInput = {
 export type ResumeUpdateManyMutationInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -364,6 +382,7 @@ export type ResumeUncheckedUpdateManyInput = {
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -389,6 +408,7 @@ export type ResumeCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   listCoverImageUrl?: Prisma.SortOrder
+  jobDescriptionText?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -403,6 +423,7 @@ export type ResumeMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   listCoverImageUrl?: Prisma.SortOrder
+  jobDescriptionText?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -412,6 +433,7 @@ export type ResumeMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   title?: Prisma.SortOrder
   listCoverImageUrl?: Prisma.SortOrder
+  jobDescriptionText?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -527,6 +549,7 @@ export type ResumeUpdateOneRequiredWithoutAiGlobalContextsNestedInput = {
 export type ResumeCreateWithoutUserInput = {
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sections?: Prisma.SectionCreateNestedManyWithoutResumeInput
@@ -539,6 +562,7 @@ export type ResumeUncheckedCreateWithoutUserInput = {
   id?: number
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
@@ -581,6 +605,7 @@ export type ResumeScalarWhereInput = {
   userId?: Prisma.IntFilter<"Resume"> | number
   title?: Prisma.StringFilter<"Resume"> | string
   listCoverImageUrl?: Prisma.StringNullableFilter<"Resume"> | string | null
+  jobDescriptionText?: Prisma.StringNullableFilter<"Resume"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Resume"> | Date | string
 }
@@ -588,6 +613,7 @@ export type ResumeScalarWhereInput = {
 export type ResumeCreateWithoutProfileInput = {
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutResumesInput
@@ -601,6 +627,7 @@ export type ResumeUncheckedCreateWithoutProfileInput = {
   userId: number
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
@@ -627,6 +654,7 @@ export type ResumeUpdateToOneWithWhereWithoutProfileInput = {
 export type ResumeUpdateWithoutProfileInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutResumesNestedInput
@@ -640,6 +668,7 @@ export type ResumeUncheckedUpdateWithoutProfileInput = {
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
@@ -650,6 +679,7 @@ export type ResumeUncheckedUpdateWithoutProfileInput = {
 export type ResumeCreateWithoutSectionsInput = {
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutResumesInput
@@ -663,6 +693,7 @@ export type ResumeUncheckedCreateWithoutSectionsInput = {
   userId: number
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   profile?: Prisma.ResumeProfileUncheckedCreateNestedOneWithoutResumeInput
@@ -689,6 +720,7 @@ export type ResumeUpdateToOneWithWhereWithoutSectionsInput = {
 export type ResumeUpdateWithoutSectionsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutResumesNestedInput
@@ -702,6 +734,7 @@ export type ResumeUncheckedUpdateWithoutSectionsInput = {
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   profile?: Prisma.ResumeProfileUncheckedUpdateOneWithoutResumeNestedInput
@@ -712,6 +745,7 @@ export type ResumeUncheckedUpdateWithoutSectionsInput = {
 export type ResumeCreateWithoutAiConversationsInput = {
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutResumesInput
@@ -725,6 +759,7 @@ export type ResumeUncheckedCreateWithoutAiConversationsInput = {
   userId: number
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
@@ -751,6 +786,7 @@ export type ResumeUpdateToOneWithWhereWithoutAiConversationsInput = {
 export type ResumeUpdateWithoutAiConversationsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutResumesNestedInput
@@ -764,6 +800,7 @@ export type ResumeUncheckedUpdateWithoutAiConversationsInput = {
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
@@ -774,6 +811,7 @@ export type ResumeUncheckedUpdateWithoutAiConversationsInput = {
 export type ResumeCreateWithoutAiGlobalContextsInput = {
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutResumesInput
@@ -787,6 +825,7 @@ export type ResumeUncheckedCreateWithoutAiGlobalContextsInput = {
   userId: number
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
@@ -813,6 +852,7 @@ export type ResumeUpdateToOneWithWhereWithoutAiGlobalContextsInput = {
 export type ResumeUpdateWithoutAiGlobalContextsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutResumesNestedInput
@@ -826,6 +866,7 @@ export type ResumeUncheckedUpdateWithoutAiGlobalContextsInput = {
   userId?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
@@ -837,6 +878,7 @@ export type ResumeCreateManyUserInput = {
   id?: number
   title: string
   listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -844,6 +886,7 @@ export type ResumeCreateManyUserInput = {
 export type ResumeUpdateWithoutUserInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sections?: Prisma.SectionUpdateManyWithoutResumeNestedInput
@@ -856,6 +899,7 @@ export type ResumeUncheckedUpdateWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
@@ -868,6 +912,7 @@ export type ResumeUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   title?: Prisma.StringFieldUpdateOperationsInput | string
   listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -926,6 +971,7 @@ export type ResumeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   userId?: boolean
   title?: boolean
   listCoverImageUrl?: boolean
+  jobDescriptionText?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -943,11 +989,12 @@ export type ResumeSelectScalar = {
   userId?: boolean
   title?: boolean
   listCoverImageUrl?: boolean
+  jobDescriptionText?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ResumeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "listCoverImageUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["resume"]>
+export type ResumeOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "listCoverImageUrl" | "jobDescriptionText" | "createdAt" | "updatedAt", ExtArgs["result"]["resume"]>
 export type ResumeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   sections?: boolean | Prisma.Resume$sectionsArgs<ExtArgs>
@@ -983,6 +1030,10 @@ export type $ResumePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
      * 列表/卡片等场景展示用的封面图 URL
      */
     listCoverImageUrl: string | null
+    /**
+     * 该简历关联的职位描述（JD）全文；该简历下所有 AI 对话复用（优先于 `AiGlobalContext` key=job_description）
+     */
+    jobDescriptionText: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["resume"]>
@@ -1363,6 +1414,7 @@ export interface ResumeFieldRefs {
   readonly userId: Prisma.FieldRef<"Resume", 'Int'>
   readonly title: Prisma.FieldRef<"Resume", 'String'>
   readonly listCoverImageUrl: Prisma.FieldRef<"Resume", 'String'>
+  readonly jobDescriptionText: Prisma.FieldRef<"Resume", 'String'>
   readonly createdAt: Prisma.FieldRef<"Resume", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Resume", 'DateTime'>
 }

@@ -19,6 +19,7 @@ import { DetailResumeDto } from './dto/detail.dto';
 import { UpdateResumeTitleDto } from './dto/update-title.dto';
 import { UpdateResumeListCoverDto } from './dto/update-list-cover.dto';
 import { UpdateResumeProfileDto } from './dto/update-profile.dto';
+import { UpdateResumeJobDescriptionDto } from './dto/update-job-description.dto';
 import { StreamResumeUpdatesDto } from './dto/stream-updates.dto';
 import type { Response } from 'express';
 
@@ -69,6 +70,17 @@ export class ResumeController {
     @JwtPayload() jwt: IJwtPayload,
   ) {
     return this.resumeService.updateTitle(body, jwt);
+  }
+
+  @Post('update-job-description')
+  @ApiOperation({ summary: '修改简历关联的职位描述（JD）全文' })
+  @ApiBody({ type: UpdateResumeJobDescriptionDto })
+  @ApiResponseWrapper(ResumeDto)
+  updateJobDescription(
+    @Body() body: UpdateResumeJobDescriptionDto,
+    @JwtPayload() jwt: IJwtPayload,
+  ) {
+    return this.resumeService.updateJobDescription(body, jwt);
   }
 
   @Post('update-list-cover')

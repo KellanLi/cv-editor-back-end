@@ -103,6 +103,7 @@ export const ResumeScalarFieldEnum = {
   userId: 'userId',
   title: 'title',
   listCoverImageUrl: 'listCoverImageUrl',
+  jobDescriptionText: 'jobDescriptionText',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -339,7 +340,8 @@ export type UserOrderByRelevanceFieldEnum = (typeof UserOrderByRelevanceFieldEnu
 
 export const ResumeOrderByRelevanceFieldEnum = {
   title: 'title',
-  listCoverImageUrl: 'listCoverImageUrl'
+  listCoverImageUrl: 'listCoverImageUrl',
+  jobDescriptionText: 'jobDescriptionText'
 } as const
 
 export type ResumeOrderByRelevanceFieldEnum = (typeof ResumeOrderByRelevanceFieldEnum)[keyof typeof ResumeOrderByRelevanceFieldEnum]

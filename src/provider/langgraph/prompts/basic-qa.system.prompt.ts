@@ -4,7 +4,7 @@ import { AiConversationPurpose } from '@/generated/enums';
 
 /**
  * 基础问答系统提示：
- * - **JD**：每次请求均从 `AiGlobalContext`（key=`job_description`）读入并写入 system，作为默认「岗位/招聘侧」上下文，不走工具。
+ * - **JD**：优先 `Resume.jobDescriptionText`；若为空则回退 `AiGlobalContext`（key=`job_description`）。写入 system，不走工具。
  * - **简历模块正文**：不预塞全文，由模型按需调用 `load_resume_context`。
  */
 export async function buildBasicQaSystemPrompt(
@@ -19,14 +19,23 @@ export async function buildBasicQaSystemPrompt(
 ): Promise<string> {
   const resume = await prisma.resume.findFirst({
     where: { id: resumeId, userId: jwt.id },
-    select: { title: true },
+    select: { title: true, jobDescriptionText: true },
   });
-  const jdRow = await prisma.aiGlobalContext.findUnique({
-    where: {
-      resumeId_key: { resumeId, key: 'job_description' },
-    },
-    select: { value: true },
-  });
+  const rawResumeJd = resume?.jobDescriptionText;
+  const jdFromResume =
+    typeof rawResumeJd === 'string' ? rawResumeJd.trim() : '';
+  const jdRow =
+    jdFromResume.length > 0
+      ? null
+      : await prisma.aiGlobalContext.findUnique({
+          where: {
+            resumeId_key: { resumeId, key: 'job_description' },
+          },
+          select: { value: true },
+        });
+  const rawLegacyJd = jdRow?.value;
+  const jdLegacy = typeof rawLegacyJd === 'string' ? rawLegacyJd.trim() : '';
+  const jdText = jdFromResume.length > 0 ? jdFromResume : jdLegacy;
 
   const lines: string[] = [
     '你是「简历编辑」场景下的中文助手，回答简洁、可执行。',
@@ -69,10 +78,12 @@ export async function buildBasicQaSystemPrompt(
   lines.push(
     '【JD 默认上下文】（与下方 load_resume_context 拉取的简历原文相互独立；未配置则标注无）',
   );
-  if (jdRow?.value) {
-    lines.push(jdRow.value);
+  if (jdText.length > 0) {
+    lines.push(jdText);
   } else {
-    lines.push('（当前简历未配置 job_description，无 JD 文本。）');
+    lines.push(
+      '（当前简历未配置 JD：可在简历上设置 jobDescriptionText，或通过全局上下文 key=job_description。）',
+    );
   }
 
   if ((input.selectedSectionIds ?? []).length > 0) {

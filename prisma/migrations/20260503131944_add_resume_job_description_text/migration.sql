@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Resume` ADD COLUMN `job_description_text` LONGTEXT NULL;

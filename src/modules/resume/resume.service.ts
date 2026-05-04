@@ -11,6 +11,7 @@ import { DetailResumeDto } from './dto/detail.dto';
 import { UpdateResumeTitleDto } from './dto/update-title.dto';
 import { UpdateResumeListCoverDto } from './dto/update-list-cover.dto';
 import { UpdateResumeProfileDto } from './dto/update-profile.dto';
+import { UpdateResumeJobDescriptionDto } from './dto/update-job-description.dto';
 import { IJwtPayload } from '@/types/auth.types';
 import { Prisma } from '@/generated/client';
 import { StreamResumeUpdatesDto } from './dto/stream-updates.dto';
@@ -71,6 +72,30 @@ export class ResumeService {
       where: { id, userId: jwt.id },
       include: { profile: true },
     });
+  }
+
+  async updateJobDescription(
+    params: UpdateResumeJobDescriptionDto,
+    jwt: IJwtPayload,
+  ) {
+    const { id, jobDescriptionText } = params;
+    const existing = await this.prismaService.resume.findFirst({
+      where: { id, userId: jwt.id },
+      select: { id: true },
+    });
+    if (!existing) {
+      throw new NotFoundException('简历不存在');
+    }
+    const updated = await this.prismaService.resume.update({
+      where: { id, userId: jwt.id },
+      data: { jobDescriptionText },
+      include: { profile: true },
+    });
+    this.resumeUpdatesService.publishToResume(jwt.id, {
+      resumeId: id,
+      trigger: 'resume.update-job-description',
+    });
+    return updated;
   }
 
   async updateListCover(params: UpdateResumeListCoverDto, jwt: IJwtPayload) {
@@ -195,13 +220,16 @@ export class ResumeService {
   }
 
   async create(params: CreateResumeDto, jwt: IJwtPayload) {
-    const { title, listCoverImageUrl } = params;
+    const { title, listCoverImageUrl, jobDescriptionText } = params;
     return this.prismaService.resume.create({
       data: {
         userId: jwt.id,
         title,
         ...(listCoverImageUrl != null
           ? { listCoverImageUrl: listCoverImageUrl }
+          : {}),
+        ...(jobDescriptionText !== undefined
+          ? { jobDescriptionText }
           : {}),
         profile: { create: {} },
       },

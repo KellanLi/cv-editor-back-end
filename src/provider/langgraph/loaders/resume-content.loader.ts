@@ -54,6 +54,10 @@ export async function loadResumeContentForLlm(
   }
 
   const header: string[] = [`【简历】${owned.title}（id=${owned.id}）`];
+  const jd = (owned.jobDescriptionText ?? '').trim();
+  if (jd.length > 0) {
+    header.push(`【JD】\n${jd}`);
+  }
   if (owned.profile) {
     const pr = owned.profile;
     header.push(
