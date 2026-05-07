@@ -37,3 +37,14 @@ export const AiContextCompactionJobStatus = {
 } as const
 
 export type AiContextCompactionJobStatus = (typeof AiContextCompactionJobStatus)[keyof typeof AiContextCompactionJobStatus]
+
+
+export const AiResumeDiagnosisTaskStatus = {
+  QUEUED: 'QUEUED',
+  RUNNING: 'RUNNING',
+  SUCCEEDED: 'SUCCEEDED',
+  FAILED: 'FAILED',
+  CANCELLED: 'CANCELLED'
+} as const
+
+export type AiResumeDiagnosisTaskStatus = (typeof AiResumeDiagnosisTaskStatus)[keyof typeof AiResumeDiagnosisTaskStatus]

@@ -31,12 +31,32 @@ import { DeleteAiGlobalContextDto } from './dto/delete-global-context.dto';
 import { SendAiChatDto } from './dto/send-chat.dto';
 import { SendAiChatDataDto } from './dto/send-chat-response.dto';
 import type { Response } from 'express';
+import { ResumeDiagnosisService } from './resume-diagnosis.service';
+import { DiagnoseResumeDto } from './dto/diagnose-resume.dto';
+import { DiagnoseResumeDataDto } from './dto/diagnose-resume-data.dto';
+import {
+  StartDiagnoseResumeTaskDataDto,
+  StartDiagnoseResumeTaskDto,
+} from './dto/diagnose-resume-task-start.dto';
+import {
+  DiagnoseResumeTaskStatusDataDto,
+  DiagnoseResumeTaskStatusDto,
+} from './dto/diagnose-resume-task-status.dto';
+import {
+  CancelDiagnoseResumeTaskDataDto,
+  CancelDiagnoseResumeTaskDto,
+} from './dto/diagnose-resume-task-cancel.dto';
+import { ResumeDiagnosisTaskService } from './resume-diagnosis-task.service';
 
 @ApiTags('AI 模块')
 @Controller('ai')
 @UseGuards(JwtGuard)
 export class AiController {
-  constructor(private readonly aiService: AiService) {}
+  constructor(
+    private readonly aiService: AiService,
+    private readonly resumeDiagnosisService: ResumeDiagnosisService,
+    private readonly resumeDiagnosisTaskService: ResumeDiagnosisTaskService,
+  ) {}
 
   @Post('conversation/list')
   @ApiOperation({ summary: '某份简历下的 AI 对话线程列表' })
@@ -164,5 +184,55 @@ export class AiController {
     @Res() res: Response,
   ) {
     await this.aiService.streamChat(body, jwt, res);
+  }
+
+  @Post('resume/diagnose')
+  @ApiOperation({
+    summary:
+      '简历 AI 诊断（同步）：JD 获取/生成 → 编写思路 → 评价维度 → 打分 → 分块修改建议与整体增补建议',
+  })
+  @ApiBody({ type: DiagnoseResumeDto })
+  @ApiResponseWrapper(DiagnoseResumeDataDto)
+  diagnoseResume(
+    @Body() body: DiagnoseResumeDto,
+    @JwtPayload() jwt: IJwtPayload,
+  ) {
+    return this.resumeDiagnosisService.diagnose(body, jwt);
+  }
+
+  @Post('resume/diagnose/start')
+  @ApiOperation({
+    summary:
+      '简历 AI 诊断（异步）：创建/复用诊断任务并立即返回 taskId，前端可轮询查询状态',
+  })
+  @ApiBody({ type: StartDiagnoseResumeTaskDto })
+  @ApiResponseWrapper(StartDiagnoseResumeTaskDataDto)
+  startDiagnoseResumeTask(
+    @Body() body: StartDiagnoseResumeTaskDto,
+    @JwtPayload() jwt: IJwtPayload,
+  ) {
+    return this.resumeDiagnosisTaskService.startTask(body, jwt);
+  }
+
+  @Post('resume/diagnose/status')
+  @ApiOperation({ summary: '查询简历 AI 诊断异步任务状态与结果（仅任务所有者可查）' })
+  @ApiBody({ type: DiagnoseResumeTaskStatusDto })
+  @ApiResponseWrapper(DiagnoseResumeTaskStatusDataDto)
+  getDiagnoseResumeTaskStatus(
+    @Body() body: DiagnoseResumeTaskStatusDto,
+    @JwtPayload() jwt: IJwtPayload,
+  ) {
+    return this.resumeDiagnosisTaskService.getTaskStatus(body.taskId, jwt);
+  }
+
+  @Post('resume/diagnose/cancel')
+  @ApiOperation({ summary: '取消简历 AI 诊断异步任务（queued/running）' })
+  @ApiBody({ type: CancelDiagnoseResumeTaskDto })
+  @ApiResponseWrapper(CancelDiagnoseResumeTaskDataDto)
+  cancelDiagnoseResumeTask(
+    @Body() body: CancelDiagnoseResumeTaskDto,
+    @JwtPayload() jwt: IJwtPayload,
+  ) {
+    return this.resumeDiagnosisTaskService.cancelTask(body.taskId, jwt);
   }
 }

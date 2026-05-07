@@ -392,6 +392,7 @@ export const ModelName = {
   Info: 'Info',
   ContentTemplate: 'ContentTemplate',
   InfoTemplate: 'InfoTemplate',
+  AiResumeDiagnosisTask: 'AiResumeDiagnosisTask',
   AiConversation: 'AiConversation',
   AiConversationContextSummary: 'AiConversationContextSummary',
   AiContextCompactionJob: 'AiContextCompactionJob',
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "resume" | "resumeProfile" | "section" | "content" | "info" | "contentTemplate" | "infoTemplate" | "aiConversation" | "aiConversationContextSummary" | "aiContextCompactionJob" | "aiContextChunk" | "aiMessage" | "aiToolCall" | "aiGlobalContext" | "aiCheckpointer"
+    modelProps: "user" | "resume" | "resumeProfile" | "section" | "content" | "info" | "contentTemplate" | "infoTemplate" | "aiResumeDiagnosisTask" | "aiConversation" | "aiConversationContextSummary" | "aiContextCompactionJob" | "aiContextChunk" | "aiMessage" | "aiToolCall" | "aiGlobalContext" | "aiCheckpointer"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -944,6 +945,72 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.InfoTemplateCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.InfoTemplateCountAggregateOutputType> | number
+        }
+      }
+    }
+    AiResumeDiagnosisTask: {
+      payload: Prisma.$AiResumeDiagnosisTaskPayload<ExtArgs>
+      fields: Prisma.AiResumeDiagnosisTaskFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.AiResumeDiagnosisTaskFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiResumeDiagnosisTaskPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.AiResumeDiagnosisTaskFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiResumeDiagnosisTaskPayload>
+        }
+        findFirst: {
+          args: Prisma.AiResumeDiagnosisTaskFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiResumeDiagnosisTaskPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.AiResumeDiagnosisTaskFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiResumeDiagnosisTaskPayload>
+        }
+        findMany: {
+          args: Prisma.AiResumeDiagnosisTaskFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiResumeDiagnosisTaskPayload>[]
+        }
+        create: {
+          args: Prisma.AiResumeDiagnosisTaskCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiResumeDiagnosisTaskPayload>
+        }
+        createMany: {
+          args: Prisma.AiResumeDiagnosisTaskCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        delete: {
+          args: Prisma.AiResumeDiagnosisTaskDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiResumeDiagnosisTaskPayload>
+        }
+        update: {
+          args: Prisma.AiResumeDiagnosisTaskUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiResumeDiagnosisTaskPayload>
+        }
+        deleteMany: {
+          args: Prisma.AiResumeDiagnosisTaskDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.AiResumeDiagnosisTaskUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        upsert: {
+          args: Prisma.AiResumeDiagnosisTaskUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$AiResumeDiagnosisTaskPayload>
+        }
+        aggregate: {
+          args: Prisma.AiResumeDiagnosisTaskAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateAiResumeDiagnosisTask>
+        }
+        groupBy: {
+          args: Prisma.AiResumeDiagnosisTaskGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiResumeDiagnosisTaskGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.AiResumeDiagnosisTaskCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AiResumeDiagnosisTaskCountAggregateOutputType> | number
         }
       }
     }
@@ -1607,6 +1674,27 @@ export const InfoTemplateScalarFieldEnum = {
 export type InfoTemplateScalarFieldEnum = (typeof InfoTemplateScalarFieldEnum)[keyof typeof InfoTemplateScalarFieldEnum]
 
 
+export const AiResumeDiagnosisTaskScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  resumeId: 'resumeId',
+  status: 'status',
+  activeKey: 'activeKey',
+  requestPayload: 'requestPayload',
+  report: 'report',
+  errorMessage: 'errorMessage',
+  failureCategory: 'failureCategory',
+  attempts: 'attempts',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AiResumeDiagnosisTaskScalarFieldEnum = (typeof AiResumeDiagnosisTaskScalarFieldEnum)[keyof typeof AiResumeDiagnosisTaskScalarFieldEnum]
+
+
 export const AiConversationScalarFieldEnum = {
   id: 'id',
   resumeId: 'resumeId',
@@ -1826,6 +1914,16 @@ export const InfoTemplateOrderByRelevanceFieldEnum = {
 export type InfoTemplateOrderByRelevanceFieldEnum = (typeof InfoTemplateOrderByRelevanceFieldEnum)[keyof typeof InfoTemplateOrderByRelevanceFieldEnum]
 
 
+export const AiResumeDiagnosisTaskOrderByRelevanceFieldEnum = {
+  id: 'id',
+  activeKey: 'activeKey',
+  errorMessage: 'errorMessage',
+  failureCategory: 'failureCategory'
+} as const
+
+export type AiResumeDiagnosisTaskOrderByRelevanceFieldEnum = (typeof AiResumeDiagnosisTaskOrderByRelevanceFieldEnum)[keyof typeof AiResumeDiagnosisTaskOrderByRelevanceFieldEnum]
+
+
 export const AiConversationOrderByRelevanceFieldEnum = {
   threadId: 'threadId',
   title: 'title',
@@ -1931,6 +2029,13 @@ export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'J
  * Reference to a field of type 'QueryMode'
  */
 export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'AiResumeDiagnosisTaskStatus'
+ */
+export type EnumAiResumeDiagnosisTaskStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AiResumeDiagnosisTaskStatus'>
     
 
 
@@ -2079,6 +2184,7 @@ export type GlobalOmitConfig = {
   info?: Prisma.InfoOmit
   contentTemplate?: Prisma.ContentTemplateOmit
   infoTemplate?: Prisma.InfoTemplateOmit
+  aiResumeDiagnosisTask?: Prisma.AiResumeDiagnosisTaskOmit
   aiConversation?: Prisma.AiConversationOmit
   aiConversationContextSummary?: Prisma.AiConversationContextSummaryOmit
   aiContextCompactionJob?: Prisma.AiContextCompactionJobOmit

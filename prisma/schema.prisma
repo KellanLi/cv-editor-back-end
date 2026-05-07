@@ -18,6 +18,7 @@ model User {
   updatedAt        DateTime          @updatedAt
   resumes          Resume[]
   contentTemplates ContentTemplate[]
+  aiResumeDiagnosisTasks AiResumeDiagnosisTask[]
 }
 
 model Resume {
@@ -38,6 +39,8 @@ model Resume {
   aiConversations AiConversation[]
   /// 同一份简历下、跨所有对话复用的长上下文（如 JD）；按 `key` 区分
   aiGlobalContexts AiGlobalContext[]
+  /// 简历 AI 诊断异步任务（可恢复查询）
+  aiResumeDiagnosisTasks AiResumeDiagnosisTask[]
 }
 
 /// 简历个人信息（与 {@link Resume} 一对一）
@@ -130,6 +133,47 @@ enum AiContextCompactionJobStatus {
   SUCCEEDED
   FAILED
   CANCELLED
+}
+
+/// 简历 AI 诊断任务状态（异步，可恢复查询）
+enum AiResumeDiagnosisTaskStatus {
+  QUEUED
+  RUNNING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+}
+
+/// 简历 AI 诊断异步任务（绑定 userId，支持刷新后查询状态/结果）
+model AiResumeDiagnosisTask {
+  /// 对外暴露的任务 ID（UUID）
+  id            String                      @id @db.VarChar(64)
+  userId        Int                         @map("user_id")
+  resumeId      Int                         @map("resume_id")
+  status        AiResumeDiagnosisTaskStatus @default(QUEUED)
+  /// 仅在 queued/running 时填 `${userId}:${resumeId}`，利用唯一约束保证同用户同简历最多一个活跃任务
+  activeKey     String?                     @unique @map("active_key") @db.VarChar(64)
+  /// 诊断请求快照（targetRole / enableWebSearch 等）
+  requestPayload Json?                      @map("request_payload")
+  /// 成功后的完整诊断报告（结构与同步接口一致）
+  report        Json?
+  errorMessage  String?                     @map("error_message") @db.Text
+  /// 失败分类：business / system / cancelled
+  failureCategory String?                   @map("failure_category") @db.VarChar(32)
+  attempts      Int                         @default(0)
+  startedAt     DateTime?                   @map("started_at")
+  finishedAt    DateTime?                   @map("finished_at")
+  expiresAt     DateTime                    @map("expires_at")
+  createdAt     DateTime                    @default(now()) @map("created_at")
+  updatedAt     DateTime                    @updatedAt @map("updated_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resume Resume @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+
+  @@index([userId, resumeId, status])
+  @@index([status, createdAt])
+  @@index([expiresAt])
+  @@map("ai_resume_diagnosis_task")
 }
 
 /// 一条「对话线程」：必须属于某份简历；同一份简历可有多条（多窗口/多主题）

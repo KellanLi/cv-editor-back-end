@@ -264,6 +264,23 @@ export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
   _max?: Prisma.NestedJsonFilter<$PrismaModel>
 }
 
+export type EnumAiResumeDiagnosisTaskStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.AiResumeDiagnosisTaskStatus | Prisma.EnumAiResumeDiagnosisTaskStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AiResumeDiagnosisTaskStatus[]
+  notIn?: $Enums.AiResumeDiagnosisTaskStatus[]
+  not?: Prisma.NestedEnumAiResumeDiagnosisTaskStatusFilter<$PrismaModel> | $Enums.AiResumeDiagnosisTaskStatus
+}
+
+export type EnumAiResumeDiagnosisTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AiResumeDiagnosisTaskStatus | Prisma.EnumAiResumeDiagnosisTaskStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AiResumeDiagnosisTaskStatus[]
+  notIn?: $Enums.AiResumeDiagnosisTaskStatus[]
+  not?: Prisma.NestedEnumAiResumeDiagnosisTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.AiResumeDiagnosisTaskStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAiResumeDiagnosisTaskStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAiResumeDiagnosisTaskStatusFilter<$PrismaModel>
+}
+
 export type EnumAiConversationPurposeFilter<$PrismaModel = never> = {
   equals?: $Enums.AiConversationPurpose | Prisma.EnumAiConversationPurposeFieldRefInput<$PrismaModel>
   in?: $Enums.AiConversationPurpose[]
@@ -553,6 +570,23 @@ export type NestedJsonFilterBase<$PrismaModel = never> = {
   gt?: runtime.InputJsonValue
   gte?: runtime.InputJsonValue
   not?: runtime.InputJsonValue | Prisma.JsonFieldRefInput<$PrismaModel> | Prisma.JsonNullValueFilter
+}
+
+export type NestedEnumAiResumeDiagnosisTaskStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.AiResumeDiagnosisTaskStatus | Prisma.EnumAiResumeDiagnosisTaskStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AiResumeDiagnosisTaskStatus[]
+  notIn?: $Enums.AiResumeDiagnosisTaskStatus[]
+  not?: Prisma.NestedEnumAiResumeDiagnosisTaskStatusFilter<$PrismaModel> | $Enums.AiResumeDiagnosisTaskStatus
+}
+
+export type NestedEnumAiResumeDiagnosisTaskStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.AiResumeDiagnosisTaskStatus | Prisma.EnumAiResumeDiagnosisTaskStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.AiResumeDiagnosisTaskStatus[]
+  notIn?: $Enums.AiResumeDiagnosisTaskStatus[]
+  not?: Prisma.NestedEnumAiResumeDiagnosisTaskStatusWithAggregatesFilter<$PrismaModel> | $Enums.AiResumeDiagnosisTaskStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumAiResumeDiagnosisTaskStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumAiResumeDiagnosisTaskStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumAiConversationPurposeFilter<$PrismaModel = never> = {

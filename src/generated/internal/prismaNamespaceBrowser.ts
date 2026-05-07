@@ -59,6 +59,7 @@ export const ModelName = {
   Info: 'Info',
   ContentTemplate: 'ContentTemplate',
   InfoTemplate: 'InfoTemplate',
+  AiResumeDiagnosisTask: 'AiResumeDiagnosisTask',
   AiConversation: 'AiConversation',
   AiConversationContextSummary: 'AiConversationContextSummary',
   AiContextCompactionJob: 'AiContextCompactionJob',
@@ -176,6 +177,27 @@ export const InfoTemplateScalarFieldEnum = {
 } as const
 
 export type InfoTemplateScalarFieldEnum = (typeof InfoTemplateScalarFieldEnum)[keyof typeof InfoTemplateScalarFieldEnum]
+
+
+export const AiResumeDiagnosisTaskScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  resumeId: 'resumeId',
+  status: 'status',
+  activeKey: 'activeKey',
+  requestPayload: 'requestPayload',
+  report: 'report',
+  errorMessage: 'errorMessage',
+  failureCategory: 'failureCategory',
+  attempts: 'attempts',
+  startedAt: 'startedAt',
+  finishedAt: 'finishedAt',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type AiResumeDiagnosisTaskScalarFieldEnum = (typeof AiResumeDiagnosisTaskScalarFieldEnum)[keyof typeof AiResumeDiagnosisTaskScalarFieldEnum]
 
 
 export const AiConversationScalarFieldEnum = {
@@ -395,6 +417,16 @@ export const InfoTemplateOrderByRelevanceFieldEnum = {
 } as const
 
 export type InfoTemplateOrderByRelevanceFieldEnum = (typeof InfoTemplateOrderByRelevanceFieldEnum)[keyof typeof InfoTemplateOrderByRelevanceFieldEnum]
+
+
+export const AiResumeDiagnosisTaskOrderByRelevanceFieldEnum = {
+  id: 'id',
+  activeKey: 'activeKey',
+  errorMessage: 'errorMessage',
+  failureCategory: 'failureCategory'
+} as const
+
+export type AiResumeDiagnosisTaskOrderByRelevanceFieldEnum = (typeof AiResumeDiagnosisTaskOrderByRelevanceFieldEnum)[keyof typeof AiResumeDiagnosisTaskOrderByRelevanceFieldEnum]
 
 
 export const AiConversationOrderByRelevanceFieldEnum = {

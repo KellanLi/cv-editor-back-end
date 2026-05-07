@@ -241,6 +241,7 @@ export type ResumeWhereInput = {
   profile?: Prisma.XOR<Prisma.ResumeProfileNullableScalarRelationFilter, Prisma.ResumeProfileWhereInput> | null
   aiConversations?: Prisma.AiConversationListRelationFilter
   aiGlobalContexts?: Prisma.AiGlobalContextListRelationFilter
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskListRelationFilter
 }
 
 export type ResumeOrderByWithRelationInput = {
@@ -256,6 +257,7 @@ export type ResumeOrderByWithRelationInput = {
   profile?: Prisma.ResumeProfileOrderByWithRelationInput
   aiConversations?: Prisma.AiConversationOrderByRelationAggregateInput
   aiGlobalContexts?: Prisma.AiGlobalContextOrderByRelationAggregateInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskOrderByRelationAggregateInput
   _relevance?: Prisma.ResumeOrderByRelevanceInput
 }
 
@@ -275,6 +277,7 @@ export type ResumeWhereUniqueInput = Prisma.AtLeast<{
   profile?: Prisma.XOR<Prisma.ResumeProfileNullableScalarRelationFilter, Prisma.ResumeProfileWhereInput> | null
   aiConversations?: Prisma.AiConversationListRelationFilter
   aiGlobalContexts?: Prisma.AiGlobalContextListRelationFilter
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskListRelationFilter
 }, "id">
 
 export type ResumeOrderByWithAggregationInput = {
@@ -316,6 +319,7 @@ export type ResumeCreateInput = {
   profile?: Prisma.ResumeProfileCreateNestedOneWithoutResumeInput
   aiConversations?: Prisma.AiConversationCreateNestedManyWithoutResumeInput
   aiGlobalContexts?: Prisma.AiGlobalContextCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeUncheckedCreateInput = {
@@ -330,6 +334,7 @@ export type ResumeUncheckedCreateInput = {
   profile?: Prisma.ResumeProfileUncheckedCreateNestedOneWithoutResumeInput
   aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutResumeInput
   aiGlobalContexts?: Prisma.AiGlobalContextUncheckedCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeUpdateInput = {
@@ -343,6 +348,7 @@ export type ResumeUpdateInput = {
   profile?: Prisma.ResumeProfileUpdateOneWithoutResumeNestedInput
   aiConversations?: Prisma.AiConversationUpdateManyWithoutResumeNestedInput
   aiGlobalContexts?: Prisma.AiGlobalContextUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeUncheckedUpdateInput = {
@@ -357,6 +363,7 @@ export type ResumeUncheckedUpdateInput = {
   profile?: Prisma.ResumeProfileUncheckedUpdateOneWithoutResumeNestedInput
   aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutResumeNestedInput
   aiGlobalContexts?: Prisma.AiGlobalContextUncheckedUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeCreateManyInput = {
@@ -518,6 +525,20 @@ export type ResumeUpdateOneRequiredWithoutSectionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ResumeUpdateToOneWithWhereWithoutSectionsInput, Prisma.ResumeUpdateWithoutSectionsInput>, Prisma.ResumeUncheckedUpdateWithoutSectionsInput>
 }
 
+export type ResumeCreateNestedOneWithoutAiResumeDiagnosisTasksInput = {
+  create?: Prisma.XOR<Prisma.ResumeCreateWithoutAiResumeDiagnosisTasksInput, Prisma.ResumeUncheckedCreateWithoutAiResumeDiagnosisTasksInput>
+  connectOrCreate?: Prisma.ResumeCreateOrConnectWithoutAiResumeDiagnosisTasksInput
+  connect?: Prisma.ResumeWhereUniqueInput
+}
+
+export type ResumeUpdateOneRequiredWithoutAiResumeDiagnosisTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.ResumeCreateWithoutAiResumeDiagnosisTasksInput, Prisma.ResumeUncheckedCreateWithoutAiResumeDiagnosisTasksInput>
+  connectOrCreate?: Prisma.ResumeCreateOrConnectWithoutAiResumeDiagnosisTasksInput
+  upsert?: Prisma.ResumeUpsertWithoutAiResumeDiagnosisTasksInput
+  connect?: Prisma.ResumeWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ResumeUpdateToOneWithWhereWithoutAiResumeDiagnosisTasksInput, Prisma.ResumeUpdateWithoutAiResumeDiagnosisTasksInput>, Prisma.ResumeUncheckedUpdateWithoutAiResumeDiagnosisTasksInput>
+}
+
 export type ResumeCreateNestedOneWithoutAiConversationsInput = {
   create?: Prisma.XOR<Prisma.ResumeCreateWithoutAiConversationsInput, Prisma.ResumeUncheckedCreateWithoutAiConversationsInput>
   connectOrCreate?: Prisma.ResumeCreateOrConnectWithoutAiConversationsInput
@@ -556,6 +577,7 @@ export type ResumeCreateWithoutUserInput = {
   profile?: Prisma.ResumeProfileCreateNestedOneWithoutResumeInput
   aiConversations?: Prisma.AiConversationCreateNestedManyWithoutResumeInput
   aiGlobalContexts?: Prisma.AiGlobalContextCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeUncheckedCreateWithoutUserInput = {
@@ -569,6 +591,7 @@ export type ResumeUncheckedCreateWithoutUserInput = {
   profile?: Prisma.ResumeProfileUncheckedCreateNestedOneWithoutResumeInput
   aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutResumeInput
   aiGlobalContexts?: Prisma.AiGlobalContextUncheckedCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeCreateOrConnectWithoutUserInput = {
@@ -620,6 +643,7 @@ export type ResumeCreateWithoutProfileInput = {
   sections?: Prisma.SectionCreateNestedManyWithoutResumeInput
   aiConversations?: Prisma.AiConversationCreateNestedManyWithoutResumeInput
   aiGlobalContexts?: Prisma.AiGlobalContextCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeUncheckedCreateWithoutProfileInput = {
@@ -633,6 +657,7 @@ export type ResumeUncheckedCreateWithoutProfileInput = {
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
   aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutResumeInput
   aiGlobalContexts?: Prisma.AiGlobalContextUncheckedCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeCreateOrConnectWithoutProfileInput = {
@@ -661,6 +686,7 @@ export type ResumeUpdateWithoutProfileInput = {
   sections?: Prisma.SectionUpdateManyWithoutResumeNestedInput
   aiConversations?: Prisma.AiConversationUpdateManyWithoutResumeNestedInput
   aiGlobalContexts?: Prisma.AiGlobalContextUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeUncheckedUpdateWithoutProfileInput = {
@@ -674,6 +700,7 @@ export type ResumeUncheckedUpdateWithoutProfileInput = {
   sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
   aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutResumeNestedInput
   aiGlobalContexts?: Prisma.AiGlobalContextUncheckedUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeCreateWithoutSectionsInput = {
@@ -686,6 +713,7 @@ export type ResumeCreateWithoutSectionsInput = {
   profile?: Prisma.ResumeProfileCreateNestedOneWithoutResumeInput
   aiConversations?: Prisma.AiConversationCreateNestedManyWithoutResumeInput
   aiGlobalContexts?: Prisma.AiGlobalContextCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeUncheckedCreateWithoutSectionsInput = {
@@ -699,6 +727,7 @@ export type ResumeUncheckedCreateWithoutSectionsInput = {
   profile?: Prisma.ResumeProfileUncheckedCreateNestedOneWithoutResumeInput
   aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutResumeInput
   aiGlobalContexts?: Prisma.AiGlobalContextUncheckedCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeCreateOrConnectWithoutSectionsInput = {
@@ -727,6 +756,7 @@ export type ResumeUpdateWithoutSectionsInput = {
   profile?: Prisma.ResumeProfileUpdateOneWithoutResumeNestedInput
   aiConversations?: Prisma.AiConversationUpdateManyWithoutResumeNestedInput
   aiGlobalContexts?: Prisma.AiGlobalContextUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeUncheckedUpdateWithoutSectionsInput = {
@@ -737,6 +767,77 @@ export type ResumeUncheckedUpdateWithoutSectionsInput = {
   jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  profile?: Prisma.ResumeProfileUncheckedUpdateOneWithoutResumeNestedInput
+  aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutResumeNestedInput
+  aiGlobalContexts?: Prisma.AiGlobalContextUncheckedUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedUpdateManyWithoutResumeNestedInput
+}
+
+export type ResumeCreateWithoutAiResumeDiagnosisTasksInput = {
+  title: string
+  listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutResumesInput
+  sections?: Prisma.SectionCreateNestedManyWithoutResumeInput
+  profile?: Prisma.ResumeProfileCreateNestedOneWithoutResumeInput
+  aiConversations?: Prisma.AiConversationCreateNestedManyWithoutResumeInput
+  aiGlobalContexts?: Prisma.AiGlobalContextCreateNestedManyWithoutResumeInput
+}
+
+export type ResumeUncheckedCreateWithoutAiResumeDiagnosisTasksInput = {
+  id?: number
+  userId: number
+  title: string
+  listCoverImageUrl?: string | null
+  jobDescriptionText?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
+  profile?: Prisma.ResumeProfileUncheckedCreateNestedOneWithoutResumeInput
+  aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutResumeInput
+  aiGlobalContexts?: Prisma.AiGlobalContextUncheckedCreateNestedManyWithoutResumeInput
+}
+
+export type ResumeCreateOrConnectWithoutAiResumeDiagnosisTasksInput = {
+  where: Prisma.ResumeWhereUniqueInput
+  create: Prisma.XOR<Prisma.ResumeCreateWithoutAiResumeDiagnosisTasksInput, Prisma.ResumeUncheckedCreateWithoutAiResumeDiagnosisTasksInput>
+}
+
+export type ResumeUpsertWithoutAiResumeDiagnosisTasksInput = {
+  update: Prisma.XOR<Prisma.ResumeUpdateWithoutAiResumeDiagnosisTasksInput, Prisma.ResumeUncheckedUpdateWithoutAiResumeDiagnosisTasksInput>
+  create: Prisma.XOR<Prisma.ResumeCreateWithoutAiResumeDiagnosisTasksInput, Prisma.ResumeUncheckedCreateWithoutAiResumeDiagnosisTasksInput>
+  where?: Prisma.ResumeWhereInput
+}
+
+export type ResumeUpdateToOneWithWhereWithoutAiResumeDiagnosisTasksInput = {
+  where?: Prisma.ResumeWhereInput
+  data: Prisma.XOR<Prisma.ResumeUpdateWithoutAiResumeDiagnosisTasksInput, Prisma.ResumeUncheckedUpdateWithoutAiResumeDiagnosisTasksInput>
+}
+
+export type ResumeUpdateWithoutAiResumeDiagnosisTasksInput = {
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutResumesNestedInput
+  sections?: Prisma.SectionUpdateManyWithoutResumeNestedInput
+  profile?: Prisma.ResumeProfileUpdateOneWithoutResumeNestedInput
+  aiConversations?: Prisma.AiConversationUpdateManyWithoutResumeNestedInput
+  aiGlobalContexts?: Prisma.AiGlobalContextUpdateManyWithoutResumeNestedInput
+}
+
+export type ResumeUncheckedUpdateWithoutAiResumeDiagnosisTasksInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  userId?: Prisma.IntFieldUpdateOperationsInput | number
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  listCoverImageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  jobDescriptionText?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
   profile?: Prisma.ResumeProfileUncheckedUpdateOneWithoutResumeNestedInput
   aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutResumeNestedInput
   aiGlobalContexts?: Prisma.AiGlobalContextUncheckedUpdateManyWithoutResumeNestedInput
@@ -752,6 +853,7 @@ export type ResumeCreateWithoutAiConversationsInput = {
   sections?: Prisma.SectionCreateNestedManyWithoutResumeInput
   profile?: Prisma.ResumeProfileCreateNestedOneWithoutResumeInput
   aiGlobalContexts?: Prisma.AiGlobalContextCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeUncheckedCreateWithoutAiConversationsInput = {
@@ -765,6 +867,7 @@ export type ResumeUncheckedCreateWithoutAiConversationsInput = {
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
   profile?: Prisma.ResumeProfileUncheckedCreateNestedOneWithoutResumeInput
   aiGlobalContexts?: Prisma.AiGlobalContextUncheckedCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeCreateOrConnectWithoutAiConversationsInput = {
@@ -793,6 +896,7 @@ export type ResumeUpdateWithoutAiConversationsInput = {
   sections?: Prisma.SectionUpdateManyWithoutResumeNestedInput
   profile?: Prisma.ResumeProfileUpdateOneWithoutResumeNestedInput
   aiGlobalContexts?: Prisma.AiGlobalContextUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeUncheckedUpdateWithoutAiConversationsInput = {
@@ -806,6 +910,7 @@ export type ResumeUncheckedUpdateWithoutAiConversationsInput = {
   sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
   profile?: Prisma.ResumeProfileUncheckedUpdateOneWithoutResumeNestedInput
   aiGlobalContexts?: Prisma.AiGlobalContextUncheckedUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeCreateWithoutAiGlobalContextsInput = {
@@ -818,6 +923,7 @@ export type ResumeCreateWithoutAiGlobalContextsInput = {
   sections?: Prisma.SectionCreateNestedManyWithoutResumeInput
   profile?: Prisma.ResumeProfileCreateNestedOneWithoutResumeInput
   aiConversations?: Prisma.AiConversationCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeUncheckedCreateWithoutAiGlobalContextsInput = {
@@ -831,6 +937,7 @@ export type ResumeUncheckedCreateWithoutAiGlobalContextsInput = {
   sections?: Prisma.SectionUncheckedCreateNestedManyWithoutResumeInput
   profile?: Prisma.ResumeProfileUncheckedCreateNestedOneWithoutResumeInput
   aiConversations?: Prisma.AiConversationUncheckedCreateNestedManyWithoutResumeInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedCreateNestedManyWithoutResumeInput
 }
 
 export type ResumeCreateOrConnectWithoutAiGlobalContextsInput = {
@@ -859,6 +966,7 @@ export type ResumeUpdateWithoutAiGlobalContextsInput = {
   sections?: Prisma.SectionUpdateManyWithoutResumeNestedInput
   profile?: Prisma.ResumeProfileUpdateOneWithoutResumeNestedInput
   aiConversations?: Prisma.AiConversationUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeUncheckedUpdateWithoutAiGlobalContextsInput = {
@@ -872,6 +980,7 @@ export type ResumeUncheckedUpdateWithoutAiGlobalContextsInput = {
   sections?: Prisma.SectionUncheckedUpdateManyWithoutResumeNestedInput
   profile?: Prisma.ResumeProfileUncheckedUpdateOneWithoutResumeNestedInput
   aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeCreateManyUserInput = {
@@ -893,6 +1002,7 @@ export type ResumeUpdateWithoutUserInput = {
   profile?: Prisma.ResumeProfileUpdateOneWithoutResumeNestedInput
   aiConversations?: Prisma.AiConversationUpdateManyWithoutResumeNestedInput
   aiGlobalContexts?: Prisma.AiGlobalContextUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeUncheckedUpdateWithoutUserInput = {
@@ -906,6 +1016,7 @@ export type ResumeUncheckedUpdateWithoutUserInput = {
   profile?: Prisma.ResumeProfileUncheckedUpdateOneWithoutResumeNestedInput
   aiConversations?: Prisma.AiConversationUncheckedUpdateManyWithoutResumeNestedInput
   aiGlobalContexts?: Prisma.AiGlobalContextUncheckedUpdateManyWithoutResumeNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedUpdateManyWithoutResumeNestedInput
 }
 
 export type ResumeUncheckedUpdateManyWithoutUserInput = {
@@ -926,12 +1037,14 @@ export type ResumeCountOutputType = {
   sections: number
   aiConversations: number
   aiGlobalContexts: number
+  aiResumeDiagnosisTasks: number
 }
 
 export type ResumeCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   sections?: boolean | ResumeCountOutputTypeCountSectionsArgs
   aiConversations?: boolean | ResumeCountOutputTypeCountAiConversationsArgs
   aiGlobalContexts?: boolean | ResumeCountOutputTypeCountAiGlobalContextsArgs
+  aiResumeDiagnosisTasks?: boolean | ResumeCountOutputTypeCountAiResumeDiagnosisTasksArgs
 }
 
 /**
@@ -965,6 +1078,13 @@ export type ResumeCountOutputTypeCountAiGlobalContextsArgs<ExtArgs extends runti
   where?: Prisma.AiGlobalContextWhereInput
 }
 
+/**
+ * ResumeCountOutputType without action
+ */
+export type ResumeCountOutputTypeCountAiResumeDiagnosisTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AiResumeDiagnosisTaskWhereInput
+}
+
 
 export type ResumeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -979,6 +1099,7 @@ export type ResumeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   profile?: boolean | Prisma.Resume$profileArgs<ExtArgs>
   aiConversations?: boolean | Prisma.Resume$aiConversationsArgs<ExtArgs>
   aiGlobalContexts?: boolean | Prisma.Resume$aiGlobalContextsArgs<ExtArgs>
+  aiResumeDiagnosisTasks?: boolean | Prisma.Resume$aiResumeDiagnosisTasksArgs<ExtArgs>
   _count?: boolean | Prisma.ResumeCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["resume"]>
 
@@ -1001,6 +1122,7 @@ export type ResumeInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   profile?: boolean | Prisma.Resume$profileArgs<ExtArgs>
   aiConversations?: boolean | Prisma.Resume$aiConversationsArgs<ExtArgs>
   aiGlobalContexts?: boolean | Prisma.Resume$aiGlobalContextsArgs<ExtArgs>
+  aiResumeDiagnosisTasks?: boolean | Prisma.Resume$aiResumeDiagnosisTasksArgs<ExtArgs>
   _count?: boolean | Prisma.ResumeCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -1021,6 +1143,10 @@ export type $ResumePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
      * 同一份简历下、跨所有对话复用的长上下文（如 JD）；按 `key` 区分
      */
     aiGlobalContexts: Prisma.$AiGlobalContextPayload<ExtArgs>[]
+    /**
+     * 简历 AI 诊断异步任务（可恢复查询）
+     */
+    aiResumeDiagnosisTasks: Prisma.$AiResumeDiagnosisTaskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1381,6 +1507,7 @@ export interface Prisma__ResumeClient<T, Null = never, ExtArgs extends runtime.T
   profile<T extends Prisma.Resume$profileArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resume$profileArgs<ExtArgs>>): Prisma.Prisma__ResumeProfileClient<runtime.Types.Result.GetResult<Prisma.$ResumeProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   aiConversations<T extends Prisma.Resume$aiConversationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resume$aiConversationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AiConversationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   aiGlobalContexts<T extends Prisma.Resume$aiGlobalContextsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resume$aiGlobalContextsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AiGlobalContextPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  aiResumeDiagnosisTasks<T extends Prisma.Resume$aiResumeDiagnosisTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Resume$aiResumeDiagnosisTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AiResumeDiagnosisTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1853,6 +1980,30 @@ export type Resume$aiGlobalContextsArgs<ExtArgs extends runtime.Types.Extensions
   take?: number
   skip?: number
   distinct?: Prisma.AiGlobalContextScalarFieldEnum | Prisma.AiGlobalContextScalarFieldEnum[]
+}
+
+/**
+ * Resume.aiResumeDiagnosisTasks
+ */
+export type Resume$aiResumeDiagnosisTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AiResumeDiagnosisTask
+   */
+  select?: Prisma.AiResumeDiagnosisTaskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AiResumeDiagnosisTask
+   */
+  omit?: Prisma.AiResumeDiagnosisTaskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AiResumeDiagnosisTaskInclude<ExtArgs> | null
+  where?: Prisma.AiResumeDiagnosisTaskWhereInput
+  orderBy?: Prisma.AiResumeDiagnosisTaskOrderByWithRelationInput | Prisma.AiResumeDiagnosisTaskOrderByWithRelationInput[]
+  cursor?: Prisma.AiResumeDiagnosisTaskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AiResumeDiagnosisTaskScalarFieldEnum | Prisma.AiResumeDiagnosisTaskScalarFieldEnum[]
 }
 
 /**

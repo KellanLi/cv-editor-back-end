@@ -16,4 +16,46 @@ export default () => ({
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE_NAME,
   },
+  /**
+   * AgentCore：通过 **OpenAI 兼容 Chat Completions** 调模型（LangChain `ChatOpenAI`）。
+   * 阿里云百炼 / DashScope：Base URL 一般为 `https://dashscope.aliyuncs.com/compatible-mode/v1`（北京），
+   * 新加坡等为 `https://dashscope-intl.aliyuncs.com/compatible-mode/v1`，模型名如 `qwen3.5-plus`。
+   * 说明见：https://help.aliyun.com/zh/model-studio/compatibility-of-openai-with-dashscope
+   */
+  ai: {
+    openaiApiKey:
+      process.env.DASHSCOPE_API_KEY?.trim() ||
+      process.env.OPENAI_API_KEY?.trim() ||
+      '',
+    openaiBaseUrl:
+      process.env.OPENAI_BASE_URL?.trim() ||
+      process.env.DASHSCOPE_COMPAT_BASE_URL?.trim() ||
+      'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    openaiModel: process.env.OPENAI_MODEL?.trim() || 'qwen3.5-plus',
+    tavilyApiKey: process.env.TAVILY_API_KEY?.trim() || '',
+    resumeDiagnosisTaskTtlHours: parseInt(
+      process.env.AI_RESUME_DIAGNOSIS_TASK_TTL_HOURS || '24',
+      10,
+    ),
+    resumeDiagnosisTaskWorkerIntervalMs: parseInt(
+      process.env.AI_RESUME_DIAGNOSIS_TASK_WORKER_INTERVAL_MS || '3000',
+      10,
+    ),
+  },
+  /** 长上下文异步压缩（见 `docs/task-context/long-context.md`） */
+  longContext: {
+    budgetChars: parseInt(process.env.AI_CONTEXT_BUDGET_CHARS || '72000', 10),
+    preserveRecentMessages: parseInt(
+      process.env.AI_CONTEXT_PRESERVE_RECENT_MSGS || '16',
+      10,
+    ),
+    maxRecentForAgent: parseInt(
+      process.env.AI_CONTEXT_MAX_RECENT_MSGS || '48',
+      10,
+    ),
+    workerIntervalMs: parseInt(
+      process.env.AI_CONTEXT_WORKER_INTERVAL_MS || '10000',
+      10,
+    ),
+  },
 });

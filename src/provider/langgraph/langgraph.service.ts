@@ -1,300 +1,259 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { PrismaService } from '@/provider/prisma/prisma.service';
 import { ChatOpenAI } from '@langchain/openai';
 import {
+  AIMessage,
   AIMessageChunk,
-  BaseMessage,
   HumanMessage,
-  SystemMessage,
-  isAIMessageChunk,
+  type BaseMessage,
 } from '@langchain/core/messages';
+import type { AiConversationPurpose } from '@/generated/enums';
+import { PrismaService } from '@/provider/prisma/prisma.service';
+import { SectionService } from '@/modules/section/section.service';
+import { buildPrimitiveTools } from './agent-core/build-primitive-tools';
 
-// package exports 子路径在 TS `moduleResolution: node` 下无法静态解析；运行时由 Node 解析。
+// `moduleResolution: "node"` 不解析 package exports 的 `prebuilt` 子路径；运行时常量仍合法。
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const { createReactAgent } = require('@langchain/langgraph/prebuilt') as {
-  createReactAgent: (...args: unknown[]) => unknown;
+  createReactAgent: (params: {
+    llm: ChatOpenAI;
+    tools: ReturnType<typeof buildPrimitiveTools>;
+    prompt: string;
+  }) => {
+    stream: (
+      input: { messages: BaseMessage[] },
+      options: { streamMode: readonly ['messages', 'tools'] },
+    ) => Promise<AsyncIterable<unknown>>;
+  };
 };
-import {
-  getOpenAiCompatConfig,
-  getTavilySearchApiKey,
-} from './langgraph.config';
-import { buildAgentTools } from './tools/build-agent-tools';
-import { ConversationContextLoaderService } from './long-context/conversation-context-loader.service';
-import type { LanggraphStreamInput } from './types/langgraph.types';
-import { SectionService } from '@/modules/section/section.service';
-import { ContentTemplateService } from '@/modules/content-template/content-template.service';
 
-/** 归一化后供 SSE 映射的事件（与 AiChatStreamEventDto 对齐） */
-export type LanggraphStreamEmit =
-  | { kind: 'message'; deltaText: string; payload?: unknown }
-  | { kind: 'reasoning'; deltaText: string; payload?: unknown }
-  | { kind: 'tool'; payload: unknown }
-  | { kind: 'error'; message: string };
+export type BasicQaStreamEvent =
+  | { kind: 'error'; message: string }
+  | { kind: 'message'; deltaText: string; payload?: Record<string, unknown> }
+  | { kind: 'reasoning'; deltaText: string; payload?: Record<string, unknown> }
+  | { kind: 'tool'; payload: unknown };
 
-export type { LanggraphStreamInput } from './types/langgraph.types';
+export type StreamBasicQaInput = {
+  threadId: string;
+  conversationId: number;
+  systemPrompt: string;
+  resumeId: number;
+  userId: number;
+  purpose: AiConversationPurpose;
+  /** 与 `SendAiChatDto.userMessage` 一致；无历史时作为唯一 Human 轮 */
+  userMessage: string;
+  /** 与 `SendAiChatDto.selectedSectionIds` 一致，供 load_resume_edit_state 默认范围 */
+  suggestedSectionIds?: number[];
+  /** 与 `SendAiChatDto.enableWebSearch` 一致 */
+  enableWebSearch: boolean;
+  /** 自 DB 组装的 user/assistant 文本历史（含本轮用户消息） */
+  historyMessages?: { role: 'user' | 'assistant'; text: string }[];
+};
+
+function textFromMessageChunk(msg: AIMessageChunk): string {
+  const c = msg.content;
+  if (typeof c === 'string') return c;
+  if (Array.isArray(c)) {
+    return c
+      .map((part) => {
+        if (
+          part &&
+          typeof part === 'object' &&
+          'type' in part &&
+          (part as { type: string }).type === 'text' &&
+          'text' in part
+        ) {
+          return String((part as { text: string }).text);
+        }
+        return '';
+      })
+      .join('');
+  }
+  return '';
+}
+
+function reasoningFromChunk(msg: AIMessageChunk): string {
+  const k = msg.additional_kwargs as Record<string, unknown> | undefined;
+  const r = k?.reasoning_content ?? k?.reasoning;
+  return typeof r === 'string' ? r : '';
+}
 
 @Injectable()
 export class LanggraphService {
   private readonly logger = new Logger(LanggraphService.name);
-  private readonly llm: ChatOpenAI;
 
   constructor(
     private readonly config: ConfigService,
     private readonly prisma: PrismaService,
-    private readonly conversationContextLoader: ConversationContextLoaderService,
     private readonly sectionService: SectionService,
-    private readonly contentTemplateService: ContentTemplateService,
-  ) {
-    const { apiKey, baseURL, model } = getOpenAiCompatConfig(this.config);
-    this.llm = new ChatOpenAI({
-      model,
-      temperature: 0.2,
+  ) {}
+
+  async generateConversationTitle(userMessage: string): Promise<string | null> {
+    const apiKey = this.config.get<string>('ai.openaiApiKey')?.trim();
+    if (!apiKey) {
+      return null;
+    }
+    const modelName =
+      this.config.get<string>('ai.openaiModel') ?? 'qwen3.5-plus';
+    const baseURL =
+      this.config.get<string>('ai.openaiBaseUrl') ??
+      'https://dashscope.aliyuncs.com/compatible-mode/v1';
+    const model = new ChatOpenAI({
       apiKey,
+      model: modelName,
+      temperature: 0,
+      maxTokens: 64,
+      configuration: { baseURL },
+    });
+    try {
+      const res = await model.invoke([
+        new HumanMessage(
+          `用不超过 24 字的简体中文生成对话标题，只输出标题本身，不要引号或前缀说明：\n${userMessage.slice(0, 2000)}`,
+        ),
+      ]);
+      const raw =
+        typeof res.content === 'string'
+          ? res.content
+          : Array.isArray(res.content)
+            ? res.content
+                .map((p) =>
+                  p &&
+                  typeof p === 'object' &&
+                  'text' in p &&
+                  typeof (p as { text: unknown }).text === 'string'
+                    ? (p as { text: string }).text
+                    : '',
+                )
+                .join('')
+            : '';
+      const t = raw.replace(/\s+/g, ' ').trim();
+      return t ? t.slice(0, 60) : null;
+    } catch (e) {
+      this.logger.warn(
+        `generateConversationTitle failed: ${e instanceof Error ? e.message : String(e)}`,
+      );
+      return null;
+    }
+  }
+
+  private buildChatModel() {
+    const apiKey = this.config.get<string>('ai.openaiApiKey')?.trim();
+    if (!apiKey) {
+      return null;
+    }
+    const modelName =
+      this.config.get<string>('ai.openaiModel') ?? 'qwen3.5-plus';
+    const baseURL =
+      this.config.get<string>('ai.openaiBaseUrl') ??
+      'https://dashscope.aliyuncs.com/compatible-mode/v1';
+    return new ChatOpenAI({
+      apiKey,
+      model: modelName,
+      temperature: 0.2,
+      streaming: true,
       configuration: { baseURL },
     });
   }
 
-  /**
-   * LangGraph createReactAgent + 多路 stream：
-   * - messages：token / 部分模型 reasoning 片段
-   * - tools：on_tool_start / on_tool_end / on_tool_error
-   * 简历：load_resume_context；同线程历史从 DB 装配，跨请求不依赖仅内存 checkpointer，见 `docs/long-context.md`。
-   */
   async *streamBasicQa(
-    input: LanggraphStreamInput,
-  ): AsyncGenerator<LanggraphStreamEmit, void, unknown> {
-    const { apiKey } = getOpenAiCompatConfig(this.config);
-    if (!apiKey) {
+    input: StreamBasicQaInput,
+  ): AsyncGenerator<BasicQaStreamEvent, void, void> {
+    const model = this.buildChatModel();
+    if (!model) {
       yield {
         kind: 'error',
-        message: '未配置 OPENAI_API_KEY，无法调用模型',
+        message:
+          '未配置大模型 API Key，无法运行 AgentCore。请设置 DASHSCOPE_API_KEY（推荐）或 OPENAI_API_KEY（兼容名）为阿里云百炼 / DashScope 的 Key 后重试。',
       };
       return;
     }
 
-    const tavilyApiKey = getTavilySearchApiKey(this.config);
-    const tools = buildAgentTools({
+    const tavilyKey = this.config.get<string>('ai.tavilyApiKey')?.trim() ?? '';
+    const apiKey = this.config.get<string>('ai.openaiApiKey')?.trim() ?? '';
+    const tools = buildPrimitiveTools({
       prisma: this.prisma,
       sectionService: this.sectionService,
-      contentTemplateService: this.contentTemplateService,
-      resumeId: input.resumeId,
       userId: input.userId,
-      conversationId: input.conversationId,
+      resumeId: input.resumeId,
       purpose: input.purpose,
       suggestedSectionIds: input.suggestedSectionIds,
       enableWebSearch: input.enableWebSearch,
-      tavilyApiKey,
+      tavilyApiKey: tavilyKey,
+      llmConfig:
+        apiKey ?
+          {
+            apiKey,
+            baseUrl:
+              this.config.get<string>('ai.openaiBaseUrl') ??
+              'https://dashscope.aliyuncs.com/compatible-mode/v1',
+            model:
+              this.config.get<string>('ai.openaiModel') ?? 'qwen3.5-plus',
+          }
+        : undefined,
     });
-    this.logger.debug(
-      `streamBasicQa: conv=${String(input.conversationId)} thread=${input.threadId} enableWebSearch=${String(input.enableWebSearch)} tavilyConfigured=${String(!!tavilyApiKey)} toolNames=${tools.map((t) => t.name).join(',')}`,
-    );
 
-    const { systemAddendum, modelMessages } =
-      await this.conversationContextLoader.assembleForModelTurn(
-        input.conversationId,
-      );
-    if (modelMessages.length === 0) {
-      yield { kind: 'error', message: '对话无可用历史消息' };
-      return;
-    }
-    const fullSystemPrompt = [input.systemPrompt, systemAddendum]
-      .map((s) => s?.trim() ?? '')
-      .filter((s) => s.length > 0)
-      .join('\n\n');
-
-    const agent = createReactAgent({
-      llm: this.llm,
+    const graph = createReactAgent({
+      llm: model,
       tools,
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      prompt: (state) => [
-        new SystemMessage(fullSystemPrompt),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        ...state.messages,
-      ],
-    }) as {
-      stream: (
-        input: { messages: BaseMessage[] },
-        options: {
-          configurable?: { thread_id?: string };
-          streamMode?: string | string[];
-          recursionLimit?: number;
-        },
-      ) => Promise<AsyncIterable<unknown>>;
-    };
-
-    const stream = await agent.stream(
-      { messages: modelMessages },
-      {
-        configurable: { thread_id: input.threadId },
-        streamMode: ['messages', 'tools'],
-        recursionLimit: 30,
-      },
-    );
-
-    for await (const raw of stream) {
-      if (!Array.isArray(raw) || raw.length !== 2) {
-        this.logger.debug(`stream chunk (ignored): ${JSON.stringify(raw)}`);
-        continue;
-      }
-      const [mode, data] = raw as [string, unknown];
-
-      if (mode === 'tools') {
-        yield { kind: 'tool', payload: data };
-        continue;
-      }
-
-      if (mode === 'messages') {
-        const tuple = data as [BaseMessage, Record<string, unknown>];
-        const [msg, meta] = tuple;
-        if (!isAIMessageChunk(msg as AIMessageChunk)) {
-          continue;
-        }
-        const { textDelta, reasoningDelta } = this.splitMessageChunk(
-          msg as AIMessageChunk,
-        );
-        if (reasoningDelta) {
-          yield {
-            kind: 'reasoning',
-            deltaText: reasoningDelta,
-            payload: { langgraph: 'messages', node: meta?.langgraph_node },
-          };
-        }
-        if (textDelta) {
-          yield {
-            kind: 'message',
-            deltaText: textDelta,
-            payload: { langgraph: 'messages', node: meta?.langgraph_node },
-          };
-        }
-      }
-    }
-  }
-
-  /**
-   * 由用户首条消息生成短标题，供新会话在首条请求内写库与 SSE meta 使用；无 key 或失败时返回 null。
-   */
-  async generateConversationTitle(
-    firstUserText: string,
-  ): Promise<string | null> {
-    const { apiKey, baseURL, model } = getOpenAiCompatConfig(this.config);
-    if (!apiKey) {
-      this.logger.debug('generateConversationTitle: no OPENAI_API_KEY');
-      return null;
-    }
-
-    const normalized = firstUserText.trim().replace(/\s+/g, ' ');
-    if (!normalized) {
-      return null;
-    }
-    const snippet =
-      normalized.length > 1500 ? `${normalized.slice(0, 1500)}…` : normalized;
-
-    const titleLlm = new ChatOpenAI({
-      model,
-      temperature: 0.2,
-      maxTokens: 100,
-      apiKey,
-      configuration: { baseURL },
+      prompt: input.systemPrompt,
     });
+
+    const messages: BaseMessage[] = input.historyMessages?.length
+      ? input.historyMessages.map((m) =>
+          m.role === 'user' ? new HumanMessage(m.text) : new AIMessage(m.text),
+        )
+      : [new HumanMessage(input.userMessage)];
 
     try {
-      const res = await titleLlm.invoke([
-        new SystemMessage(
-          '你是「简历助手」的会话标题生成器。请根据用户的第一条消息，用不超过 24 个字符的中文写一句「对话标题」：要概括用户意图、便于在列表中辨认。不要引号、不要换行、不要任何前缀/解释/结尾标点，只输出标题正文本身。',
-        ),
-        new HumanMessage(`用户首条消息如下：\n${snippet}`),
-      ]);
-      const raw = this.readPlainTextFromAiMessage(res);
-      if (!raw) {
-        return null;
-      }
-      const first = raw.split(/[\n\r]+/u)[0];
-      if (!first) {
-        return null;
-      }
-      const line = first.replace(/^["'「『\s]+|["'」』\s]+$/gu, '').trim();
-      if (!line) {
-        return null;
-      }
-      return line.length > 60 ? `${line.slice(0, 57)}…` : line;
-    } catch (e) {
-      this.logger.warn(
-        `generateConversationTitle: ${e instanceof Error ? e.message : String(e)}`,
+      const stream = await graph.stream(
+        { messages },
+        { streamMode: ['messages', 'tools'] as const },
       );
-      return null;
-    }
-  }
 
-  private readPlainTextFromAiMessage(msg: { content: unknown }): string {
-    const c = msg.content;
-    if (typeof c === 'string') {
-      return c;
-    }
-    if (Array.isArray(c)) {
-      let s = '';
-      for (const part of c) {
-        if (!part || typeof part !== 'object') {
+      for await (const chunk of stream) {
+        if (!Array.isArray(chunk)) {
           continue;
         }
-        const p = part as { type?: string; text?: string };
-        if (p.type === 'text' && typeof p.text === 'string') {
-          s += p.text;
+        let mode: unknown;
+        let payload: unknown;
+        if (chunk.length === 2) {
+          mode = chunk[0];
+          payload = chunk[1];
+        } else if (chunk.length === 3) {
+          mode = chunk[1];
+          payload = chunk[2];
+        } else {
+          continue;
+        }
+
+        if (mode === 'messages') {
+          if (!Array.isArray(payload) || !payload[0]) continue;
+          const msgChunk = payload[0] as AIMessageChunk;
+          const meta = payload[1] as Record<string, unknown> | undefined;
+          const delta = textFromMessageChunk(msgChunk);
+          if (delta) {
+            yield {
+              kind: 'message',
+              deltaText: delta,
+              payload: { langgraph: meta },
+            };
+          }
+          const rs = reasoningFromChunk(msgChunk);
+          if (rs) {
+            yield {
+              kind: 'reasoning',
+              deltaText: rs,
+              payload: { langgraph: meta },
+            };
+          }
+        } else if (mode === 'tools') {
+          yield { kind: 'tool', payload };
         }
       }
-      return s;
+    } catch (e) {
+      const message = e instanceof Error ? e.message : String(e);
+      this.logger.error(`streamBasicQa: ${message}`);
+      yield { kind: 'error', message };
     }
-    return '';
-  }
-
-  private splitMessageChunk(chunk: AIMessageChunk): {
-    textDelta?: string;
-    reasoningDelta?: string;
-  } {
-    const reasoningFromKwargs = this.readReasoningFromKwargs(
-      chunk.additional_kwargs,
-    );
-    let textFromContent = '';
-    let reasoningFromContent = '';
-
-    const c = chunk.content;
-    if (typeof c === 'string' && c.length > 0) {
-      textFromContent = c;
-    } else if (Array.isArray(c)) {
-      for (const part of c) {
-        if (!part || typeof part !== 'object') continue;
-        const p = part as Record<string, unknown>;
-        const t = p.type;
-        if (t === 'text' && typeof p.text === 'string') {
-          textFromContent += p.text;
-        }
-        if (t === 'reasoning' && typeof p.text === 'string') {
-          reasoningFromContent += p.text;
-        }
-      }
-    }
-
-    const reasoningDelta =
-      reasoningFromKwargs || reasoningFromContent || undefined;
-    const textDelta = textFromContent || undefined;
-
-    return { textDelta, reasoningDelta };
-  }
-
-  private readReasoningFromKwargs(
-    kwargs: AIMessageChunk['additional_kwargs'],
-  ): string | undefined {
-    if (!kwargs || typeof kwargs !== 'object') return undefined;
-    const k = kwargs as Record<string, unknown>;
-    const candidates = [
-      k.reasoning_content,
-      k.reasoning,
-      k.thinking,
-      k.thought,
-    ];
-    for (const v of candidates) {
-      if (typeof v === 'string' && v.length > 0) return v;
-    }
-    return undefined;
   }
 }

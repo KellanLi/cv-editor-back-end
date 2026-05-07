@@ -31,7 +31,7 @@ export class SendAiChatDto {
     required: false,
     default: 'BASIC_QA',
     description:
-      '本轮对话模式。新建线程时作为初始 purpose；有 conversationId 且传该字段时，将切换该线程 purpose（可在 BASIC_QA / DIALOGUE_EDIT 间切换）。',
+      '本轮对话模式。新建线程时作为初始 purpose；有 conversationId 且传该字段时，将切换该线程 purpose（如 BASIC_QA / DIALOGUE_EDIT / RESUME_DIAGNOSIS）。',
     enum: Object.values(AiConversationPurpose),
   })
   @IsOptional()

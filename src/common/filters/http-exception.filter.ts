@@ -4,6 +4,7 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
 import {
@@ -12,6 +13,8 @@ import {
   PrismaClientValidationError,
 } from '@prisma/client/runtime/client';
 import { ErrorCode } from '@/common/enums/error-code.enum';
+
+const filterLogger = new Logger('HttpExceptionFilter');
 
 @Catch()
 export class HttpExceptionFilter<T = unknown> implements ExceptionFilter {
@@ -42,26 +45,31 @@ export class HttpExceptionFilter<T = unknown> implements ExceptionFilter {
       }
       code = status;
     } else if (exception instanceof PrismaClientKnownRequestError) {
-      console.error('[PrismaClientKnownRequestError]', {
-        code: exception.code,
-        meta: exception.meta,
-        message: exception.message,
-        stack: exception.stack,
-      });
+      filterLogger.error(
+        `[PrismaClientKnownRequestError] code=${exception.code} message=${exception.message}`,
+        exception.stack,
+      );
       code = ErrorCode.DATABASE_ERROR;
       message = '数据库错误';
     } else if (exception instanceof PrismaClientValidationError) {
-      console.error('[PrismaClientValidationError]', {
-        message: exception.message,
-        stack: exception.stack,
-      });
+      filterLogger.error(
+        `[PrismaClientValidationError] ${exception.message}`,
+        exception.stack,
+      );
+      status = HttpStatus.BAD_REQUEST;
+      code = ErrorCode.PARAM_ERROR;
+      message = '数据库查询参数无效';
     } else if (exception instanceof PrismaClientUnknownRequestError) {
-      console.error('[PrismaClientUnknownRequestError]', {
-        message: exception.message,
-        stack: exception.stack,
-      });
+      filterLogger.error(
+        `[PrismaClientUnknownRequestError] ${exception.message}`,
+        exception.stack,
+      );
     } else {
-      console.error('未知错误', exception);
+      const err = exception as Error | undefined;
+      filterLogger.error(
+        `未处理异常: ${err && typeof err.message === 'string' ? err.message : String(exception)}`,
+        err?.stack,
+      );
     }
 
     response.status(status).json({

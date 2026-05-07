@@ -58,6 +58,11 @@ export type ContentTemplate = Prisma.ContentTemplateModel
  */
 export type InfoTemplate = Prisma.InfoTemplateModel
 /**
+ * Model AiResumeDiagnosisTask
+ * 简历 AI 诊断异步任务（绑定 userId，支持刷新后查询状态/结果）
+ */
+export type AiResumeDiagnosisTask = Prisma.AiResumeDiagnosisTaskModel
+/**
  * Model AiConversation
  * 一条「对话线程」：必须属于某份简历；同一份简历可有多条（多窗口/多主题）
  */

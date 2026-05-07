@@ -234,6 +234,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   resumes?: Prisma.ResumeListRelationFilter
   contentTemplates?: Prisma.ContentTemplateListRelationFilter
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -246,6 +247,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   resumes?: Prisma.ResumeOrderByRelationAggregateInput
   contentTemplates?: Prisma.ContentTemplateOrderByRelationAggregateInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskOrderByRelationAggregateInput
   _relevance?: Prisma.UserOrderByRelevanceInput
 }
 
@@ -262,6 +264,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   resumes?: Prisma.ResumeListRelationFilter
   contentTemplates?: Prisma.ContentTemplateListRelationFilter
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -301,6 +304,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
   contentTemplates?: Prisma.ContentTemplateCreateNestedManyWithoutUserInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -313,6 +317,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
   contentTemplates?: Prisma.ContentTemplateUncheckedCreateNestedManyWithoutUserInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -324,6 +329,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
   contentTemplates?: Prisma.ContentTemplateUpdateManyWithoutUserNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -336,6 +342,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
   contentTemplates?: Prisma.ContentTemplateUncheckedUpdateManyWithoutUserNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -464,6 +471,20 @@ export type UserUpdateOneRequiredWithoutContentTemplatesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutContentTemplatesInput, Prisma.UserUpdateWithoutContentTemplatesInput>, Prisma.UserUncheckedUpdateWithoutContentTemplatesInput>
 }
 
+export type UserCreateNestedOneWithoutAiResumeDiagnosisTasksInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAiResumeDiagnosisTasksInput, Prisma.UserUncheckedCreateWithoutAiResumeDiagnosisTasksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAiResumeDiagnosisTasksInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutAiResumeDiagnosisTasksNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAiResumeDiagnosisTasksInput, Prisma.UserUncheckedCreateWithoutAiResumeDiagnosisTasksInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAiResumeDiagnosisTasksInput
+  upsert?: Prisma.UserUpsertWithoutAiResumeDiagnosisTasksInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAiResumeDiagnosisTasksInput, Prisma.UserUpdateWithoutAiResumeDiagnosisTasksInput>, Prisma.UserUncheckedUpdateWithoutAiResumeDiagnosisTasksInput>
+}
+
 export type UserCreateWithoutResumesInput = {
   email: string
   password: string
@@ -472,6 +493,7 @@ export type UserCreateWithoutResumesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contentTemplates?: Prisma.ContentTemplateCreateNestedManyWithoutUserInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutResumesInput = {
@@ -483,6 +505,7 @@ export type UserUncheckedCreateWithoutResumesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   contentTemplates?: Prisma.ContentTemplateUncheckedCreateNestedManyWithoutUserInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutResumesInput = {
@@ -509,6 +532,7 @@ export type UserUpdateWithoutResumesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contentTemplates?: Prisma.ContentTemplateUpdateManyWithoutUserNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutResumesInput = {
@@ -520,6 +544,7 @@ export type UserUncheckedUpdateWithoutResumesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   contentTemplates?: Prisma.ContentTemplateUncheckedUpdateManyWithoutUserNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedUpdateManyWithoutUserNestedInput
 }
 
 export type UserCreateWithoutContentTemplatesInput = {
@@ -530,6 +555,7 @@ export type UserCreateWithoutContentTemplatesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskCreateNestedManyWithoutUserInput
 }
 
 export type UserUncheckedCreateWithoutContentTemplatesInput = {
@@ -541,6 +567,7 @@ export type UserUncheckedCreateWithoutContentTemplatesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedCreateNestedManyWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutContentTemplatesInput = {
@@ -567,6 +594,7 @@ export type UserUpdateWithoutContentTemplatesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUpdateManyWithoutUserNestedInput
 }
 
 export type UserUncheckedUpdateWithoutContentTemplatesInput = {
@@ -578,6 +606,69 @@ export type UserUncheckedUpdateWithoutContentTemplatesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  aiResumeDiagnosisTasks?: Prisma.AiResumeDiagnosisTaskUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAiResumeDiagnosisTasksInput = {
+  email: string
+  password: string
+  name?: string | null
+  gender?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resumes?: Prisma.ResumeCreateNestedManyWithoutUserInput
+  contentTemplates?: Prisma.ContentTemplateCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAiResumeDiagnosisTasksInput = {
+  id?: number
+  email: string
+  password: string
+  name?: string | null
+  gender?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  resumes?: Prisma.ResumeUncheckedCreateNestedManyWithoutUserInput
+  contentTemplates?: Prisma.ContentTemplateUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAiResumeDiagnosisTasksInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAiResumeDiagnosisTasksInput, Prisma.UserUncheckedCreateWithoutAiResumeDiagnosisTasksInput>
+}
+
+export type UserUpsertWithoutAiResumeDiagnosisTasksInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAiResumeDiagnosisTasksInput, Prisma.UserUncheckedUpdateWithoutAiResumeDiagnosisTasksInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAiResumeDiagnosisTasksInput, Prisma.UserUncheckedCreateWithoutAiResumeDiagnosisTasksInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutAiResumeDiagnosisTasksInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAiResumeDiagnosisTasksInput, Prisma.UserUncheckedUpdateWithoutAiResumeDiagnosisTasksInput>
+}
+
+export type UserUpdateWithoutAiResumeDiagnosisTasksInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resumes?: Prisma.ResumeUpdateManyWithoutUserNestedInput
+  contentTemplates?: Prisma.ContentTemplateUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAiResumeDiagnosisTasksInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  gender?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  resumes?: Prisma.ResumeUncheckedUpdateManyWithoutUserNestedInput
+  contentTemplates?: Prisma.ContentTemplateUncheckedUpdateManyWithoutUserNestedInput
 }
 
 
@@ -588,11 +679,13 @@ export type UserUncheckedUpdateWithoutContentTemplatesInput = {
 export type UserCountOutputType = {
   resumes: number
   contentTemplates: number
+  aiResumeDiagnosisTasks: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   resumes?: boolean | UserCountOutputTypeCountResumesArgs
   contentTemplates?: boolean | UserCountOutputTypeCountContentTemplatesArgs
+  aiResumeDiagnosisTasks?: boolean | UserCountOutputTypeCountAiResumeDiagnosisTasksArgs
 }
 
 /**
@@ -619,6 +712,13 @@ export type UserCountOutputTypeCountContentTemplatesArgs<ExtArgs extends runtime
   where?: Prisma.ContentTemplateWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountAiResumeDiagnosisTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AiResumeDiagnosisTaskWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -630,6 +730,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   resumes?: boolean | Prisma.User$resumesArgs<ExtArgs>
   contentTemplates?: boolean | Prisma.User$contentTemplatesArgs<ExtArgs>
+  aiResumeDiagnosisTasks?: boolean | Prisma.User$aiResumeDiagnosisTasksArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -649,6 +750,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   resumes?: boolean | Prisma.User$resumesArgs<ExtArgs>
   contentTemplates?: boolean | Prisma.User$contentTemplatesArgs<ExtArgs>
+  aiResumeDiagnosisTasks?: boolean | Prisma.User$aiResumeDiagnosisTasksArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -657,6 +759,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     resumes: Prisma.$ResumePayload<ExtArgs>[]
     contentTemplates: Prisma.$ContentTemplatePayload<ExtArgs>[]
+    aiResumeDiagnosisTasks: Prisma.$AiResumeDiagnosisTaskPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
@@ -1008,6 +1111,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   resumes<T extends Prisma.User$resumesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$resumesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResumePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   contentTemplates<T extends Prisma.User$contentTemplatesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$contentTemplatesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ContentTemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  aiResumeDiagnosisTasks<T extends Prisma.User$aiResumeDiagnosisTasksArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$aiResumeDiagnosisTasksArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AiResumeDiagnosisTaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1437,6 +1541,30 @@ export type User$contentTemplatesArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.ContentTemplateScalarFieldEnum | Prisma.ContentTemplateScalarFieldEnum[]
+}
+
+/**
+ * User.aiResumeDiagnosisTasks
+ */
+export type User$aiResumeDiagnosisTasksArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AiResumeDiagnosisTask
+   */
+  select?: Prisma.AiResumeDiagnosisTaskSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AiResumeDiagnosisTask
+   */
+  omit?: Prisma.AiResumeDiagnosisTaskOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AiResumeDiagnosisTaskInclude<ExtArgs> | null
+  where?: Prisma.AiResumeDiagnosisTaskWhereInput
+  orderBy?: Prisma.AiResumeDiagnosisTaskOrderByWithRelationInput | Prisma.AiResumeDiagnosisTaskOrderByWithRelationInput[]
+  cursor?: Prisma.AiResumeDiagnosisTaskWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AiResumeDiagnosisTaskScalarFieldEnum | Prisma.AiResumeDiagnosisTaskScalarFieldEnum[]
 }
 
 /**

@@ -22,10 +22,16 @@ import {
 import { DeleteAiGlobalContextDto } from './dto/delete-global-context.dto';
 import { SendAiChatDto } from './dto/send-chat.dto';
 import { SendAiChatDataDto } from './dto/send-chat-response.dto';
-import { AiConversationPurpose, AiMessageRole } from '@/generated/enums';
+import {
+  AiConversationPurpose,
+  AiMessageRole,
+} from '@/generated/enums';
+import { mapDbMessagesToRoles } from '@/provider/langgraph/agent-core';
 import { Prisma } from '@/generated/client';
 import type { Response } from 'express';
 import { buildBasicQaSystemPrompt } from '@/provider/langgraph/prompts/basic-qa.system.prompt';
+import { ConversationContextLoaderService } from './long-context/conversation-context-loader.service';
+import { ContextCompactionQueueService } from './long-context/context-compaction-queue.service';
 
 /**
  * 请求体未走全局 `ValidationPipe` 时，布尔与字符串可能混用；仅将明确的 true、字符串 "true" / "1" 等视为开启联网。
@@ -58,7 +64,7 @@ function hasResumeWriteToolCall(toolEvents: unknown[]): boolean {
   }
   const payloadText = JSON.stringify(toolEvents).toLowerCase();
   return (
-    payloadText.includes('update_section_content') ||
+    payloadText.includes('apply_section_content') ||
     payloadText.includes('create_section')
   );
 }
@@ -70,6 +76,8 @@ export class AiService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly langgraph: LanggraphService,
+    private readonly conversationContextLoader: ConversationContextLoaderService,
+    private readonly contextCompactionQueue: ContextCompactionQueueService,
   ) {}
 
   private writeSse(res: Response, event: string, data: unknown) {
@@ -572,14 +580,22 @@ export class AiService {
         },
       });
 
+      const sessionWindow =
+        await this.conversationContextLoader.loadForTurn(conversationId);
+
       const systemPrompt = await buildBasicQaSystemPrompt(
         this.prisma,
         params.resumeId,
         jwt,
         {
+          conversationId,
           selectedSectionIds: params.selectedSectionIds,
           enableWebSearch: webSearchOn,
           purpose: conversation.purpose,
+          preloadedSessionSummary: {
+            rollingSummary: sessionWindow.rollingSummary,
+            coversUpToSeq: sessionWindow.coversUpToSeq,
+          },
         },
       );
       await this.appendChatLog(logFilePath, {
@@ -588,6 +604,16 @@ export class AiService {
         text: systemPrompt,
       });
 
+      const historyMessages = mapDbMessagesToRoles(sessionWindow.rows);
+
+      void this.contextCompactionQueue
+        .tryEnqueueCompactionJob(conversationId)
+        .catch((err: unknown) => {
+          this.logger.warn(
+            `context compaction enqueue (non-fatal): ${err instanceof Error ? err.message : String(err)}`,
+          );
+        });
+
       for await (const ev of this.langgraph.streamBasicQa({
         threadId,
         conversationId,
@@ -595,8 +621,10 @@ export class AiService {
         resumeId: params.resumeId,
         userId: jwt.id,
         purpose: conversation.purpose,
+        userMessage: params.userMessage,
         suggestedSectionIds: params.selectedSectionIds,
         enableWebSearch: webSearchOn,
+        historyMessages,
       })) {
         if (clientDisconnected) {
           streamOk = false;
@@ -659,7 +687,7 @@ export class AiService {
           !writeToolCalled
         ) {
           guardrailNote = [
-            '⚠️ 本轮未检测到写入工具调用（`update_section_content` / `create_section`）。',
+            '⚠️ 本轮未检测到写入工具调用（`apply_section_content` / `create_section`）。',
             '因此并未真正修改简历；请重试并要求我先调用工具再反馈结果。',
           ].join('\n');
         }
